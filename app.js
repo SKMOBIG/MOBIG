@@ -8,7 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
-
+  
 var app = express();
 
 // all environments
@@ -21,6 +21,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'semantic')));
 
 // development only
 if ('development' == app.get('env')) {

@@ -2,10 +2,39 @@
 <html>
   <head>
     <title><%= title %></title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+    <script src="/dist/semantic.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="ui two column middle aligned very relaxed stackable grid">
+      <div class="column">
+        <div class="ui form">
+          <div class="field">
+            <label>Username</label>
+            <div class="ui left icon input">
+              <input type="text" placeholder="Username">
+              <i class="user icon"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <div class="ui left icon input">
+              <input type="password">
+              <i class="lock icon"></i>
+            </div>
+          </div>
+          <div class="ui blue submit button">Login</div>
+        </div>
+      </div>
+      <div class="center aligned column">
+        <div class="ui big green labeled icon button">
+          <i class="signup icon"></i>
+          Sign Up
+        </div>
+      </div>
+    </div>
   </body>
 </html>
