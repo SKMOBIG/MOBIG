@@ -53,6 +53,8 @@ app.get('/', routes.index);
 var main = require('./routes/main'); // set route file
 app.use('/main', main); // url에 /main 으로 사용
 
+var hdreg = require('./routes/hdreg'); // test- 삭제필요
+app.use('/hdreg', hdreg); // test- 삭제필요
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
