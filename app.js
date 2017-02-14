@@ -7,29 +7,52 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , methodOverride = require('method-override')
+  , serveStatic = require('serve-static')
+  , errorhandler = require('errorhandler')
+  , favicon = require('serve-favicon')
+  , morgan = require('morgan')
+  , bodyParser = require('body-parser')
+  ;
   
 var app = express();
+
+/*
+var mysql = require('mysql');
+var router = express.Router();
+
+var connection = mysql.createConnection({
+  user : 'admin',
+  password : 'happyappdb',
+  database : 'mysqldb',
+  host : 'b2bdb.ciae2wm5rkuu.us-west-2.rds.amazonaws.com' //port빼고 end-point
+});
+*/
 
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'semantic')));
-
-// development only
+//app.use(favicon(__dirname + '/public/favicon.ico'));
+//app.use(morgan());
+//app.use(bodyParser());
+app.use(methodOverride('X-HTTP-Method-Override'));
+//app.use(app.router);
+app.use(serveStatic(__dirname + '/public'));
+app.use(serveStatic(__dirname + '/semantic'));
+  
+// development only 
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  app.use(errorhandler());
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+
+// main route file 사용
+var main = require('./routes/main'); // set route file
+app.use('/main', main); // url에 /main 으로 사용
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -7,32 +7,34 @@
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    
+    <script type="text/javascript">
+      function login() {
+        log.console("start login");
+      }
+      
+    </script>
+    
   </head>
   <body>
-    <div class="ui two column middle aligned very relaxed stackable grid">
+    <div class="ui one column middle aligned very relaxed stackable grid">
       <div class="column">
         <div class="ui form">
           <div class="field">
-            <label>Username</label>
+            <label>이름</label>
             <div class="ui left icon input">
-              <input type="text" placeholder="Username">
+              <input type="text" placeholder="Username" id="user_nm">
               <i class="user icon"></i>
             </div>
           </div>
           <div class="field">
-            <label>Password</label>
+            <label>사번</label>
             <div class="ui left icon input">
-              <input type="password">
+              <input type="password" id="emp_num">
               <i class="lock icon"></i>
             </div>
           </div>
-          <div class="ui blue submit button">Login</div>
-        </div>
-      </div>
-      <div class="center aligned column">
-        <div class="ui big green labeled icon button">
-          <i class="signup icon"></i>
-          Sign Up
+          <div class="ui blue submit button" onClick=login()>Login</div>
         </div>
       </div>
     </div>
