@@ -47,15 +47,25 @@ if ('development' == app.get('env')) {
   app.use(errorhandler());
 }
 
-app.get('/', routes.index);
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  user : 'admin',
+  password : 'happyappdb',
+  database : 'mysqldb',
+  host : 'b2bdb.ciae2wm5rkuu.us-west-2.rds.amazonaws.com', //port빼고 end-point
+  port : '3306'
+});
+
+//app.get('/', routes.index);
+var index = require('./routes/index')(app, connection);
 
 // main route file 사용
 var main = require('./routes/main'); // set route file
 app.use('/main', main); // url에 /main 으로 사용
 
-var hdreg = require('./routes/hdreg'); // test- 삭제필요
-app.use('/hdreg', hdreg); // test- 삭제필요
-
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+module.exports = app;

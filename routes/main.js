@@ -10,8 +10,11 @@ var connection = mysql.createConnection({
   port : '3306'
 });
 
-router.get('/login', function(req, res, next) {
-   connection.query('select * from mysqldb.user where emp_num = ? ;', [req.params.id], function(error, cursor) {
+router.post('/login', function(req, res, next) {
+
+    res.render('main', {user_nm : req.params.user_nm, emp_num : req.params.emp_num});
+/*
+   connection.query('select * from mysqldb.user where emp_num = ? ;', req.params.id, function(error, cursor) {
        if(cursor.length > 0) {
            res.json(cursor);
            res.render('main');
@@ -19,6 +22,8 @@ router.get('/login', function(req, res, next) {
            res.status(503).json(error);
        }
    }); 
+*/
+
 });
 
 module.exports = router;
