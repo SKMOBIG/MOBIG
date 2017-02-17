@@ -41,7 +41,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 //app.use(app.router);
 app.use(serveStatic(__dirname + '/public'));
 app.use(serveStatic(__dirname + '/semantic'));
-  
+app.use(serveStatic(__dirname + '/client'));
 // development only 
 if ('development' == app.get('env')) {
   app.use(errorhandler());
