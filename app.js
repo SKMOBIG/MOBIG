@@ -64,6 +64,13 @@ var index = require('./routes/index')(app, connection);
 var main = require('./routes/main'); // set route file
 app.use('/main', main); // url에 /main 으로 사용
 
+//hdmain이라는 변수는 /routes/hdmain.js 를 컨트롤 할수 있음
+var hdmain = require('./routes/hdmain');
+
+// /hdmain이라는 도메인(url)이 들어오면 두번째 파라메터이있는 routes 파일을 사용하겠다는 선언
+app.use('/hdmain', hdmain);
+
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
