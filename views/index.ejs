@@ -10,19 +10,19 @@
     
     <script type="text/javascript">
       function login() {
-        var user_nm = document.getElementById("user_nm");
+        var user_name = document.getElementById("user_name");
         var emp_num = document.getElementById("emp_num");
         
-        console.log("start login : " + user_nm.value + " / " + emp_num.value);
+        console.log("start login : " + user_name.value + " / " + emp_num.value);
         
-        if(user_nm.value == "") {
+        if(user_name.value == "") {
           alert("이름을 입력하세요");
-          user_nm.focus();
+          user_name.focus();
         }else if(emp_num.value == "") {
           alert("사번을 입력하세요");
           emp_num.focus();
         }else {
-          document.getElementById("loginForm").submit();
+          document.loginForm.submit();
         }
       }
       
@@ -32,20 +32,20 @@
   <body>
     <h2><%=title %></h2>
     <div class="ui one column middle aligned very relaxed stackable grid">
-      <form id="loginForm" action="/login" method="post">
+      <form name="loginForm" action="/login" method="post">
         <div class="column">
           <div class="ui form">
             <div class="field">
               <label>이름</label>
               <div class="ui left icon input">
-                <input type="text" placeholder="Username" id="user_nm" name="user_nm">
+                <input type="text" placeholder="Username" id="user_name" name="user_name" value="이종원">
                 <i class="user icon"></i>
               </div>
             </div>
             <div class="field">
               <label>사번</label>
               <div class="ui left icon input">
-                <input type="password" id="emp_num" name="emp_num">
+                <input type="password" id="emp_num" name="emp_num" value="07230">
                 <i class="lock icon"></i>
               </div>
             </div>

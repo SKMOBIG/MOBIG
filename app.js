@@ -14,21 +14,11 @@ var express = require('express')
   , favicon = require('serve-favicon')
   , morgan = require('morgan')
   , bodyParser = require('body-parser')
+  , multer = require('multer') // v1.0.5
+  , upload = multer(); // for parsing multipart/form-data
   ;
   
 var app = express();
-
-/*
-var mysql = require('mysql');
-var router = express.Router();
-
-var connection = mysql.createConnection({
-  user : 'admin',
-  password : 'happyappdb',
-  database : 'mysqldb',
-  host : 'b2bdb.ciae2wm5rkuu.us-west-2.rds.amazonaws.com' //port빼고 end-point
-});
-*/
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -36,7 +26,8 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 //app.use(morgan());
-//app.use(bodyParser());
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(methodOverride('X-HTTP-Method-Override'));
 //app.use(app.router);
 app.use(serveStatic(__dirname + '/public'));
@@ -47,18 +38,24 @@ if ('development' == app.get('env')) {
   app.use(errorhandler());
 }
 
+/*
+ * db connect pool
+ */
 var mysql = require('mysql');
 
-var connection = mysql.createConnection({
+var connectionPool = mysql.createPool({
   user : 'admin',
   password : 'happyappdb',
   database : 'mysqldb',
   host : 'b2bdb.ciae2wm5rkuu.us-west-2.rds.amazonaws.com', //port빼고 end-point
-  port : '3306'
+  port : '3306',
+  connectionLimit : 20,
+  waitForConnections : false
 });
 
+
 //app.get('/', routes.index);
-var index = require('./routes/index')(app, connection);
+var index = require('./routes/index')(app, connectionPool);
 
 // main route file 사용
 var main = require('./routes/main'); // set route file
