@@ -16,7 +16,7 @@
     "clean": "dist/"
   },
   "permission": 744,
-  "autoInstall": false,
+  "autoInstall": true, // install will now automatically build your project files without user interaction
   "rtl": false,
   "components": [
     "reset",
