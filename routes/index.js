@@ -18,7 +18,23 @@ module.exports = function(app, connectionPool) {
                 }else {
                     if(rows.length > 0) {
                         connection.release();
-                        res.render('main', {user_name : rows[0].user_name, emp_num : rows[0].emp_num});
+                        
+                        /* session 내에 사용자 정보 저장 */
+                        
+                        req.session.regenerate(function (err) {
+                          if(err){
+                            console.log(err);
+                          } else {
+                            req.session.user_name = rows[0].user_name;
+                            req.session.emp_num = rows[0].emp_num;
+                            req.session.team_id = rows[0].team_id;
+                            req.session.sm_id = rows[0].sm_id;
+                            
+                            res.redirect('/main'); // /main url에서 다시 세션 존재 검사
+                          }
+                        });
+                        
+                        //res.render('main', {user_name : rows[0].user_name, emp_num : rows[0].emp_num});
                         
                     }else {
                         connection.release();

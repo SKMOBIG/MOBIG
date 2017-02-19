@@ -15,7 +15,8 @@ var express = require('express')
   , morgan = require('morgan')
   , bodyParser = require('body-parser')
   , multer = require('multer') // v1.0.5
-  , upload = multer(); // for parsing multipart/form-data
+  , upload = multer() // for parsing multipart/form-data
+  , session = require("express-session")
   ;
   
 var app = express();
@@ -32,7 +33,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 //app.use(app.router);
 app.use(serveStatic(__dirname + '/public'));
 app.use(serveStatic(__dirname + '/semantic'));
-app.use(serveStatic(__dirname + '/client'));
+
 // development only 
 if ('development' == app.get('env')) {
   app.use(errorhandler());
@@ -53,13 +54,21 @@ var connectionPool = mysql.createPool({
   waitForConnections : false
 });
 
+/*
+ *  express-session 모듈 사용
+ */
+app.use(session({
+  secret : 'keyboard cat',
+  resave : false,
+  saveUninitialized : true
+}));
 
 //app.get('/', routes.index);
 var index = require('./routes/index')(app, connectionPool);
 
 // main route file 사용
-var main = require('./routes/main'); // set route file
-app.use('/main', main); // url에 /main 으로 사용
+var main = require('./routes/main')(app, connectionPool); // set route file
+//app.use('/main', main); // url에 /main 으로 사용
 
 //hdmain이라는 변수는 /routes/hdmain.js 를 컨트롤 할수 있음
 var hdmain = require('./routes/hdmain');
