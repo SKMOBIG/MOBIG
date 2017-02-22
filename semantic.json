@@ -16,7 +16,7 @@
     "clean": "dist/"
   },
   "permission": 744,
-  "autoInstall": true, // install will now automatically build your project files without user interaction
+  "autoInstall": true,
   "rtl": false,
   "components": [
     "reset",
@@ -69,5 +69,5 @@
     "state",
     "visibility"
   ],
-  "version": "2.2.7"
+  "version": "2.2.9"
 }

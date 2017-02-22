@@ -78,6 +78,10 @@ var hdmain = require('./routes/hdmain');
 app.use('/hdmain', hdmain);
 
 
+var detail = require('./routes/detail');
+app.use('/detail', detail);
+
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
