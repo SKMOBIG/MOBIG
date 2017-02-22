@@ -1,12 +1,39 @@
+@import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+html {
+font-family: 'Jeju Gothic', serif;
+}
+
+body {
+margin-top: 0.5em;
+margin-bottom: 1em;
+margin-left: 2em;
+margin-right: 2em;    
+padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.navbar-inverse .navbar-brand {
+color: #ffffff;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+border-color: #fff;
+}
+
+.navbar-inverse .navbar-toggle {
+border-color: #fff;
+}
+
+.navbar-inverse {
+background-color: #FFCC00;
+border-color: #FFCC00;
+}
+
 /*!
  * Start Bootstrap - Shop Homepage (http://startbootstrap.com/)
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
-
-body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-}
 
 .slide-image {
     width: 100%;
