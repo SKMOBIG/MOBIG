@@ -80,6 +80,9 @@ app.use('/hdmain', hdmain);
 var hdregist = require('./routes/hdregist');
 app.use('/hdregist', hdregist);
 
+var detail = require('./routes/detail');
+app.use('/detail', detail);
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
