@@ -77,6 +77,9 @@ var hdmain = require('./routes/hdmain');
 // /hdmain이라는 도메인(url)이 들어오면 두번째 파라메터이있는 routes 파일을 사용하겠다는 선언
 app.use('/hdmain', hdmain);
 
+var hdregist = require('./routes/hdregist');
+app.use('/hdregist', hdregist);
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
