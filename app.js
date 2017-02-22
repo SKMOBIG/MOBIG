@@ -5,7 +5,6 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , methodOverride = require('method-override')
@@ -33,7 +32,6 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 //app.use(app.router);
 app.use(serveStatic(__dirname + '/public'));
 app.use(serveStatic(__dirname + '/semantic'));
-app.use(serveStatic(__dirname + '/client'));
 
 // development only 
 if ('development' == app.get('env')) {
@@ -71,16 +69,16 @@ var index = require('./routes/index')(app, connectionPool);
 var main = require('./routes/main')(app, connectionPool); // set route file
 //app.use('/main', main); // url에 /main 으로 사용
 
+var user = require('./routes/user')(app, connectionPool); // set route file
+
 //hdmain이라는 변수는 /routes/hdmain.js 를 컨트롤 할수 있음
 var hdmain = require('./routes/hdmain');
 
 // /hdmain이라는 도메인(url)이 들어오면 두번째 파라메터이있는 routes 파일을 사용하겠다는 선언
 app.use('/hdmain', hdmain);
 
-
 var detail = require('./routes/detail');
 app.use('/detail', detail);
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
