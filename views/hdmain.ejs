@@ -11,20 +11,29 @@
 
     <title>B2B사업팀 HappyDay</title>
     <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+    
+    <script src="../javascripts/jquery.js"></script>
+    <script src="../javascripts/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="/stylesheets/shop-homepage.css" rel="stylesheet">
+
 
 
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
     
-    <script src="../javascript/bootstrap.min.js"></script>
-    <script src="../javascript/bootstrap.js"></script>
-    <script src="../javascript/jquery.js"></script>
-    <script src="../javascript/jquery.min.js"></script>
+    <script src="../javascripts/bootstrap.min.js"></script>
+    <script src="../javascripts/bootstrap.js"></script>
+
+
+`    
     <script type="text/javascript">
+    
+    function goDetail(id){
+        
+        location.href='detail/detail2?id='+id; 
+        
+    }
     </script>
 
 
@@ -110,7 +119,9 @@
     <!-- Page Content -->
     <div class="container">
         <div class="ui link cards">
-            <div class="card">
+            
+            <div class="card" onclick="javascript:goDetail('12345')">
+                
                 <div class="content" style="background-color:#FF5252">
 
                     <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 2017.2.2</div>
@@ -271,7 +282,5 @@
     </div>
 
 </body>
-
-
 
 </html>
