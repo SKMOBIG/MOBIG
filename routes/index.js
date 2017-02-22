@@ -11,7 +11,7 @@ module.exports = function(app, connectionPool) {
         console.log(req.body);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from mysqldb.user where 1=1 and user_name = ? and emp_num = ?;', [req.body.user_name, req.body.emp_num], function(error, rows) {
+            connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.body.user_name, req.body.emp_num], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;
