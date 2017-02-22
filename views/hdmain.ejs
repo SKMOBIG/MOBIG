@@ -28,6 +28,12 @@
 
 `    
     <script type="text/javascript">
+    
+    function goDetail(id){
+        
+        location.href='detail/detail2?id='+id; 
+        
+    }
     </script>
 
 
@@ -113,7 +119,9 @@
     <!-- Page Content -->
     <div class="container">
         <div class="ui link cards">
-            <div class="card">
+            
+            <div class="card" onclick="javascript:goDetail('12345')">
+                
                 <div class="content" style="background-color:#FF5252">
 
                     <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 2017.2.2</div>
