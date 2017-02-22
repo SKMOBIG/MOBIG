@@ -20,17 +20,40 @@
     <!-- Custom CSS -->
     <link href="../stylesheets/common.css" rel="stylesheet">
     
+    <script style="text/javascript">
+    $(document)
+      .ready(function() {
+        user_name = document.getElementById("user_name");
+        user_name.style.disable = true;
+        
+        
+      });
+    </script>
+    
   </head>
   <body>
     <% include ./partials/navigation.ejs %>
     
-    <div class="ui two column middle aligned very relaxed stackable grid">
-      <div class="column">
-        <label>이름 : <%= data.user_name %></label>
-      </div>
-      <div class="center aligned column">
-        <label>사번 : <%= data.emp_num %></label>
+    <div class="ui inverted segment">
+      <div class="ui inverted form">
+        <div class="two fields">
+          <div class="field">
+            <label>이름</label>
+            <input type="text" id="user_name" value=<%=data.user_name%>>
+          </div>
+          <div class="field">
+            <label>사번</label>
+            <input type="text" id="emp_num"  value=<%=data.emp_num%>>
+          </div>
+        </div>
+        <div class="inline field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>I agree to the terms and conditions</label>
+          </div>
+        </div>
       </div>
     </div>
+
   </body>
 </html>
