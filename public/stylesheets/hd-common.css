@@ -1,0 +1,26 @@
+@import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+html {
+font-family: 'Jeju Gothic', serif;
+}
+
+body {
+margin: 0 10 0 10;    
+}
+
+.navbar-inverse .navbar-brand {
+color: #ffffff;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+border-color: #fff;
+}
+
+.navbar-inverse .navbar-toggle {
+border-color: #fff;
+}
+
+.navbar-inverse {
+background-color: #FFCC00;
+border-color: #FFCC00;
+}
