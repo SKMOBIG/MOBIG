@@ -23,7 +23,8 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('hdmain', {data : rows[0], session : req.session});
+                        console.log('테스트'+rows[0].happyday_name)
+                        res.render('hdmain', {data : rows, session : req.session});
                         connection.release();
                     }else {
                         res.redirect('/');
