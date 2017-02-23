@@ -30,7 +30,7 @@ module.exports = function(app, connectionPool) {
                             req.session.team_id = rows[0].team_id;
                             req.session.sm_id = rows[0].sm_id;
                             
-                            res.redirect('/main'); // /main url에서 다시 세션 존재 검사
+                            res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사
                           }
                         });
                         

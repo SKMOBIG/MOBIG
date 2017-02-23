@@ -1,9 +1,44 @@
 
 module.exports = function(app, connectionPool) {
 
-    app.get('/hdmain', function(req, res, next) {
-        
-        res.render('hdmain', {data : 'testing'});
 
+    
+        app.get('/hdmain', function(req, res, next) {
+        
+        /* session 없을 땐 로그인 화면으로 */
+        if(!req.session.user_name) {
+            res.redirect('/');
+            
+        }
+    
+        console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
+        
+        connectionPool.getConnection(function(err, connection) {
+            connection.query('select * from happyday_master', [req.session.user_name, req.session.emp_num], function(error, rows) {
+                
+                console.log("rows : " + rows.length);
+                
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(rows.length > 0) {
+                        res.render('hdmain', {data : rows[0], session : req.session});
+                        connection.release();
+                    }else {
+                        res.redirect('/');
+                        connection.release();
+                    }    
+                }
+            });
+        });
     });
+    
+    
+    
+    
+    
+    
+    
+    
 }
