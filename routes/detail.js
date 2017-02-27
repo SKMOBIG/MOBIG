@@ -10,13 +10,17 @@ module.exports = function(app, connectionPool) {
         });
     });*/
     
-    app.post('/detail', function() {
-        
+    /*POST방식은 HTTP HEADER를 통해 데이터를 넘겨주는 방식 */
+    
+    app.post('/detail', function(req, res){
+  
     });
     
+    
+    /*GET방식은 URL을 통해 데이터를 넘겨주는 방식 */
     app.get('/detail/:id', function(req, res, next) {
         
-        /* session 없을 땐 로그인 화면으로 */
+        /* session 없을 땐 로그인 화면으로*/
         if(!req.session.user_name) {
             res.redirect('/');
         }
@@ -42,6 +46,13 @@ module.exports = function(app, connectionPool) {
                 }
             });
         });
+        
+        
+        
+       
     });
+     
+    
+    
 
 }

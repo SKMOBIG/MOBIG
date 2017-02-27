@@ -12,7 +12,7 @@ module.exports = function(app, connectionPool) {
         console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
+            connection.query('select * from mysqldb.user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
                 
                 console.log("rows : " + rows.length);
                 
