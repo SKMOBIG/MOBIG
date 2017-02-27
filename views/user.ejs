@@ -30,7 +30,14 @@
       });
     </script>
     
+    <style type="text/css">
+      .ui[class*="left icon"].input>input {
+        padding-left: 3.67142857em!important;
+      }
+    </style>
+    
   </head>
+  
   <body>
     <% include ./partials/navigation.ejs %>
     
@@ -38,9 +45,7 @@
       <div class="ui card">
         <div class="content">
           <div class="header"><%=data.user_name%></div>
-          <div class="meta">
-            <span >사번 : <%=data.emp_num%></span>
-          </div>
+          <h4 class="ui sub header"><%=data.sm_name%>(<%=data.team_name%>)</h4>
         </div>
         <div class="content">
           <h4 class="ui sub header">My Infomation</h4>
@@ -48,28 +53,40 @@
             <div class="event">
               <div class="content">
                 <div class="summary">
-                   <a>SM(팀)</a> : <%=data.sm_name%>(<%=data.team_name%>)
+                   <div class="ui left icon input">
+                     <input type="text" value=<%=data.phone_number%>>
+                     <i class="large text telephone icon"></i>
+                    </div>
                 </div>
               </div>
             </div>
             <div class="event">
               <div class="content">
                 <div class="summary">
-                   <a>전화번호</a> : <%=data.phone_number%>
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.birthday%>>
+                     <i class="large birthday icon"></i>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="event">
               <div class="content">
                 <div class="summary">
-                   <a>생년월일</a> : <%=data.birthday%>
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.point%>>
+                     <i class="large product hunt icon"></i>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="event">
               <div class="content">
                 <div class="summary">
-                   <a>Helen Troy</a> added two pictures
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.blood_type%>>
+                     <i class="large theme icon"></i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -78,49 +95,11 @@
         <div class="extra content">
           <a>
             <i class="user icon"></i>
-            22 Friends
+            22 Connected
           </a>
         </div>
         <div class="extra content">
           <button class="ui button">수정</button>
-        </div>
-      </div>
-  
-    </div>
-    
-    <div class="ui inverted segment">
-      <div class="ui inverted form">
-        <div class="two fields">
-          <div class="field">
-            <label>이름</label>
-            <input type="text" id="user_name" value=<%=data.user_name%>>
-          </div>
-          <div class="field">
-            <label>사번</label>
-            <input type="text" id="emp_num"  value=<%=data.emp_num%>>
-          </div>
-          <div class="field">
-            <label>전화번호</label>
-            <input type="text" id="phone_number"  value=<%=data.phone_number%>>
-          </div>
-          <div class="field">
-            <label>생년월일</label>
-            <input type="text" id="birthday"  value=<%=data.birthday%>>
-          </div>
-          <div class="field">
-            <label>가용포인트</label>
-            <input type="text" id="point"  value=<%=data.point%>>
-          </div>
-          <div class="field">
-            <label>혈액형</label>
-            <input type="text" id="blood_type"  value=<%=data.blood_type%>>
-          </div>
-        </div>
-        <div class="inline field">
-          <div class="ui checkbox">
-            <label>결혼</label>
-            <input type="checkbox" tabindex="0" class="hidden">
-          </div>
         </div>
       </div>
     </div>
