@@ -14,7 +14,7 @@ module.exports = function(app, connectionPool) {
         console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_master', [req.session.user_name, req.session.emp_num], function(error, rows) {
+            connection.query('select * from happyday_master hm, user u where hm.reg_user_id = u.id',  function(error, rows) {
                 
                 console.log("rows : " + rows.length);
                 
