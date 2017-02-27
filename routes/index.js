@@ -8,7 +8,7 @@ module.exports = function(app, connectionPool) {
     
     app.post('/login', function(req, res, next) {
         
-        console.log(req.body);
+        // console.log(req.body);
         
         connectionPool.getConnection(function(err, connection) {
             connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.body.user_name, req.body.emp_num], function(error, rows) {
@@ -25,12 +25,17 @@ module.exports = function(app, connectionPool) {
                           if(err){
                             console.log(err);
                           } else {
+                            // console.log("index.js : "+ rows[0]);
                             req.session.user_name = rows[0].user_name;
                             req.session.emp_num = rows[0].emp_num;
                             req.session.team_id = rows[0].team_id;
                             req.session.sm_id = rows[0].sm_id;
+                            //KJB
+                            req.session.user_id = rows[0].id;
+                            req.session.mileage = rows[0].mileage;
                             
-                            res.redirect('/main'); // /main url에서 다시 세션 존재 검사
+                            //KJB
+                            res.redirect('/postreg_KJB'); // /main url에서 다시 세션 존재 검사
                           }
                         });
                         

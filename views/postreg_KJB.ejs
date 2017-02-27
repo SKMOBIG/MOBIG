@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>happy app</title>
+<!-- Standard Meta -->
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+<script src="/dist/semantic.min.js"></script>
+
+
+<script type="text/javascript">
+
+	function modalClose(){
+		 $('.ui.modal.Reg').modal('hide');
+		 //$('#tabYn').value = 'Y';
+	}
+	
+$(function(){
+    $("#HappyDayRegist").click(function(){
+        $('.ui.modal.Reg').modal('show');
+    });
+    
+    $("#HappyDaySelect").click(function(){
+        $('.ui.modal.Select').modal('show');
+    });
+
+});
+</script>
+</head>
+<body>
+<h2> 후기 등록 </h2>
+
+<label>이름 : <%= data.user_name %></label>
+
+<div>
+	<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>
+	
+	<form name="postupdatemodal" action="/postupdate" method="post">
+	    <button class="ui inverted red button" id='HappyDaySelect'>조회 </button>
+	    <input type="text" name="post_id" value="38">
+	</form>
+</div>
+
+<!--등록 모달 Start-->
+<div class="ui modal Reg">
+	<form name="postregistmodal" action="/postregist" method="post">
+		<div class="header">
+			<h1>후기 등록</h1>
+		</div>
+		<!-- modal header -->
+		<div class="content">
+			<div class="ui two column grid">
+				<div class="column">
+					<h3> 후기 title </h3>
+					<div class="ui left icon input" style=" width: 100%;">
+						<input type="text" name="post_title" placeholder="해피데이 후기 title" style="width: 100%">
+						<i class="user icon"></i>
+					</div>
+				</div>
+			</div>
+			<h3>후기 내용</h3>
+			<textarea name="post_content" style="width:100% ;height: 200px;"></textarea>
+		</div>
+		<div class="actions">
+			<button class="ui primary button">  Save </button>
+		<!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
+			<div class="ui button" onClick=javascript:modalClose()>cancel</div>
+		</div>
+	</form>
+</div>
+<!--등록모달 end-->
+
+<!--조회모달 start-->
+<div class="ui modal Select">
+	<div class="header">
+		<h1>후기 수정/조회</h1>
+	</div>
+	<!-- modal header -->
+	<div class="content">
+		<div class="ui two column grid">
+			<div class="column">
+				<h3> 후기 title </h3>
+				<div class="ui left icon input" style=" width: 100%;">
+					<input type="text" placeholder="해피데이 후기 title" style="width: 100%">
+					<i class="user icon"></i>
+				</div>
+			</div>
+			<!--column-->
+			<div class="column">
+				<h3> 작성자</h3>
+				<div class="ui left icon input" style=" width: 40%;">
+					<input type="text" placeholder="김준범" style="width: 100%">
+					<i class="user icon"></i>
+				</div>
+			</div>
+		</div>
+		<h3>후기 내용</h3>
+		<textarea style="width:100% ;height: 200px;"> </textarea>
+	</div>
+	
+<!--조회 모달 end-->
+</body>
+</html>
