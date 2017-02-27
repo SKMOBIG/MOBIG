@@ -29,7 +29,7 @@ module.exports = function(app, connectionPool) {
                             req.session.emp_num = rows[0].emp_num;
                             req.session.team_id = rows[0].team_id;
                             req.session.sm_id = rows[0].sm_id;
-                            
+                            req.session.idyoyo = rows[0].id;
                             res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사
                           }
                         });
