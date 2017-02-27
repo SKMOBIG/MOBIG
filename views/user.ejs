@@ -23,8 +23,7 @@
     <script style="text/javascript">
     $(document)
       .ready(function() {
-        user_name = document.getElementById("user_name");
-        user_name.style.disable = true;
+        
         
         
       });
@@ -44,13 +43,23 @@
     <div class="container">
       <div class="ui card">
         <div class="content">
-          <div class="header"><%=data.user_name%></div>
+          <div class="header"><i class="spy icon"></i><%=data.user_name%></div> <!-- junior : child, senior : spy, manager : users -->
           <h4 class="ui sub header"><%=data.sm_name%>(<%=data.team_name%>)</h4>
         </div>
         <div class="content">
           <h4 class="ui sub header">My Infomation</h4>
           <div class="ui small feed">
             <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <div class="ui left icon input">
+                     <input type="text" value='ljw82@sk.com'>
+                     <i class="large mail icon"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+             <div class="event">
               <div class="content">
                 <div class="summary">
                    <div class="ui left icon input">
@@ -70,16 +79,44 @@
                 </div>
               </div>
             </div>
+            
             <div class="event">
               <div class="content">
                 <div class="summary">
                   <div class="ui left icon input">
-                     <input type="text" value=<%=data.point%>>
+                     <input type="text" value=<%=data.hd_point%>>
                      <i class="large product hunt icon"></i>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.mileage%>>
+                     <i class="large gift icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 부가 정보 - 혈액형,주소,고향(사용자가 공개, 비공개 설정 가능)-->
+            <!--div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui form">
+                    <div class="field">
+                      <select class="ui search dropdown">
+                        <option value="A">A형</option>
+                        <option value="B">B형</option>
+                        <option value="AB">AB형</option>
+                        <option value="O">O형</option>  
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div-->
             <div class="event">
               <div class="content">
                 <div class="summary">
@@ -90,6 +127,27 @@
                 </div>
               </div>
             </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.address%>>
+                     <i class="large hotel icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.home_town%>>
+                     <i class="large home icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
         <div class="extra content">
