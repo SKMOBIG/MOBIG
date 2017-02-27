@@ -25,9 +25,13 @@
     <script src="../javascripts/bootstrap.min.js"></script>
     <script src="../javascripts/bootstrap.js"></script>
 
-
-`    
     <script type="text/javascript">
+    
+    function goDetail(id){
+        
+        location.href='../detail/'+id; 
+        
+    }
     </script>
 
 
@@ -77,63 +81,42 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">B2B사업팀 HappyApp</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">해피데이</a>
-                    </li>
-                    <li>
-                        <a href="#">칭찬합시다</a>
-                    </li>
-                    <li>
-                        <a href="#">기타</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+    <% include ./partials/navigation.ejs %>
 
 
 
     <!-- Page Content -->
     <div class="container">
+
         <div class="ui link cards">
-            <div class="card">
-                <div class="content" style="background-color:#FF5252">
+            
+                    
+
+        
+        
+        <% for (var i = 0; i < data.length; i++) { %>
+
+
+            <div class="card" onclick="javascript:goDetail('<%=data[i].happyday_id%>')">
+                
+                <div class="content" style="background-color:#FF5252;  max-height:56px">
 
                     <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 2017.2.2</div>
-                    <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> <span style="color:#fff">김태희(B2B플랫폼)</span>
+                    <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> <span style="color:#fff"><%=data[i].user_name%> (B2B플랫폼)</span>
 
                 </div>
                 <div class="image">
                     <img src="http://www.image114.co.kr/files/attach/images/170/065/039/DSC_3496.png">
                 </div>
                 <div class="content">
-                    <div class="header">삼성 VS LG 야구 보러갑시다!!</div>
-                    <div class="meta">
-                        기분좋게 같이 응원하러 가요~~(삼성팬환영)
-                    </div>
+                    <div class="header"><%=data[i].happyday_name%></div>
+
                     <div class="description">
                         <p>
                             모임일자 3월3일(목) 18:30
                         </p>
                         <p>
-                            장소 : 탄천운동장
+                            장소 : <%=data[i].place_name%>
                         </p>
 
                     </div>
@@ -159,116 +142,30 @@
         <i class="diamond icon"></i>
         필요포인트 
       </span>
-                    <div class="right floated">2500P</div>
+                    <div class="right floated"><%=data[i].req_point%> P</div>
                 </div>
             </div>
 
 
 
 
-<div class="card">
-                <div class="content" style="background-color:#FF5252">
 
-                    <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 2017.2.22</div>
-                    <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> <span style="color:#fff">김태희(B2B플랫폼)</span>
 
-                </div>
-                <div class="image">
-                    <img src="http://health.chosun.com/site/data/img_dir/2013/05/21/2013052101839_0.jpg">
-                </div>
-                <div class="content">
-                    <div class="header">가까운 곳으로 같이 등산하실분~</div>
-                    <div class="meta">
-                        불곡산 같이 타 보아요~
-                    </div>
-                    <div class="description">
-                        <p>
-                            모임일자 2월27일(월) 18:00
-                        </p>
-                        <p>
-                            장소 : 불곡산
-                        </p>
 
-                    </div>
-                </div>
-                <div class="extra content">
-                    <span>
-        <i class="user icon"></i>
-        모집인원 3명(1자리남음)
-      </span>
-                </div>
 
-                <div class="extra content">
-                    <span><i class="user icon"></i>현재 참가자</span>
-                    <div style="margin-top:.6em">
-                        <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> 김태희
-                        <img class="ui avatar image" src="http://cfile29.uf.tistory.com/image/264F0F47578F2A2605F397"> 정유미
-                    </div>
-                </div>
 
-                <div class="extra content">
-                    <span>
-        <i class="diamond icon"></i>
-        필요포인트 
-      </span>
-                    <div class="right floated">1500P</div>
-                </div>
-            </div>
-            
-            
-            
-            
-            
-            <div class="card">
-                <div class="content" style="background-color:#FF5252">
 
-                    <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 2017.2.21</div>
-                    <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> <span style="color:#fff">김태희(B2B플랫폼)</span>
 
-                </div>
-                <div class="image">
-                    <img src="http://img.segye.com/content/image/2016/04/27/20160427002969_0.jpg">
-                </div>
-                <div class="content">
-                    <div class="header">최현석 셰프에게 요리배우러 가요</div>
-                    <div class="meta">
-                    쿠킹클래스가서 재밌게 요리 배워봅시다~~
-                    </div>
-                    <div class="description">
-                        <p>
-                            모임일자 3월5일(목) 18:30
-                        </p>
-                        <p>
-                            장소 : 엘본더테이블
-                        </p>
 
-                    </div>
-                </div>
-                <div class="extra content">
-                    <span>
-        <i class="user icon"></i>
-        모집인원 4명(마감)
-      </span>
-                </div>
 
-                <div class="extra content">
-                    <span><i class="user icon"></i>현재 참가자</span>
-                    <div style="margin-top:.6em">
-                        <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> 김태희
-                        <img class="ui avatar image" src="http://cfile29.uf.tistory.com/image/264F0F47578F2A2605F397"> 정유미
-                        <img class="ui avatar image" src="http://i.huffpost.com/gen/2949138/thumbs/o-DEFAULT-570.jpg?1"> 이연복
-                        <img class="ui avatar image" src="data:image/jpeg;base64,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">                        마동석
-                    </div>
-                </div>
+<% } %>
+        
+        
+        
 
-                <div class="extra content">
-                    <span>
-        <i class="diamond icon"></i>
-        필요포인트 
-      </span>
-                    <div class="right floated">4000P</div>
-                </div>
-            </div>
+
+
+
   
         </div>
     </div>

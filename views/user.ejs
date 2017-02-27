@@ -1,24 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-<<<<<<< HEAD
-    <title>happy app</title>
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
-    <script src="/dist/semantic.min.js"></script>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <div class="ui two column middle aligned very relaxed stackable grid">
-      <div class="column">
-        <label>이름 : <%= data.user_name %></label>
-      </div>
-      <div class="center aligned column">
-        <label>사번 : <%= data.emp_num %></label>
-      </div>
-    </div>
-=======
     <title>Happy App</title>
     <!-- Standard Meta -->
     <meta charset="utf-8" />
@@ -28,8 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="../dist/semantic.min.js"></script>
     
-    <script src="../javascript/bootstrap.min.js"></script>
-    <script src="../javascript/jquery.js"></script>
+    <script src="../javascripts/bootstrap.min.js"></script>
+    <script src="../javascripts/jquery.js"></script>
     
     <!-- Bootstrap Core CSS -->
     <link href="../stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -52,6 +34,60 @@
   <body>
     <% include ./partials/navigation.ejs %>
     
+    <div class="container">
+      <div class="ui card">
+        <div class="content">
+          <div class="header"><%=data.user_name%></div>
+          <div class="meta">
+            <span >사번 : <%=data.emp_num%></span>
+          </div>
+        </div>
+        <div class="content">
+          <h4 class="ui sub header">My Infomation</h4>
+          <div class="ui small feed">
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <a>SM(팀)</a> : <%=data.sm_name%>(<%=data.team_name%>)
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <a>전화번호</a> : <%=data.phone_number%>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <a>생년월일</a> : <%=data.birthday%>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <a>Helen Troy</a> added two pictures
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="extra content">
+          <a>
+            <i class="user icon"></i>
+            22 Friends
+          </a>
+        </div>
+        <div class="extra content">
+          <button class="ui button">수정</button>
+        </div>
+      </div>
+  
+    </div>
+    
     <div class="ui inverted segment">
       <div class="ui inverted form">
         <div class="two fields">
@@ -63,16 +99,31 @@
             <label>사번</label>
             <input type="text" id="emp_num"  value=<%=data.emp_num%>>
           </div>
+          <div class="field">
+            <label>전화번호</label>
+            <input type="text" id="phone_number"  value=<%=data.phone_number%>>
+          </div>
+          <div class="field">
+            <label>생년월일</label>
+            <input type="text" id="birthday"  value=<%=data.birthday%>>
+          </div>
+          <div class="field">
+            <label>가용포인트</label>
+            <input type="text" id="point"  value=<%=data.point%>>
+          </div>
+          <div class="field">
+            <label>혈액형</label>
+            <input type="text" id="blood_type"  value=<%=data.blood_type%>>
+          </div>
         </div>
         <div class="inline field">
           <div class="ui checkbox">
+            <label>결혼</label>
             <input type="checkbox" tabindex="0" class="hidden">
-            <label>I agree to the terms and conditions</label>
           </div>
         </div>
       </div>
     </div>
 
->>>>>>> d5f5c60d0b6647e1ebac973f158b469c5224881d
   </body>
 </html>

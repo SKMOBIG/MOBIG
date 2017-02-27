@@ -71,17 +71,19 @@ var main = require('./routes/main')(app, connectionPool); // set route file
 
 var user = require('./routes/user')(app, connectionPool); // set route file
 
+var hdregist = require('./routes/hdregist')(app, connectionPool);
+
 //hdmain이라는 변수는 /routes/hdmain.js 를 컨트롤 할수 있음
 var hdmain = require('./routes/hdmain')(app, connectionPool);
 
 //hdmain이라는 변수는 /routes/hdmain.js 를 컨트롤 할수 있음
 var postreg_KJB = require('./routes/postreg_KJB')(app, connectionPool);
 
+
 var hdregist = require('./routes/hdregist');
 app.use('/hdregist', hdregist);
 
-var detail = require('./routes/detail');
-app.use('/detail', detail);
+var detail = require('./routes/detail')(app, connectionPool);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
