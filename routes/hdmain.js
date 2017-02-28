@@ -14,16 +14,16 @@ module.exports = function(app, connectionPool) {
         console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_master hm, user u where hm.reg_user_id = u.id',  function(error, rows) {
+            connection.query('select hm.happyday_id, hm.happyday_name, hm.place_name, hm.reg_user_id, DATE_FORMAT(hm.reg_dtm, "%Y-%m-%d") AS reg_dtm, DATE_FORMAT(hm.happyday_dt, "%m월 %d일") AS happyday_date,SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.happyday_dt), 1) AS week,date_format(hm.happyday_dt,  "%H:%i") as happy_time, hm.req_point, hm.img_url, u.user_name, u.user_img  from happyday_master hm, user u where hm.reg_user_id = u.id;',  function(error, rows) {
                 
-                console.log("rows : " + rows.length);
                 
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        console.log('테스트'+rows[0].happyday_name)
+                        
+                        
                         res.render('hdmain', {data : rows, session : req.session});
                         connection.release();
                     }else {

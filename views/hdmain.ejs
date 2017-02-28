@@ -37,6 +37,7 @@
             location.href = '../postreg_KJB;
 
         }
+
     </script>
 
 
@@ -102,14 +103,14 @@
 
                     <div class="card" onclick="javascript:goDetail('<%=data[i].happyday_id%>')">
 
-                        <div class="content" style="background-color:#FF5252;  max-height:56px">
+                        <div class="content" style="background-color:#ee5252;  max-height:56px">
 
-                            <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 2017.2.2</div>
-                            <img class="ui avatar image" src="http://www.deepenter.com/data/editor/1610/834045e374b312ec3726edf0f5d7fcf7_1475886436_1325.jpg"> <span style="color:#fff"><%=data[i].user_name%> (B2B플랫폼)</span>
+                            <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록 <%=data[i].reg_dtm%></div>
+                            <img class="ui avatar image" src="<%=data[i].user_img%>"> <span style="color:#fff"><%=data[i].user_name%> (B2B플랫폼)</span>
 
                         </div>
                         <div class="image">
-                            <img src="<%=data[i].img_url%>">
+                            <img src="<%=data[i].img_url%>" style="height: 200px;">
                         </div>
                         <div class="content">
                             <div class="header">
@@ -118,7 +119,7 @@
 
                             <div class="description">
                                 <p>
-                                    모임일자 3월3일(목) 18:30
+                                    모임일자 : <%=data[i].happyday_date%> (<%=data[i].week%>) <%=data[i].happy_time%>
                                 </p>
                                 <p>
                                     장소 :
