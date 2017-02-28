@@ -1,100 +1,103 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="/dist/semantic.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css" />
+
+  <style type="text/css">
+    body {
+      background-color: #f1c40f;
+    }
     
-    <!-- Standard Meta -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    body>.grid {
+      height: 100%;
+    }
     
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="/dist/semantic.min.js"></script>
+    .image {
+      margin-top: -100px;
+    }
     
-    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css" />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    
-    <style type="text/css">
-      body {
-        background-color: #f1c40f;
-      }
-      body > .grid {
-        height: 100%;
-      }
-      .image {
-        margin-top: -100px;
-      }
-      .column {
-        max-width: 400px;
-      }
-    </style>
-  
-    <script type="text/javascript">
-    $(document)
-      .ready(function() {
-        $('.ui.form')
-          .form({
-            fields: {
-              user_name: {
-                identifier  : 'user_name',
-                rules: [
-                  {
-                    type   : 'empty',
-                    prompt : 'Please enter your name'
-                  }
-                ]
-              },
-              emp_num: {
-                identifier  : 'emp_num',
-                rules: [
-                  {
-                    type   : 'empty',
-                    prompt : 'Please enter your employer number'
-                  },
-                  {
-                    type   : 'length[5]',
-                    prompt : 'Your password must be at least 5 characters'
-                  }
-                ]
-              }
+    .column {
+      max-width: 400px;
+    }
+  </style>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.ui.large.form').form
+        ({
+          fields: 
+          {
+            user_name: 
+            {
+              identifier: 'user_name',
+              rules: 
+              [{
+                type: 'empty',
+                prompt: 'Please enter your name'
+              }]
+            },
+            emp_num: 
+            {
+              identifier: 'emp_num',
+              rules: 
+              [{
+                type: 'empty',
+                prompt: 'Please enter your employer number'
+              }, 
+              {
+                type: 'length[5]',
+                prompt: 'Your password must be at least 5 characters'
+              }]
             }
-          });
+          }
+        });
       });
-    
-    </script>
-    
-  </head>
-  <body>
-    
-    <div class="ui middle aligned center aligned grid">
-      <div class="column">
-        <h2 class="ui brown image header">
-          <div class="content">
-            Happy app
-          </div>
-        </h2>
-        <form class="ui large form" name="loginForm" action="/login" method="post">
-          <div class="ui stacked segment">
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
-                <input type="text" name="user_name" placeholder="이름">
-              </div>
+  </script>
+</head>
+
+<body>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui brown image header">
+        <div class="content">
+          Happy app
+        </div>
+      </h2>
+      <form class="ui large form" name="loginForm" action="/login" method="post">
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="user_name" placeholder="이름">
             </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="lock icon"></i>
-                <input type="password" name="emp_num" placeholder="사번">
-              </div>
-            </div>
-            <div class="ui fluid large brown submit button">Login</div>
           </div>
-    
-          <div class="ui error message"></div>
-        </form>
-      </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="emp_num" placeholder="사번">
+            </div>
+          </div>
+          <div class="ui fluid large brown submit button">Login</div>
+        </div>
+
+        <div class="ui error message"></div>
+      </form>
     </div>
-    
-  </body>
+  </div>
+
+</body>
+
 </html>

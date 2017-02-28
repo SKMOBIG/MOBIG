@@ -1,3 +1,32 @@
+    <style type="text/css">
+        .navbar-inverse .navbar-brand {
+            color: #ffffff;
+        }
+        
+        .navbar-inverse .navbar-collapse,
+        .navbar-inverse .navbar-form {
+            border-color: #fff;
+        }
+        
+        .navbar-inverse .navbar-toggle {
+            border-color: #fff;
+        }
+        
+        .navbar-inverse {
+            background-color: #FFCC00;
+            border-color: #FFCC00;
+        }
+        
+        .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: #FFCC00;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+}
+    </style>
+
+
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -15,14 +44,19 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li id = 'menu1'>
                         <a href="/user">나의 정보</a>
                     </li>
-                    <li>
-                        <a href="#">해피데이</a>
+                        <a href="/detail/1">상세보기</a>
                     </li>
                     <li>
-                        <a href="#">칭찬합시다</a>
+                        <a href="/hdregist">해피데이등록</a>
+                    </li>
+                    <li>
+                        <a href="/postreg_KJB">후기등록</a>
+                    </li>
+                    <li>
+                        <a href="/hdmain">메인</a>
                     </li>
                 </ul>
             </div>

@@ -1,24 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-<<<<<<< HEAD
-    <title>happy app</title>
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
-    <script src="/dist/semantic.min.js"></script>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <div class="ui two column middle aligned very relaxed stackable grid">
-      <div class="column">
-        <label>이름 : <%= data.user_name %></label>
-      </div>
-      <div class="center aligned column">
-        <label>사번 : <%= data.emp_num %></label>
-      </div>
-    </div>
-=======
     <title>Happy App</title>
     <!-- Standard Meta -->
     <meta charset="utf-8" />
@@ -28,8 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="../dist/semantic.min.js"></script>
     
-    <script src="../javascript/bootstrap.min.js"></script>
-    <script src="../javascript/jquery.js"></script>
+    <script src="../javascripts/bootstrap.min.js"></script>
+    <script src="../javascripts/jquery.js"></script>
     
     <!-- Bootstrap Core CSS -->
     <link href="../stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -41,38 +23,144 @@
     <script style="text/javascript">
     $(document)
       .ready(function() {
-        user_name = document.getElementById("user_name");
-        user_name.style.disable = true;
+        
         
         
       });
     </script>
     
+    <style type="text/css">
+      .ui[class*="left icon"].input>input {
+        padding-left: 3.67142857em!important;
+      }
+    </style>
+    
   </head>
+  
   <body>
     <% include ./partials/navigation.ejs %>
     
-    <div class="ui inverted segment">
-      <div class="ui inverted form">
-        <div class="two fields">
-          <div class="field">
-            <label>이름</label>
-            <input type="text" id="user_name" value=<%=data.user_name%>>
-          </div>
-          <div class="field">
-            <label>사번</label>
-            <input type="text" id="emp_num"  value=<%=data.emp_num%>>
+    <div class="container">
+      <div class="ui card">
+        <div class="content">
+          <div class="header"><i class="spy icon"></i><%=data.user_name%></div> <!-- junior : child, senior : spy, manager : users -->
+          <h4 class="ui sub header"><%=data.sm_name%>(<%=data.team_name%>)</h4>
+        </div>
+        <div class="content">
+          <h4 class="ui sub header">My Infomation</h4>
+          <div class="ui small feed">
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <div class="ui left icon input">
+                     <input type="text" value='ljw82@sk.com'>
+                     <i class="large mail icon"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+             <div class="event">
+              <div class="content">
+                <div class="summary">
+                   <div class="ui left icon input">
+                     <input type="text" value=<%=data.phone_number%>>
+                     <i class="large text telephone icon"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.birthday%>>
+                     <i class="large birthday icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.hd_point%>>
+                     <i class="large product hunt icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.mileage%>>
+                     <i class="large gift icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 부가 정보 - 혈액형,주소,고향(사용자가 공개, 비공개 설정 가능)-->
+            <!--div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui form">
+                    <div class="field">
+                      <select class="ui search dropdown">
+                        <option value="A">A형</option>
+                        <option value="B">B형</option>
+                        <option value="AB">AB형</option>
+                        <option value="O">O형</option>  
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div-->
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.blood_type%>>
+                     <i class="large theme icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.address%>>
+                     <i class="large hotel icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="content">
+                <div class="summary">
+                  <div class="ui left icon input">
+                     <input type="text" value=<%=data.home_town%>>
+                     <i class="large home icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
-        <div class="inline field">
-          <div class="ui checkbox">
-            <input type="checkbox" tabindex="0" class="hidden">
-            <label>I agree to the terms and conditions</label>
-          </div>
+        <div class="extra content">
+          <a>
+            <i class="user icon"></i>
+            22 Connected
+          </a>
+        </div>
+        <div class="extra content">
+          <button class="ui button">수정</button>
         </div>
       </div>
     </div>
 
->>>>>>> d5f5c60d0b6647e1ebac973f158b469c5224881d
   </body>
 </html>
