@@ -15,16 +15,37 @@
 
 	function modalClose(){
 		 $('.ui.modal.Reg').modal('hide');
-		 //$('#tabYn').value = 'Y';
+		 
+		 
+		 
 	}
 	
 $(function(){
     $("#HappyDayRegist").click(function(){
         $('.ui.modal.Reg').modal('show');
     });
-    
+   
     $("#HappyDaySelect").click(function(){
-        $('.ui.modal.Select').modal('show');
+    	
+	$.ajax({
+	        type: "post",
+	        url : "/postgetdata",
+	        data: {
+       			postid : '1'
+	        },
+
+        success:function(data){   
+        	alert(data.datas.emp_num)
+        	$("#inputname").html(data.datas.user_name);
+            $('.ui.modal.Select').modal('show');
+        },
+        error:function(e){  
+            alert(e.responseText);  
+        }  
+
+     	});
+
+        
     });
 
 });
@@ -37,11 +58,8 @@ $(function(){
 
 <div>
 	<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>
-	
-	<form name="postupdatemodal" action="/postupdate" method="post">
+
 	    <button class="ui inverted red button" id='HappyDaySelect'>조회 </button>
-	    <input type="text" name="post_id" value="38">
-	</form>
 </div>
 
 <!--등록 모달 Start-->
@@ -85,6 +103,7 @@ $(function(){
 				<h3> 후기 title </h3>
 				<div class="ui left icon input" style=" width: 100%;">
 					<input type="text" placeholder="해피데이 후기 title" style="width: 100%">
+					
 					<i class="user icon"></i>
 				</div>
 			</div>
@@ -92,7 +111,7 @@ $(function(){
 			<div class="column">
 				<h3> 작성자</h3>
 				<div class="ui left icon input" style=" width: 40%;">
-					<input type="text" placeholder="김준범" style="width: 100%">
+					<input type="text" id = 'inputname' placeholder="김준범" style="width: 100%" >
 					<i class="user icon"></i>
 				</div>
 			</div>

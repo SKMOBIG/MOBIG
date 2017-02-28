@@ -69,4 +69,25 @@ module.exports = function(app, connectionPool) {
             });
         });
     });
+    
+    
+         app.post('/postgetdata', function(req, res, next) {
+         connectionPool.getConnection(function(err, connection) {
+            connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', ['1', '11111'], function(error, rows) {
+                 console.log("rows : " + rows.length);
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(rows.length > 0) {
+                        console.log(" ㅋㅋ"+rows[0].user_name)
+                        res.send({datas : rows[0], session : req.session});
+                        connection.release();
+                    }else {
+
+                    }    
+                }
+            });
+        });
+    });
 }
