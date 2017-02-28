@@ -16,6 +16,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <script type="text/javascript">
+
+	function modalClose(){
+   $('.ui.modal').modal('hide');
+   //$('#tabYn').value = 'Y';
+	}
+	
 $(function(){
     $("#HappyDayRegist").click(function(){
         $('.ui.modal').modal('show');
@@ -23,190 +29,181 @@ $(function(){
     
     $('#hddate').calendar();
     
-/*    $('.tag.example .ui.dropdown')
-      .dropdown({
-        allowAdditions: true
-    })
-    ;*/
-    
+    $('#example2').calendar({
+      type: 'date'
+    });
+
     $('.ui.dropdown').dropdown({
       apiSettings: {
         url: 'api/projectSearch/GetUnitType'
       },
-      maxSelections: 3,
+      maxSelections: 1,
       localSearch: true,
       saveRemoteData: false,
       debug: true,
       ftSearch: true
     });
     
-    /*$("#member2").click(function(){
-       $('.selector').addClass
-    });
-    */
-    
     $("#a").click(function(){
-        //$(this).css({"color":"yellow"});
-        $(this).css({"background-Color":"yellow"}); 
-        //selector의 아이디를 세팅  
-     });
-    /* $("#a").click(function() {
-      alert(this.value);
-    });*/
+      //$(this).css({"color":"yellow"});
+      $(this).css({"background-Color":"yellow"}); 
+      //selector의 아이디를 세팅  
+    });
+   
+    $('.ui.form')
+      .form({
+        fields: {
+          hdname: {
+            identifier: 'hdname',
+            rules: [
+              {
+                type   : 'empty',
+                prompt : 'Please enter your name'
+              }
+            ]
+          }
+        }
+      });  
     
 });
 
-
-    
-/*$(this).(function(){
-    $('.selector').each(function() {
-        $(this).click(function() {
-        
-             $(this).hide();
-        });        
-    });
-    
-});   */ 
-//$('.selector').css('color','red');
-    
 </script>
 
 </head>
 <body>
-
 <div>
 	<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>
 </div>
 <div class="ui modal">
-<!--	<div class="header">
-		<h1>HappyDay Regist Page</h1>
-	</div>-->
-<!--	
-	<div class="header">
-		<h3 class="ui right floated header">
-			<div class="actions">
-				<button class="ui yellow submit approve button" id="submit" name="submit">Upload</button>
-			</div>
-		</h3>
-		<h3 class="ui left floated header">
-			<i class="close left icon"></i>
-		</h3>
-		<br>
-	</div>	--><!-- modal header -->
-    <h3 class="ui left floated header">HappyDay Regist Page</h3>
-    <div class="ui clearing divider"></div>
+<form class="ui form segment">
+  <h3 class="ui left floated header">HappyDay Regist Page</h3>
+  <div class="ui clearing divider"></div>
 	<div class="content">
-		<!--<p>-->
-	<div class="ui sub header">해피데이 이름</div>
-	<div class="ui transparent input">
-			<input type="text" placeholder="입력해주세요..."><%= data.user_name %>
-	</div><!-- title -->	
-  <div class="ui sub header">카테고리</div>
-  <div class="ui fluid multiple search selection dropdown">
-    <input name="tags" type="hidden" value="">
-    <i class="dropdown icon"></i>
-    <div class="default text">Skills</div>
-    <div class="menu">
-      <div class="item" data-value="angular">스포츠</div>
-      <div class="item" data-value="css">관람</div>
-      <div class="item" data-value="design">영화</div>
-      <div class="item" data-value="ember">야외활동</div>
-      <div class="item" data-value="html">실내활동</div>
-      <div class="item" data-value="ia">투어</div>
-      <div class="item" data-value="javascript">체험</div>
-    </div>
-  </div><!-- multiple search selection dropdown -->
-  
-  <div class="ui sub header">장소</div>	
-	<div class="ui right labeled left icon action input"><!-- action?? -->
-		<i class="marker icon"></i>
-		<input type="text" placeholder="Search the location" id="location" name="location">
-		<!--<i class="inverted circular search link icon"></i>-->
-		<div class="ui label"><i class="search icon"></i></div>
-  </div><!-- location -->
-  
-  <div class="ui sub header">출발 날짜 & 시간</div>
-  <div class="ui calendar" id="hddate">
-    <div class="ui input left icon">
-      <i class="calendar icon"></i>
-      <input type="text" placeholder="Check the calendar">
-    </div>
-  </div><!-- calendar -->
-
-    <div class="ui sub header">이미지 링크</div>
-    <div class="ui labeled input">
-      <div class="ui label">
-        http://
+	  <div class="field">
+  	  <div class="ui sub header">해피데이 이름</div>
+  			<input type="text" placeholder="<%= data.user_name %>님 입력해주세요." id="hdname" name="hdname">
+  	</div>  
+	  <div class="field">
+      <div class="ui sub header">카테고리</div>
+      <div class="ui fluid multiple search selection dropdown">
+        <input name="tags" type="hidden" value="">
+        <i class="dropdown icon"></i>
+      <div class="default text">Skills</div>
+      <div class="menu">
+        <div class="item" data-value="angular">스포츠</div>
+        <div class="item" data-value="css">관람</div>
+        <div class="item" data-value="design">영화</div>
+        <div class="item" data-value="ember">야외활동</div>
+        <div class="item" data-value="html">실내활동</div>
+        <div class="item" data-value="ia">투어</div>
+        <div class="item" data-value="javascript">체험</div>
       </div>
-      <input type="text" placeholder="mysite.com">
+      </div><!-- multiple search selection dropdown -->
     </div>
-    
+    <div class="field">
+      <div class="ui sub header">이미지 링크</div>
+      <div class="ui labeled input">
+        <div class="ui label">
+          http://
+        </div>
+        <input type="text" placeholder="mysite.com">
+      </div>
+    </div>  
+    <div class="field">
+      <div class="ui sub header">장소</div>	
+    	<div class="ui right labeled left icon action input"><!-- action?? -->
+    		<i class="marker icon"></i>
+    		<input type="text" placeholder="Search the location" id="location" name="location">
+    		<!--<i class="inverted circular search link icon"></i>-->
+    		<div class="ui label"><i class="search icon"></i></div>
+      </div><!-- location -->
+    </div>  
+    <div class="ui two column grid">
+    <div class="column">
+      <div class="ui sub header">출발 날짜 & 시간</div>
+      <div class="ui calendar" id="hddate">
+        <div class="ui input left icon" style=" width: 100%;"> 
+          <i class="calendar icon"></i>
+          <input type="text" placeholder="Check the calendar" style=" width: 100%;">
+        </div>
+      </div><!-- calendar -->
+    </div>
+    <div class="column">
+      <div class="ui sub header">마감일</div>
+      <div class="ui calendar" id="example2">
+        <div class="ui input left icon" style=" width: 100%;">
+          <i class="calendar icon"></i>
+          <input type="text" placeholder="Date" style=" width: 100%;">
+        </div>
+      </div>
+    </div>
+    </div><!-- ui two column grid -->
+    <div class="ui two column grid">
+    <div class="column">
+      <div class="ui sub header">멤버수</div>
+      <!--<div style=" width: 100%;">-->
+      <!--<button class="circular ui icon button" id="a" value="5" onclick="">
+          5
+      </button>
+      <button class="circular ui icon button" id="b" value="6" onclick="">
+          6
+      </button>
+      <button class="circular ui icon button" id="c" value="7" onclick="">
+          7
+      </button>
+      <button class="circular ui icon button" id="d" value="8" onclick="">
+          8
+      </button>
+      <button class="circular ui icon button" id="e" value="9" onclick="">
+          9
+      </button>
+      <i class="huge yellow circle icon"></i>
+     
+      </div>-->
+      <div class="ui pagination menu" ">
+        <a class="item">
+          1
+        </a>
+        <div class="disabled item">
+          5
+        </div>
+        <a class="item">
+          10
+        </a>
+        <a class="item">
+          11
+        </a>
+        <a class="item active">
+          12
+        </a>
+      </div>
+    </div>
 
-  <div class="ui sub header">해피데이 설명</div>	
-	<!--<div class="ui left labeled" style="width:100% ; height: 200px;">-->
+    <div class="column">
+    	<div class="ui sub header">차감포인트</div>	
+      <div class="ui left icon input" style=" width: 100%;">
+      	<input type="text" placeholder="2500" style=" width: 100%;">
+      	<i class="won icon"></i>
+      </div><!-- point -->
+    </div>
+    </div><!-- two columns -->
+	  <div class="ui sub header">해피데이 설명</div>	
 		<textarea style="width:100% ;height: 200px;"></textarea>
-	<!--</div>--><!-- textarea -->
-	
-	<div class="ui sub header">멤버수</div>	
-    <div class="ui left icon input">
-      <input type="number" placeholder="the number of the member">
-      <i class="users icon"></i>
-    </div><!-- member -->
-    
-    
-    
-    <div class="ui sub header">멤버수</div>
-   
-        <button class="circular ui icon button" id="a" value="5" onclick="">
-            11
-        </button>
-      <button class="circular ui icon button" id="a" value="6" onclick="">
-            11
-        </button>
 
-       
+  </div><!-- content -->
 
-    
-    
-	<div class="ui sub header">차감포인트</div>	
-  <div class="ui left icon input">
-  	<input type="text" placeholder="2500">
-  	<i class="dollar icon"></i>
-  </div><!-- point -->
-	
-		<div class="ui center aligned basic segment">
-			<div class="ui two column grid">
-				<div class="column">
-					<div class="ui sub header">멤버수</div>	
-					<div class="ui left icon input" style=" width: 100%;">
-						<input type="text" placeholder="..." style="width: 100%">
-						<i class="user icon"></i>
-					</div>
-				</div><!--column-->
-				<div class="column">
-					<div class="ui sub header">멤버수</div>	
-					<div class="ui left icon input" style=" width: 100%;">
-						<input type="text" placeholder="작성자 이름이 default로 박힐 예정" style="width: 100%">
-						<i class="user icon"></i>
-					</div>
-				</div><!--column-->
-			</div><!-- two column grid -->
-		</div><!--center aligned basic segment -->
-		<!--</p>-->
-		
-</div><!-- content -->
-  	<div class="actions">
-  	  <button class="ui blue submit approve button" id="submit" name="submit">cancel</button>
-  		<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>
-  	</div><!-- actions -->
-  	
+  <div class="ui clearing divider"></div>
+  <div class="actions">
+<!--    <button class="ui blue submit approve button" id="submit" name="submit">cancel</button>-->
+  	<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>
+    <div class="ui button" onClick=javascript:modalClose()>cancel</div>
+  </div><!-- actions -->
   
-  
-  
-</div><!-- modal ???-->
+</form>  
 
-<!-- jQuery -->
-<!--<script src="js/jquery.js"></script>-->
+</div><!-- modal -->
+
+
 
 </body>
 </html>
