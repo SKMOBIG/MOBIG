@@ -21,18 +21,35 @@
     <link href="../stylesheets/common.css" rel="stylesheet">
     
     <script style="text/javascript">
-    $(document)
-      .ready(function() {
+      $(document)
+        .ready(function() {
+          /* 본인이면 수정 가능하도록 input elements enable 및 수정버튼 표시
+             타인이면 input elements disable 및 수정버튼 미표시 */
+          var page_user_id = <%=data.id %>
+          var session_user_id = <%=session.user_id%>
+          
+          if(page_user_id != session_user_id) read_mode();
+            else modify_mode();
         
+        });
         
+      function modify_mode() {
         
-      });
+      }
+      
+      function read_mode() {
+        $('.ui.button').hide();
+        $('input').attr('readonly',true);
+      }
+      
+      
     </script>
     
     <style type="text/css">
       .ui[class*="left icon"].input>input {
         padding-left: 3.67142857em!important;
       }
+      
     </style>
     
   </head>
@@ -41,126 +58,154 @@
     <% include ./partials/navigation.ejs %>
     
     <div class="container">
-      <div class="ui card">
-        <div class="content">
-          <div class="header"><i class="spy icon"></i><%=data.user_name%></div> <!-- junior : child, senior : spy, manager : users -->
-          <h4 class="ui sub header"><%=data.sm_name%>(<%=data.team_name%>)</h4>
-        </div>
-        <div class="content">
-          <h4 class="ui sub header">My Infomation</h4>
-          <div class="ui small feed">
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                   <div class="ui left icon input">
-                     <input type="text" value='ljw82@sk.com'>
-                     <i class="large mail icon"></i>
-                    </div>
-                </div>
-              </div>
+      <div class="ui stackable two column grid">
+        <div class="column">
+          <div class="ui card">
+            <div class="content">
+              <div class="header"><i class="spy icon"></i><%=data.user_name%></div> <!-- junior : child, senior : spy, manager : users -->
+              <h4 class="ui sub header"><%=data.sm_name%>(<%=data.team_name%>)</h4>
             </div>
-             <div class="event">
-              <div class="content">
-                <div class="summary">
-                   <div class="ui left icon input">
-                     <input type="text" value=<%=data.phone_number%>>
-                     <i class="large text telephone icon"></i>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui left icon input">
-                     <input type="text" value=<%=data.birthday%>>
-                     <i class="large birthday icon"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui left icon input">
-                     <input type="text" value=<%=data.hd_point%>>
-                     <i class="large product hunt icon"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui left icon input">
-                     <input type="text" value=<%=data.mileage%>>
-                     <i class="large gift icon"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- 부가 정보 - 혈액형,주소,고향(사용자가 공개, 비공개 설정 가능)-->
-            <!--div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui form">
-                    <div class="field">
-                      <select class="ui search dropdown">
-                        <option value="A">A형</option>
-                        <option value="B">B형</option>
-                        <option value="AB">AB형</option>
-                        <option value="O">O형</option>  
-                      </select>
+            <div class="content">
+              <h4 class="ui sub header">basic infomation</h4>
+              <div class="ui small feed">
+                <div class="event">
+                  <div class="content">
+                    <div class="summary">
+                       <div class="ui left icon input">
+                         <input type="text" value='ljw82@sk.com'>
+                         <i class="large mail icon"></i>
+                        </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                 <div class="event">
+                  <div class="content">
+                    <div class="summary">
+                       <div class="ui left icon input">
+                         <input type="text" value=<%=data.phone_number%>>
+                         <i class="large text telephone icon"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="event">
+                  <div class="content">
+                    <div class="summary">
+                      <div class="ui left icon input">
+                         <input type="text" value=<%=data.birthday%>>
+                         <i class="large birthday icon"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- end of basic info -->
+              <!-- 부가 정보 - 혈액형,주소,고향(사용자가 공개, 비공개 설정 가능)-->
+              <h4 class="ui sub header">additional Infomation</h4>
+              <div class="ui small feed">
+                <!--div class="event">
+                  <div class="content">
+                    <div class="summary">
+                      <div class="ui form">
+                        <div class="field">
+                          <select class="ui search dropdown">
+                            <option value="A">A형</option>
+                            <option value="B">B형</option>
+                            <option value="AB">AB형</option>
+                            <option value="O">O형</option>  
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div-->
+                <div class="event">
+                  <div class="content">
+                    <div class="summary">
+                      <div class="ui left icon input">
+                         <input type="text" value=<%=data.blood_type%>>
+                         <i class="large theme icon"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="event">
+                  <div class="content">
+                    <div class="summary">
+                      <div class="ui left icon input">
+                         <input type="text" value=<%=data.address%>>
+                         <i class="large hotel icon"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="event">
+                  <div class="content">
+                    <div class="summary">
+                      <div class="ui left icon input">
+                         <input type="text" value=<%=data.home_town%>>
+                         <i class="large home icon"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- end of add info --> 
+            </div>
+            <!--div class="extra content">
+              <a>
+                <i class="user icon"></i>
+                22 Connected
+              </a>
             </div-->
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui left icon input">
-                     <input type="text" value=<%=data.blood_type%>>
-                     <i class="large theme icon"></i>
+            <div class="extra content">
+              <button class="ui button">수정</button>
+            </div>
+          </div> <!-- end div of info card -->
+        </div>  
+        <div class="column">
+          <div class="ui card">
+            <div class="content">
+              <i class="right floated like icon"></i>
+              <i class="right floated star icon"></i>
+              <div class="header">TEAM ACTIVITY</div> <!-- junior : child, senior : spy, manager : users -->
+            </div>
+            <div class="content">
+              <h4 class="ui sub header">point & mileage</h4>
+              <div class="ui small feed">
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui left icon input">
+                       <input type="text" value=<%=data.hd_point%>>
+                       <i class="large product hunt icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="content">
+                  <div class="summary">
+                    <div class="ui left icon input">
+                       <input type="text" value=<%=data.mileage%>>
+                       <i class="large gift icon"></i>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui left icon input">
-                     <input type="text" value=<%=data.address%>>
-                     <i class="large hotel icon"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="event">
-              <div class="content">
-                <div class="summary">
-                  <div class="ui left icon input">
-                     <input type="text" value=<%=data.home_town%>>
-                     <i class="large home icon"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
+            <div class="extra content">
+              <span class="left floated like">
+                <i class="like icon"></i>
+                Like
+              </span>
+              <span class="right floated star">
+                <i class="star icon"></i>
+                Favorite
+              </span>
+            </div> <!-- end div of team act card -->  
+          </div>  
         </div>
-        <div class="extra content">
-          <a>
-            <i class="user icon"></i>
-            22 Connected
-          </a>
-        </div>
-        <div class="extra content">
-          <button class="ui button">수정</button>
-        </div>
-      </div>
-    </div>
+      </div> <!-- end div of grid -->
+    </div> <!-- end div of container -->
 
   </body>
 </html>
