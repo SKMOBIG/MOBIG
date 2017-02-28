@@ -28,7 +28,7 @@ module.exports = function(app, connectionPool) {
         console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_master where 1=1 and happyday_id = ?;', req.params.id, function(error, rows) {
+            connection.query('select * from happyday_master a, user b, com_org c where 1=1 and a.reg_user_id = b.id and b.sm_id = c.org_id and a.happyday_id = ?;', req.params.id, function(error, rows) {
                 
                 console.log("rows : " + rows.length);
                 
@@ -38,21 +38,36 @@ module.exports = function(app, connectionPool) {
                 }else {
                     if(rows.length > 0) {
                         res.render('detail', {data : rows[0], session : req.session});
-                        connection.release();
+                        
+                        
+                        
+                        connection.release();                                         
                     }else {
                         res.redirect('/');
                         connection.release();
                     }    
                 }
             });
+            
+            // //Start
+            // connection.query('select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ?', req.params.id, function(error, rows){
+                
+            //     console.log("rows : " + rows.length);
+                
+            //     if(error) {
+            //         connection.release();
+            //         throw error;
+            //     }else {
+            //         if(rows.length > 0) {
+            //             res.render('detail', {data1 : rows[0], session : req.session});
+            //             connection.release();
+            //         }else {
+            //             res.redirect('/');
+            //             connection.release();
+            //         }    
+            //     }
+            // });
+            // //END
         });
-        
-        
-        
-       
     });
-     
-    
-    
-
 }

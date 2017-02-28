@@ -113,7 +113,7 @@
             <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
 
             <div class="ui segment">
-                <img class="ui centered fluid image" src="https://i.ytimg.com/vi/9JrmSWaM93Y/maxresdefault.jpg">
+                <img class="ui centered fluid image" src=<%=data.img_url%>>
                 <div class="yellow two ui buttons">
                     <button class="ui button">상세보기</button>
                     <button class="ui button">후기보기</button>
@@ -121,11 +121,11 @@
                 <p> </p>
                 <div class="image">
                     <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alret('나는 오원석이다!!')"> 
-                    <span> 작성자 : 오원석(MVNO/텔링크) </span>
+                    <span> 작성자 : <%= data.user_name %> ( <%=data.org_nm%> ) </span>
                 </div>
                 <div class="meta">
                     <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
-                    <span class="right floated">작성일 : 2017년 3월 24일</span>
+                    <span class="right floated">작성일 : <%= data.reg_dtm %> </span>
                     <p> </p>
                 </div>
                 
@@ -143,12 +143,12 @@
                 </div>
                 
                 <div class="ui segment">
-                    <p>- 일    시 : 2017. 4. 6.(목) 18:00 ~ 21:00</p>
-                    <p>- 장    소 : 인천 문학경기장</p>
-                    <p>- 모집인원 : 8명</p>
+                    <p>- 일    시 : <%= data.happyday_dt %><%= data.start_time %></p>
+                    <p>- 장    소 : <%= data.place_name %></p>
+                    <p>- 모집인원 : <%= data.num_participants %>명</p>
                     <p>  * 모집 조건(타 SM구성원 2명 이상 참가)</p>
-                    <p>- 모집기간 : 2017. 3. 27.(월) ~ 4. 4(화)</p>
-                    <p>- 참가포인트 : 2,500P <div class="ui floating labeled icon dropdown button">
+                    <p>- 모집기간 : <%= data.reg_dtm %> ~ <%= data.dday_dt %></p>
+                    <p>- 참가포인트 : <%= data.req_point%>P <div class="ui floating labeled icon dropdown button">
                             <i class="filter icon"></i>
                             <span class="text">상세내역보기</span>
                             <div class="menu">
@@ -160,8 +160,7 @@
                         </div>
                     </p>
                     <p>-내     용</p>
-                    <p>안녕하세요. MVNO/텔링크 오원석입니다.</p>
-                    <p>많은 지원바랍니다.</p>
+                    <p><%= data.happyday_contents %></p>
                 </div>
                 
                 <div class="ui segment">
