@@ -27,7 +27,7 @@ module.exports = function(app, connectionPool) {
         console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_master a, user b, com_org c where 1=1 and a.reg_user_id = b.id and b.sm_id = c.org_id and a.happyday_id = ?;', req.params.id, function(error, rows) {
+            connection.query('select hp.*, hm.*, us.* from happyday_post hp, happyday_master hm, user us where hp.happyday_id = ? and hp.happyday_id = hm.happyday_id and hp.user_id = us.id;', req.params.id, function(error, rows) {
                 
                 console.log("rows : " + rows.length);
                 
@@ -36,7 +36,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('postlist', {data : rows[0], session : req.session});
+                        res.render('postlist', {data : rows, session : req.session});
                         connection.release();                                         
                     }else {
                         res.redirect('/');
