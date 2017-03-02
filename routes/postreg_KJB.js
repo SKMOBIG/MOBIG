@@ -28,11 +28,8 @@ module.exports = function(app, connectionPool) {
      app.post('/postregist', function(req, res, next) {
         //  console.log(req.body);
         // console.log(req.session.user_name);
-        // console.log("ID :  " + req.session.id);
-        // console.log("마일리지 : " + req.session.mileage);
-         connectionPool.getConnection(function(err, connection) {
-            connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm) value( 1,?,"?","?", date_format(sysdate(), "%Y%m%d%H%i%s"), "99991231235959");',
-            // [req.session.user_name, req.body.post_title, req.body.post_content], function(error, rows)
+       connectionPool.getConnection(function(err, connection) {
+            connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm) value( 1,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"));',
             [req.session.user_id, req.body.post_title, req.body.post_content], function(error, rows) 
             {
                 // console.log("rows : " + rows.length);
@@ -48,14 +45,35 @@ module.exports = function(app, connectionPool) {
         });
     });
     
+    app.post('/postgetdata', function(req, res, next) {
+         connectionPool.getConnection(function(err, connection) {
+            connection.query('select hp.*, us.user_name from happyday_post hp, user us where hp.happyday_id = ? and hp.post_id = ? and hp.user_id = us.id;', ['1', req.body.postid], function(error, rows) {
+                // console.log("rows : " + rows.length);
+                 
+                if(error) {
+                    // console.log("error")
+                    connection.release();
+                    throw error;
+                }else {
+                    if(rows.length > 0) {
+                        // console.log(" user_name "+rows[0].user_name)
+                        res.send({datas : rows[0], session : req.session});
+                        connection.release();
+                    }else {
+
+                    }    
+                }
+            });
+        });
+    });
+    
     app.post('/postupdate', function(req, res, next) {
-        //  console.log(req.body);
-        // console.log("ID :  " + req.session.id);
-        // console.log("마일리지 : " + req.session.mileage);
+        console.log("들어와라");
+         console.log(req.body);
         
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_post where happyday_id = 1 and post_id =?;',
-            [1, req.body.post_id], function(error, rows) 
+            connection.query('update happyday_post set post_title = ?, post_content=?, modify_dtm = date_format(sysdate(), "%Y%m%d%H%i%s") where post_id = ?;',    
+            [req.body.post_title, req.body.post_content, 60], function(error, rows) 
             {
                 // console.log("rows : " + rows.length);
                 if(error) {
@@ -70,24 +88,4 @@ module.exports = function(app, connectionPool) {
         });
     });
     
-    
-         app.post('/postgetdata', function(req, res, next) {
-         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', ['1', '11111'], function(error, rows) {
-                 console.log("rows : " + rows.length);
-                if(error) {
-                    connection.release();
-                    throw error;
-                }else {
-                    if(rows.length > 0) {
-                        console.log(" ㅋㅋ"+rows[0].user_name)
-                        res.send({datas : rows[0], session : req.session});
-                        connection.release();
-                    }else {
-
-                    }    
-                }
-            });
-        });
-    });
 }

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>B2B사업팀 HappyDay</title>
+<!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+<!-- Bootstrap Core CSS -->
+
+        <script src="../javascripts/jquery.js"></script>
+    <script src="../javascripts/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+
+
+
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+    <script src="/dist/semantic.min.js"></script>
+    
+    <script type="text/javascript">
+      function goPost(id){
+        location.href='../post/'+id; 
+    }
+    
+    function showContent(id){
+
+        	$.ajax({
+	        type: "post",
+	        url : "/postgetdata",
+	        data: {
+       			postid : id
+	        },
+        success:function(data){ 
+        	
+        	// alert ("<%= data.user_name %>")
+        	var year =data.datas.modify_dtm.substring(0,4);
+        	var month = data.datas.modify_dtm.substring(4,6);
+        	var date = data.datas.modify_dtm.substring(6,8);
+        	var hour = data.datas.modify_dtm.substring(8,10);
+        	var minute = data.datas.modify_dtm.substring(10,12);
+        	var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
+        	
+        	if("<%=data.user_name %>" == data.datas.user_name )
+        	{
+        		$('#happyday_post_update').show()
+        		$('#happyday_post_delete').show()
+      		} 
+      		else 
+      		{
+        		$('#happyday_post_update').hide()
+        		$('#happyday_post_delete').hide()
+      		}    
+        	// alert(data.datas.post_id)
+        	$("#postselect_title").html(data.datas.post_title);
+        	$("#postselect_writer").html(data.datas.user_name);
+        	$("#postselect_time").html(dtm);
+        	$("#postselect_content").html(data.datas.post_content);
+        
+            $('.ui.modal.Select').modal('show');
+        },
+        error:function(e){  
+            alert(e.responseText);  
+        }  
+     	});
+}
+    </script>
+<style type="text/css">
+        @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+        body {
+            font-family: 'Jeju Gothic', serif !important;
+             padding-top: 80px;
+        }
+        .ui.card > .content > .header, .ui.cards > .card > .content > .header {
+            display: block;
+            font-family:  'Jeju Gothic', serif;
+            color: rgba(0,0,0,.85);
+        }
+        .ui link cards {
+            margin-top: 30p;
+        }
+        .navbar-inverse .navbar-brand {
+            color: #ffffff;
+        }
+        .navbar-inverse .navbar-collapse,
+        .navbar-inverse .navbar-form {
+            border-color: #fff;
+        }
+        .navbar-inverse .navbar-toggle {
+            border-color: #fff;
+        }
+        .navbar-inverse {
+            background-color: #FFCC00;
+            border-color: #FFCC00;
+        }
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<% include ./partials/navigation.ejs %>
+<!-- Page Content -->
+<div class="container">
+	<div class="content">
+		<div class="header" href="#">
+			<h1><%=data.happyday_name %></h1>
+		</div>
+		<div class="ui segment">
+			<img class="ui centered fluid image" src=<%=data[0].img_url%>>
+			<div class="yellow two ui buttons">
+				<button class="ui button">상세보기</button>
+				<button class="ui button" onclick="javascript:goPost('<%=HPid.id%>')">후기보기</button>
+			</div>
+			<p>
+			</p>
+			<% for (var i=0; i < data.length; i++) { %>
+			<div class="ui segment" onclick=javascript:showContent("<%=data[i].post_id %>") >
+				<p>
+					<%=data[i].post_title %>
+					<input type="text" value=<%=data[i].post_id %>>
+				</p>
+				<p>
+					<%=data[i].user_name %> 시간
+				</p>
+			</div>
+			<% } %>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--조회모달 start-->
+<div class="ui modal Select">
+	<div class="header">
+		<h2 id='postselect_title'></h2>
+	</div>
+	<!-- modal header -->
+	<div class="content">
+		<div class="ui items">
+			<div class="item">
+				<div class="image">
+					<img src="http://ph.joongboo.com/news/photo/201609/1104374_1013213_0804.jpg">
+				</div>
+				<div class="content">
+					<a class="header" id="postselect_writer">작성자</a>
+					<div class="meta">
+						<span id="postselect_time">시간</span>
+					</div>
+					<div class="description">
+						<p id="postselect_content">
+							 해피데이 내용
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="actions">
+		<button class="ui primary button" id="happyday_post_update"> Update </button>
+		<button class="negative ui button" id="happyday_post_delete"> Delete </button>
+		<!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
+		<div class="ui button" onclick=javascript:modalClose()> Cancel </div>
+	</div>
+</div>
+<!--조회 모달 end-->
+
+
+
+
+
+
+</body>
+</html>
