@@ -1,67 +1,99 @@
-    <style type="text/css">
-        .navbar-inverse .navbar-brand {
-            color: #ffffff;
-        }
-        
-        .navbar-inverse .navbar-collapse,
-        .navbar-inverse .navbar-form {
-            border-color: #fff;
-        }
-        
-        .navbar-inverse .navbar-toggle {
-            border-color: #fff;
-        }
-        
-        .navbar-inverse {
-            background-color: #FFCC00;
-            border-color: #FFCC00;
-        }
-        
-        .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
-    background-color: #FFCC00;
-}
-
-.navbar-inverse .navbar-nav>li>a {
-    color: #fff;
-}
-    </style>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.right.menu.open').on("click", function(e) {
+            e.preventDefault();
+$('.ui.labeled.icon.sidebar')
+  .sidebar('toggle')
+;
+       
+       
+        });
 
 
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">HappyApp</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/user">나의 정보</a>
-                    </li>
-                    <li>
-                        <a href="/detail/1">상세보기</a>
-                    </li>
-                    <li>
-                        <a href="/hdregist">해피데이등록</a>
-                    </li>
-                    <li>
-                        <a href="/postreg_KJB">후기등록</a>
-                    </li>
-                    <li>
-                        <a href="/hdmain">메인</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+
+        $('.ui.dropdown').dropdown();
+    });
+</script>
+
+
+<style type="text/css">
+    /*공통*/
+    
+    .ui.grid.main {
+        margin-top: 70px;
+    }
+    
+    .mobile.row {
+        padding-top: 0px !important;
+        margin-top: 0px !important;
+    }
+    
+    .mobile.row .ui.inverted.menu {
+        border-radius: 0px !important;
+    }
+    
+    .padding-reset {
+        padding: 0px !important;
+    }
+    
+    .ui.message {
+        padding: 40px !important;
+    }
+    
+    @media (max-width: 767px) {
+        .ui.grid.main {
+            margin-top: 70px;
+        }
+        .ui.grid {
+            margin: 0 !important;
+        }
+        .ui.vertical.menu.navbar {
+            margin-top: 0px !important;
+        }
+    }
+    
+    .ui.vertical.menu {
+        width: 100%;
+        display: none;
+    }
+    
+    
+</style>
+
+
+
+<div class="ui grid">
+    <div class="computer tablet only row">
+        <div class="ui inverted fixed menu navbar page grid">
+            <a href="" class="brand item">HappyApp</a>
+            <a href="/hdmain" class="active item">메인</a>
+            <a href="/user" class="item">마이페이지</a>
+            <a href="/detail/1" class="item">상세보기</a>
+            <a href="/hdregist" class="item">해피데이등록</a>
+            <a href="/postreg_KJB" class="item">후기등록</a>
         </div>
-        <!-- /.container -->
-    </nav>
+    </div>
+    <div class="mobile only row">
+        <div class="ui fixed inverted navbar menu">
+            <a href="" class="brand item">HappyApp</a>
+            <div class="right menu open">
+                <a href="" class="menu item">
+                    <i class="content icon"></i>
+                </a>
+            </div>
+        </div>
+        
+        
+ <div class="ui left demo vertical inverted sidebar labeled icon menu">
+            <a href="/hdmain" class="active item">메인</a>
+            <a href="/user" class="item">마이페이지</a>
+            <a href="/detail/1" class="item">상세보기</a>
+            <a href="/hdregist" class="item">해피데이등록</a>
+            <a href="/postreg_KJB" class="item">후기등록</a>
+</div>
+        
+        
+    </div>
+</div>
+
