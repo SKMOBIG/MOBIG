@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>B2B사업팀 HappyDay</title>
+    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+    
+    <script src="../javascripts/jquery.js"></script>
+    <script src="../javascripts/jquery.min.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/stylesheets/shop-homepage.css" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+    <script src="/dist/semantic.min.js"></script>
+    
+    <script src="../javascripts/bootstrap.min.js"></script>
+    <script src="../javascripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+    </script>
+    
+    <script type="text/javascript">
+    
+        function goDetail(id) {
+            location.href = '../../detail/' + id;
+        }
+        
+        function goPostList(id) {
+            location.href = '../../detail/' + id + '/postlist';
+        }
+        
+    </script>
+    
+    
+    <style type="text/css">
+        @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+        body {
+            font-family: 'Jeju Gothic', serif !important;
+            padding-top: 80px;
+            background-color:#e2e2e2;
+        }
+        
+        .ui.card>.content>.header,
+        .ui.cards>.card>.content>.header {
+            display: block;
+            font-family: 'Jeju Gothic', serif;
+            color: rgba(0, 0, 0, .85);
+        }
+        
+        .ui link cards {
+            margin-top: 30p;
+        }
+        
+        .ui.image.label {
+            margin-top: .4em;
+        }
+        
+
+        
+    </style>
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <% include ./partials/navigation.ejs %>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="content">
+            <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
+
+            <div class="ui segment">
+                <img class="ui centered fluid image" src=<%=data.img_url%>>
+                <div class="yellow two ui buttons">
+                    <button class="ui button" onClick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
+                    <button class="ui button" onClick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
+                </div>
+                <p> </p>
+                <button class="ui button">후기 1</button>
+            </div>
+
+    </div>
+</body>
+
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Profile Picture
+    </div>
+    <div class="image content">
+        <div class="ui medium image">
+            <img src="/images/avatar/large/chris.jpg">
+        </div>
+        <div class="description">
+            <div class="ui header">We've auto-chosen a profile image for you.</div>
+            <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+            <p>Is it okay to use this photo?</p>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Nope
+        </div>
+        <div class="ui positive right labeled icon button">
+            Yep, that's me
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+
+
+</html>

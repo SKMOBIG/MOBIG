@@ -11,13 +11,13 @@ module.exports = function(app, connectionPool) {
     
     /*POST방식은 HTTP HEADER를 통해 데이터를 넘겨주는 방식 */
     
-    app.post('/detail', function(req, res){
+    app.post('/', function(req, res){
   
     });
     
     
     /*GET방식은 URL을 통해 데이터를 넘겨주는 방식 */
-    app.get('/detail/:id', function(req, res, next) {
+    app.get('/detail/:id/postlist', function(req, res, next) {
         
         /* session 없을 땐 로그인 화면으로*/
         if(!req.session.user_name) {
@@ -36,22 +36,8 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        connection.query('select t1.user_name, t3.org_nm from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ?) t2, com_org t3 where t1.id = t2.user_id and t1.sm_id = t3.org_id;', req.params.id, function(error, rows1){
-                            console.log("haha :" + rows1[0].user_name);
-                            if(error){
-                                connection.release();
-                                throw error;
-                            }else {
-                                if(rows1.length > 0){
-                                    res.render('detail', {data : rows[0], data1 : rows1, session : req.session});
-                                    connection.release();
-                                }else {
-                                    res.redirect('/');
-                                    connection.release();
-                                }
-                            }
-                        });
-                      //  connection.release();                                         
+                        res.render('postlist', {data : rows[0], session : req.session});
+                        connection.release();                                         
                     }else {
                         res.redirect('/');
                         connection.release();

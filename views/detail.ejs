@@ -11,6 +11,9 @@
 
     <title>B2B사업팀 HappyDay</title>
     <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+    
+    <script src="../javascripts/jquery.js"></script>
+    <script src="../javascripts/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -20,93 +23,58 @@
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
     
-    <script src="../javascript/bootstrap.min.js"></script>
-    <script src="../javascript/bootstrap.js"></script>
-    <script src="../javascript/jquery.js"></script>
-    <script src="../javascript/jquery.min.js"></script>
+    <script src="../javascripts/bootstrap.min.js"></script>
+    <script src="../javascripts/bootstrap.js"></script>
+
     <script type="text/javascript">
     </script>
+    
+    <script type="text/javascript">
+    
+        function goDetail(id) {
+            location.href = '../detail/' + id;
+        }
+        
+        function goPostList(id) {
+            location.href = '../detail/' + id + '/postlist';
+        }
+        
+    </script>
+    
     
     <style type="text/css">
         @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
         body {
             font-family: 'Jeju Gothic', serif !important;
-             padding-top: 80px;
+            padding-top: 80px;
+            background-color:#e2e2e2;
         }
         
-        .ui.card > .content > .header, .ui.cards > .card > .content > .header {
+        .ui.card>.content>.header,
+        .ui.cards>.card>.content>.header {
             display: block;
-            font-family:  'Jeju Gothic', serif;
-            color: rgba(0,0,0,.85);
+            font-family: 'Jeju Gothic', serif;
+            color: rgba(0, 0, 0, .85);
         }
-
+        
         .ui link cards {
             margin-top: 30p;
         }
         
-        .navbar-inverse .navbar-brand {
-            color: #ffffff;
+        .ui.image.label {
+            margin-top: .4em;
         }
         
-        .navbar-inverse .navbar-collapse,
-        .navbar-inverse .navbar-form {
-            border-color: #fff;
-        }
+
         
-        .navbar-inverse .navbar-toggle {
-            border-color: #fff;
-        }
-        
-        .navbar-inverse {
-            background-color: #FFCC00;
-            border-color: #FFCC00;
-        }
     </style>
 
 </head>
 
 <body>
-
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-        
-        <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">B2B사업팀 HappyApp</a>
-            </div>
-        
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">해피데이</a>
-                    </li>
-                    <li>
-                        <a href="#">칭찬합시다</a>
-                    </li>
-                    <li>
-                        <a href="#">기타</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+    <% include ./partials/navigation.ejs %>
 
-
- <!--   <a class="navbar-brand" href="#">[스포츠] SK vs 한화 인생경기 관람!!</a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class= "glyphicon glyphicon-arrow-left" aria-hidden="true" ></span>
-        </button>
-        보류-->
     <!-- Page Content -->
     <div class="container">
         <div class="content">
@@ -115,8 +83,8 @@
             <div class="ui segment">
                 <img class="ui centered fluid image" src=<%=data.img_url%>>
                 <div class="yellow two ui buttons">
-                    <button class="ui button">상세보기</button>
-                    <button class="ui button">후기보기</button>
+                    <button class="ui button" onClick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
+                    <button class="ui button" onClick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
                 </div>
                 <p> </p>
                 <div class="image">
@@ -143,7 +111,7 @@
                 </div>
                 
                 <div class="ui segment">
-                    <p>- 일    시 : <%= data.happyday_dt %><%= data.start_time %></p>
+                    <p>- 일    시 : <%= data.happyday_dt %></p>
                     <p>- 장    소 : <%= data.place_name %></p>
                     <p>- 모집인원 : <%= data.num_participants %>명</p>
                     <p>  * 모집 조건(타 SM구성원 2명 이상 참가)</p>
@@ -168,12 +136,14 @@
                 </div>
                 
                 <div class="image"> * 신청현황보기 (3/8)
-                    <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alret('나는 오원석이다!!')">
-                    <span> 오원석(MVNO/텔링크) </span></p>
-                    <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alret('나는 오원석이다!!')"> 
-                    <span> 이종원(MVNO/텔링크) </span></p>
-                    <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alret('나는 오원석이다!!')"> 
-                    <span> 임현우(B2B플랫폼) </span></p>
+
+                    <% for (var i = 0; i < data1.length; i++) { %>
+                        <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
+                        <span> <%=data1[i].user_name%> (<%=data1[i].org_nm%>) </span></p>
+                       
+                    <% } %>
+                    
+                    
                 </div>
                 
             </div>
