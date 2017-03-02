@@ -42,6 +42,49 @@
         $('input').attr('readonly',true);
       }
       
+      function update() {
+        if(page_user_id != session_user_id) {
+          alert("로그인한 사용자가 현재 정보의 사용자가 아닙니다.");
+          
+        } else {
+          
+          /* Ajax로 정보 업데이트 */
+          var httpRequest;
+          if(window.XMLHttpRequest) {
+            httpRequest = new XMLHttpRequest(); 
+          } else if(window.ActiveXObject) {
+            try {
+              httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch(e) {
+              try {
+                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");  
+              } catch(e) {}
+            }
+          }
+          
+          if(!httpRequest) {
+            alert('Cannot create an XMLHTTP instance');
+            return false;
+          }
+          
+          httpRequest.onreadystatechange = updateAjax;
+          httpRequest.open('GET', url);
+          httpRequest.send();
+        }
+      }
+      
+      function updateAjax() {
+        if(httpRequest.readyState === 4) {
+          if(httpRequest.status === 20) {
+            /*
+             * TODO : 처리
+             */
+          } else {
+            alert("There was a problem with the request");
+          }
+        }
+      }
+      
       
     </script>
     
@@ -165,7 +208,6 @@
           <div class="ui card">
             <div class="content">
               <i class="right floated like icon"></i>
-              <i class="right floated star icon"></i>
               <div class="header">TEAM ACTIVITY</div> <!-- junior : child, senior : spy, manager : users -->
             </div>
             <div class="content">
@@ -175,7 +217,7 @@
                 <div class="content">
                   <div class="summary">
                     <div class="ui left icon input">
-                       <input type="text" value=<%=data.hd_point%>>
+                       <input type="text" value=<%=data.happy_point%> readonly>
                        <i class="large product hunt icon"></i>
                     </div>
                   </div>
@@ -185,23 +227,13 @@
                 <div class="content">
                   <div class="summary">
                     <div class="ui left icon input">
-                       <input type="text" value=<%=data.mileage%>>
+                       <input type="text" value=<%=data.mileage%> readonly>
                        <i class="large gift icon"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="extra content">
-              <span class="left floated like">
-                <i class="like icon"></i>
-                Like
-              </span>
-              <span class="right floated star">
-                <i class="star icon"></i>
-                Favorite
-              </span>
-            </div> <!-- end div of team act card -->  
           </div>  
         </div>
       </div> <!-- end div of grid -->
