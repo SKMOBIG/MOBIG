@@ -44,8 +44,12 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        console.log('왜이래');
-                        res.send({users : rows, session : req.session});
+                        var peoplelist='';  
+                        for(var i=0; i<rows.length; i++){
+                            peoplelist+="<div class=card'> <div class='image'> <img src='"+rows[i].user_img+"' class='ui small circular image'></div>"+rows[i].user_name+" </div>";
+                        }
+ 
+                        res.send({peoplelist : peoplelist, session : req.session});
                         connection.release();
                     }else {
 

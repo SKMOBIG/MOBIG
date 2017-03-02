@@ -53,9 +53,15 @@
                 },
 
                 success: function(data) {
-                    /*alert(data.users[1].user_name);*/
-                    $('.small.modal')
-                        .modal('show');
+                    
+                    alert(data.peoplelist)
+                    $('#cards').html(data.peoplelist);
+                    $('#partymodal').modal('show');
+                    
+                    
+                    
+                   
+                    
                 },
                 error: function(e) {
                     alert(e.responseText);
@@ -68,11 +74,7 @@
 
 
     <style type="text/css">
-        @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
-        body {
-            font-family: 'Jeju Gothic', serif !important;
-            background-color: #e2e2e2;
-        }
+
         
         .ui.card>.content>.header,
         .ui.cards>.card>.content>.header {
@@ -169,7 +171,7 @@
                     </div>
 
                     <div class="extra content">
-                        <span onclick="javascript:showParticipants('<%=data[i].happyday_id%>')"><i class="user icon"></i>현재 참가자 (<%=data[i].num_participants-data[i].vacancy%>명)</span>
+                        <span onclick="javascript:showParticipants('<%=data[i].happyday_id%>')"><i class="user icon"></i>현재 참가자 (<%=data[i].num_participants-data[i].vacancy%>명 클릭해서 확인)</span>
 
                     </div>
 
@@ -192,20 +194,22 @@
 
 
 
-    <div class="ui small test modal">
+    <div class="ui small test modal" id='partymodal'>
         <div class="header">
-            Delete Your Account
+            현재 참가자
         </div>
         <div class="content">
-            <p>Are you sure you want to delete your account</p>
+            <div id="cards" class="ui eight doubling cards">
+<!--카드들..-->
+      
+      
+    </div>
+            
+            
         </div>
         <div class="actions">
-            <div class="ui negative button">
-                No
-            </div>
-            <div class="ui positive right labeled icon button">
-                Yes
-                <i class="checkmark icon"></i>
+            <div class="ui positive button">
+                확인
             </div>
         </div>
     </div>
