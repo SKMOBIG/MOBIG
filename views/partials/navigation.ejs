@@ -19,7 +19,14 @@ $('.ui.labeled.icon.sidebar')
 
 <style type="text/css">
     /*공통*/
-    
+            @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+        body {
+            font-family: 'Jeju Gothic', serif !important;
+            background-color: #e2e2e2;
+        }
+        
+        
+        
     .ui.grid.main {
         margin-top: 70px;
     }
@@ -58,15 +65,22 @@ $('.ui.labeled.icon.sidebar')
         display: none;
     }
     
+    .ui.inverted.menu {
+    font-family: 'Jeju Gothic', serif !important;
+    background: #FBBD08;
+        font-size: 1rem;
+}
+
+
     
 </style>
 
 
 
-<div class="ui grid">
+<div class="ui grid" style="margin-bottom:50px">
     <div class="computer tablet only row">
         <div class="ui inverted fixed menu navbar page grid">
-            <a href="" class="brand item">HappyApp</a>
+            <a href="" class="brand item" style="font-size:1.2rem">HappyApp</a>
             <a href="/hdmain" class="active item">메인</a>
             <a href="/user" class="item">마이페이지</a>
             <a href="/detail/1" class="item">상세보기</a>
@@ -74,9 +88,9 @@ $('.ui.labeled.icon.sidebar')
             <a href="/postreg_KJB" class="item">후기등록</a>
         </div>
     </div>
-    <div class="mobile only row">
+    <div class="mobile only row"  style="margin-bottom:50px">
         <div class="ui fixed inverted navbar menu">
-            <a href="" class="brand item">HappyApp</a>
+            <a href="" class="brand item" style="font-size:1.2rem">HappyApp</a>
             <div class="right menu open">
                 <a href="" class="menu item">
                     <i class="content icon"></i>
