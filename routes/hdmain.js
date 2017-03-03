@@ -46,7 +46,7 @@ module.exports = function(app, connectionPool) {
                     if(rows.length > 0) {
                         var peoplelist='';  
                         for(var i=0; i<rows.length; i++){
-                            peoplelist+="<div class=card'> <div class='image'> <img src='"+rows[i].user_img+"' class='ui small circular image'></div>"+rows[i].user_name+" </div>";
+                            peoplelist+="<a class='ui label'> <img class='ui right spaced avatar image' src='"+rows[i].user_img+"' style='width: 4em; height: 4em; border-radius: 500rem;'> "+rows[i].user_name+" </a>";
                         }
  
                         res.send({peoplelist : peoplelist, session : req.session});
