@@ -10,6 +10,7 @@
 <script type="text/javascript">
     function modalClose(){
 		 $('.ui.modal').modal('hide');
+		 window.location.reload();
 	}
         function goDetail(id) {
             location.href = '../../detail/' + id;
@@ -164,7 +165,7 @@
 			
 				</h3>
 				<p>
-					<%=postdata[i].user_name %>&nbsp;&nbsp;&nbsp;&nbsp;<%=postdata[i].date %>
+					<%=postdata[i].user_name %>&nbsp;&nbsp;&nbsp;&nbsp;<%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp;<i class="unhide icon"></i><%=postdata[i].post_count %>
 				</p>
 			</div>
 			<% } %>

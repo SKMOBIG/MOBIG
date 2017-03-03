@@ -48,27 +48,7 @@ module.exports = function(app, connectionPool) {
             });
             
         });
-        
-        
-        
-        //  connectionPool.getConnection(function(err, connection) {
-        //     connection.query('select hp.*, hm.*, us.* from happyday_post hp, happyday_master hm, user us where hp.happyday_id = ? and hp.happyday_id = hm.happyday_id and hp.user_id = us.id order by post_id desc;', req.params.id, function(error, rows) {
-                
-        //         if(error) {
-        //             connection.release();
-        //             throw error;
-        //         }else {
-        //             if(rows.length >= 0) {
-        //                 res.render('postlist', {data : rows, session : req.session});
-        //                 connection.release();                                         
-        //             }else {
-        //                 res.redirect('/');
-        //                 connection.release();
-        //             }    
-        //         }
-        //     });
-            
-        // });
+  
     });
     
     
@@ -77,10 +57,9 @@ module.exports = function(app, connectionPool) {
     
        connectionPool.getConnection(function(err, connection) {
         //   console.log("aa"+req.body.happyID);
-            connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm) value( ?,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"));',
-            [req.body.happyID,  req.session.user_id, req.body.post_title, req.body.post_content], function(error, rows) 
+            connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm, post_count) value( ?,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"),0);',
+            [req.body.happyID,  req.session.user_id, req.body.post_title, ㄱreq.body.post_content], function(error, rows) 
             {
-        
                 if(error) {
                     connection.release();
                     throw error;
@@ -103,9 +82,19 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
+                        //view count update +1
+                        connection.query('update happyday_post set post_count = post_count +1 where post_id = ?;', req.body.postid, function(error, rows1) {
+                            if(error){
+                                connection.release();
+                                throw error;
+                            }else {
+                                    res.send({datas : rows[0], session : req.session});
+                                    connection.release();
+                            }
+                        });
                         
-                        res.send({datas : rows[0], session : req.session});
-                        connection.release();
+                         
+                       
                     }else {
 
                     }    
