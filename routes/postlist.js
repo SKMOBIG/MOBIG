@@ -20,16 +20,16 @@ module.exports = function(app, connectionPool) {
                 }else {
                     // console.log(rows);
                     if(rows.length > 0) {
-                        console.log(req.params.id);
+                        // console.log(req.params.id);
                         connection.query('select hp.*, hm.*, us.*, concat(left(hp.modify_dtm,4) ,".",substring(hp.modify_dtm,5,2),".",substring(hp.modify_dtm,7,2)) as date  from happyday_post hp, happyday_master hm, user us where hp.happyday_id = ? and hp.happyday_id = hm.happyday_id and hp.user_id = us.id order by post_id desc;', req.params.id, function(error, rows1) {
-                            // console.log("bb");
+                            
                             if(error){
-                                // console.log("cc");
+                            
                                 connection.release();
                                 throw error;
                             }else {
                                 if(rows1.length >= 0){
-                                    // console.log(req.session);
+                            
                                     res.render('postlist', {data : rows[0], postdata : rows1, session : req.session});
                                     connection.release();
                                 }else {
@@ -74,10 +74,11 @@ module.exports = function(app, connectionPool) {
     
     app.post('/postregist_KJB', function(req, res, next) {
         
-        
+    
        connectionPool.getConnection(function(err, connection) {
-            connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm) value( 1,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"));',
-            [req.session.user_id, req.body.post_title, req.body.post_content], function(error, rows) 
+        //   console.log("aa"+req.body.happyID);
+            connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm) value( ?,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"));',
+            [req.body.happyID,  req.session.user_id, req.body.post_title, req.body.post_content], function(error, rows) 
             {
         
                 if(error) {
