@@ -24,12 +24,12 @@ module.exports = function(app, connectionPool) {
             res.redirect('/');
         }
     
-        console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
+        // console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
         connectionPool.getConnection(function(err, connection) {
             connection.query('select * from happyday_master a, user b, com_org c where 1=1 and a.reg_user_id = b.id and b.sm_id = c.org_id and a.happyday_id = ?;', req.params.id, function(error, rows) {
                 
-                console.log("rows : " + rows.length);
+                // console.log("rows : " + rows.length);
                 
                 if(error) {
                     connection.release();
@@ -37,7 +37,7 @@ module.exports = function(app, connectionPool) {
                 }else {
                     if(rows.length > 0) {
                         connection.query('select t1.user_name, t3.org_nm from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ?) t2, com_org t3 where t1.id = t2.user_id and t1.sm_id = t3.org_id;', req.params.id, function(error, rows1){
-                            console.log("haha :" + rows1[0].user_name);
+                            // console.log("haha :" + rows1[0].user_name);
                             if(error){
                                 connection.release();
                                 throw error;
