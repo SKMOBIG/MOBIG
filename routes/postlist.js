@@ -58,7 +58,7 @@ module.exports = function(app, connectionPool) {
        connectionPool.getConnection(function(err, connection) {
         //   console.log("aa"+req.body.happyID);
             connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm, post_count) value( ?,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"),0);',
-            [req.body.happyID,  req.session.user_id, req.body.post_title, ㄱreq.body.post_content], function(error, rows) 
+            [req.body.happyID,  req.session.user_id, req.body.post_title, req.body.post_content], function(error, rows) 
             {
                 if(error) {
                     connection.release();
