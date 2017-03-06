@@ -36,7 +36,8 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('postlist', {data : rows, session : req.session});
+                        console.log("req.params : " + req.params);
+                        res.render('postlist', {data : rows, data2 : req.params, session : req.session});
                         connection.release();                                         
                     }else {
                         res.redirect('/');

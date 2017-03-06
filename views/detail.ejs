@@ -26,8 +26,8 @@
     <script src="../javascripts/bootstrap.min.js"></script>
     <script src="../javascripts/bootstrap.js"></script>
 
-    <script type="text/javascript">
-    </script>
+    <script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src = "https://openapi.map.naver.com/openapi/v3/maps.js?clientId=ooScMbXZjXvHRXASb8X8"></script>
     
     <script type="text/javascript">
     
@@ -40,8 +40,7 @@
         }
         
     </script>
-    
-    
+
     <style type="text/css">
         @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
         body {
@@ -65,7 +64,7 @@
             margin-top: .4em;
         }
         
-
+        #mapArea{margin-bottom:20px;width:100%;height:300px;clear:both;}
         
     </style>
 
@@ -93,8 +92,8 @@
                 </div>
                 <div class="meta">
                     <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
-                    <span class="right floated">작성일 : <%= data.reg_dtm %> </span>
                     <p> </p>
+                    <span class="right floated">등록 : <%= data.reg_dtm %> </span>
                 </div>
                 
                 <div class="ui labeled button" tabindex="0">
@@ -111,11 +110,11 @@
                 </div>
                 
                 <div class="ui segment">
-                    <p>- 일    시 : <%= data.happyday_dt %></p>
+                    <p>- 일    시 : <%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></p>
                     <p>- 장    소 : <%= data.place_name %></p>
                     <p>- 모집인원 : <%= data.num_participants %>명</p>
-                    <p>  * 모집 조건(타 SM구성원 2명 이상 참가)</p>
-                    <p>- 모집기간 : <%= data.reg_dtm %> ~ <%= data.dday_dt %></p>
+                    <p>  * 모집 조건 : 타 SM구성원 2명 이상 참가</p>
+                    <p>- 모집기간 : <%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>) </p>
                     <p>- 참가포인트 : <%= data.req_point%>P <div class="ui floating labeled icon dropdown button">
                             <i class="filter icon"></i>
                             <span class="text">상세내역보기</span>
@@ -130,20 +129,29 @@
                     <p>-내     용</p>
                     <p><%= data.happyday_contents %></p>
                 </div>
-                
+
                 <div class="ui segment">
-                    <img class="ui centered fluid image" src="http://cfile26.uf.tistory.com/image/18670B3B4E6435E6347713">    
+                    <div id="mapArea"></div>
+                    <script>
+                        var map = new naver.maps.Map('mapArea', {
+                            center: new naver.maps.LatLng(37.435056, 126.690760),
+                            zoom:11
+                        });
+
+                        var marker = new naver.maps.Marker({
+                            position:new naver.maps.LatLng(37.435056, 126.690760),
+                            map : map
+                        });
+                         ///
+                    </script>
                 </div>
                 
                 <div class="image"> * 신청현황보기 (3/8)
-
                     <% for (var i = 0; i < data1.length; i++) { %>
                         <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
                         <span> <%=data1[i].user_name%> (<%=data1[i].org_nm%>) </span></p>
                        
                     <% } %>
-                    
-                    
                 </div>
                 
             </div>
