@@ -10,13 +10,14 @@
 <script type="text/javascript">
     function modalClose(){
 		 $('.ui.modal').modal('hide');
-		 window.location.reload();
+		 //close modal then show view count directly
+		 //window.location.reload();
 	}
         function goDetail(id) {
             location.href = '../../detail/' + id;
         }
         function goPostList(id) {
-        	alert("aa");
+        	// alert("aa");
             location.href = '../../detail/' + id + '/postlist';
         }
         
@@ -108,6 +109,36 @@
     function PostReg(id) {
         $('.ui.modal.Reg').modal('show');
     }
+    
+    //정합성 체크
+    $(document).ready(function() {
+        $('.ui.form.segment').form
+        ({
+          fields: 
+          {
+            post_title: 
+            {
+              identifier: 'post_title',
+              rules: 
+              [{
+                type: 'empty',
+                prompt: '제목이 없어요ㅜㅜ'
+              }]
+            },
+            post_content: 
+            {
+              identifier: 'post_content',
+              rules: 
+              [{
+                type: 'empty',
+                prompt: '냉무??'
+              }]
+            }
+          }
+        });
+      });
+    
+    
     </script>
 <style type="text/css">
         @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -157,6 +188,7 @@
 			</div>
 			<p>
 			</p>
+			
 			<% for (var i=0; i < postdata.length; i++) { %>
 			<div class="ui segment" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
 				<h3>
@@ -250,8 +282,6 @@
 	</div>
 </form>
 <!--조회 모달 end-->
-</body>
-</html>
 <!--수정 모달 start-->
 <div class="ui modal Update">
 	<form class="ui form segment" name="postupdatemodal" action="/postupdate_KJB" method="post">
@@ -282,4 +312,10 @@
 	</form>
 </div>
 <!--수정모달 end	-->
+
+
+
+</body>
+</html>
+
 
