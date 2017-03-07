@@ -171,6 +171,70 @@
 </style>
 </head>
 <body>
+<<<<<<< HEAD
+    <!-- Navigation -->
+    <% include ./partials/navigation.ejs %>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="content">
+            <div class="header" href="#"><h1><%= data[0].happyday_name %></h1></div>
+
+            <div class="ui segment">
+                <img class="ui centered fluid image" src=<%=data[0].img_url%>>
+                <div class="yellow two ui buttons">
+                    <button class="ui button" onClick="javascript:goDetail('<%=data2.id%>')">상세보기</button>
+                    <button class="ui button" onClick="javascript:goPostList('<%=data2.id%>')">후기보기</button>
+                </div>
+                <p> </p>
+                <% for (var i=0; i < data.length; i++) { %>
+                    <div class="ui segment" onclick=javascript:showContent("<%=data[i].post_id %>") >
+                    <p>
+                    <%=data[i].post_title %>
+                    <input type="text" value=<%=data[i].post_id %>>
+                    </p>
+                    <p>
+                    <%=data[i].user_name %> 시간
+                    </p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+ 
+<!--조회모달 start-->
+    <div class="ui modal Select">
+        <div class="header">
+            <h2 id='postselect_title'></h2>
+        </div>
+    <!-- modal header -->
+        <div class="content">
+            <div class="ui items">
+                <div class="item">
+                    <div class="image">
+                        <img src="http://ph.joongboo.com/news/photo/201609/1104374_1013213_0804.jpg">
+                    </div>
+                    <div class="content">
+                        <a class="header" id="postselect_writer">작성자</a>
+                        <div class="meta">
+                            <span id="postselect_time">시간</span>
+                        </div>
+                    <div class="description">
+                        <p id="postselect_content">
+                        해피데이 내용
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <button class="ui primary button" id="happyday_post_update"> Update </button>
+        <button class="negative ui button" id="happyday_post_delete"> Delete </button>
+        <!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
+        <div class="ui button" onclick=javascript:modalClose()> Cancel </div>
+    </div>
+=======
 <!-- Navigation -->
 <% include ./partials/navigation.ejs %>
 <!-- Page Content -->
@@ -240,6 +304,7 @@
 		</div>
 		<input type="hidden" name="happyID" value=<%=data.happyday_id %>>
 	</form>
+>>>>>>> ff80340b62769e969b543bf576ac3e8716ea3c88
 </div>
 <!--등록모달 end-->
 <!--조회모달 start-->
