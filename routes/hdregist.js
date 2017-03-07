@@ -35,18 +35,22 @@ module.exports = function(app, connectionPool) {
         
         console.log(req.body);
         
+        
         connectionPool.getConnection(function(err, connection) {
-            connection.query('insert into happyday_master (happyday_name, happyday_contents, reg_user_id, category_code, reg_dtm, dday_dt, happyday_dt, req_point, state, num_participants, place_name, img_url) values(?,?,?,?,20170228,20170303,20170301,?,"Y",6,?,?);'
+            connection.query('insert into happyday_master (happyday_name, happyday_contents, reg_user_id, category_code, reg_dtm, dday_dt, happyday_dt, req_point, state, num_participants, place_name, img_url) values(?,?,?,?,date_format(sysdate(), "%Y%m%d%H%i%s"),9999,99999,?,"Y",6,?,?);'
                                 , [req.body.happyday_name, req.body.happyday_contents, req.session.user_id, req.body.category_code, req.body.req_point, req.body.place_name, req.body.img_url], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
                     connection.release();
+                   
                     res.redirect('/hdregist');
                 }    
                 
             });
         });
     });
+    
+   
 }
