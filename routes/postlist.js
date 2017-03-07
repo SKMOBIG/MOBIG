@@ -20,11 +20,9 @@ module.exports = function(app, connectionPool) {
                 }else {
                     // console.log(rows);
                     if(rows.length > 0) {
-<<<<<<< HEAD
                         console.log("req.params : " + req.params);
                         res.render('postlist', {data : rows, data2 : req.params, session : req.session});
                         connection.release();                                         
-=======
                         // console.log(req.params.id);
                         connection.query('select hp.*, hm.*, us.*, concat(left(hp.modify_dtm,4) ,".",substring(hp.modify_dtm,5,2),".",substring(hp.modify_dtm,7,2)) as date  from happyday_post hp, happyday_master hm, user us where hp.happyday_id = ? and hp.happyday_id = hm.happyday_id and hp.user_id = us.id order by post_id desc;', req.params.id, function(error, rows1) {
                             
@@ -45,7 +43,6 @@ module.exports = function(app, connectionPool) {
                             }
                         });
                       //  connection.release();                                         
->>>>>>> ff80340b62769e969b543bf576ac3e8716ea3c88
                     }else {
                         res.redirect('/');
                         connection.release();
