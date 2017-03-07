@@ -9,9 +9,8 @@
 <script src="/dist/semantic.min.js"></script>
 <script type="text/javascript">
     function modalClose(){
-		 $('.ui.modal').modal('hide');
-		 //close modal then show view count directly
-		 //window.location.reload();
+   		$('.ui.modal').modal('hide');
+  		// window.location.reload();
 	}
         function goDetail(id) {
             location.href = '../../detail/' + id;
@@ -20,7 +19,6 @@
         	// alert("aa");
             location.href = '../../detail/' + id + '/postlist';
         }
-        
         // 조회 자바스크립트
         function showContent(post_id, happyday_id){
         	// alert("aa");
@@ -28,29 +26,27 @@
 	        type: "post",
 	        url : "/postgetdata_KJB",
 	        data: {
-       			postid : post_id,
-       			happyID : happyday_id
+         postid : post_id,
+         happyID : happyday_id
 	        },
         success:function(data){ 
-        	
         	var year =data.datas.modify_dtm.substring(0,4);
         	var month = data.datas.modify_dtm.substring(4,6);
         	var date = data.datas.modify_dtm.substring(6,8);
         	var hour = data.datas.modify_dtm.substring(8,10);
         	var minute = data.datas.modify_dtm.substring(10,12);
         	var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
-    
-    		// alert("<%=session.user_name %>")
-    		if("<%=session.user_name %>" == data.datas.user_name )
+      // alert("<%=session.user_name %>")
+      if("<%=session.user_name %>" == data.datas.user_name )
         	{
-        		$('#happyday_post_update').show()
-        		$('#happyday_post_delete').show()
-      		} 
-      		else 
-      		{
-        		$('#happyday_post_update').hide()
-        		$('#happyday_post_delete').hide()
-      		}    
+          $('#happyday_post_update').show()
+          $('#happyday_post_delete').show()
+        } 
+        else 
+        {
+          $('#happyday_post_update').hide()
+          $('#happyday_post_delete').hide()
+        }    
         	$("#postselect_title").html(data.datas.post_title);
         	$("#postselect_writer").html(data.datas.user_name);
         	$("#postselect_time").html(dtm);
@@ -72,8 +68,8 @@
 	        type: "post",
 	        url : "/postgetdata_KJB",
 	        data: {
-       			postid : post_id,
-       			happyID : happyday_id
+         postid : post_id,
+         happyID : happyday_id
 	        },
         success:function(data){   
         	$("#postupdate_title").val(data.datas.post_title);
@@ -89,13 +85,13 @@
     //삭제 후기 자바스크립트
      function postDel() {
          var post_id = $("#postselect_postid").val();
-        alert(post_id);
+        // alert(post_id);
          $.ajax({
 	        type: "post",
 	        url : "/postdel_KJB",
 	        data: {
-       			postid : post_id
-       	// 		happyID : happyday_id
+         postid : post_id
+       	//   happyID : happyday_id
 	        },
         success:function(data){   
         	//화면 새로고침
@@ -109,39 +105,9 @@
     function PostReg(id) {
         $('.ui.modal.Reg').modal('show');
     }
-    
-    //정합성 체크
-    $(document).ready(function() {
-        $('.ui.form.segment').form
-        ({
-          fields: 
-          {
-            post_title: 
-            {
-              identifier: 'post_title',
-              rules: 
-              [{
-                type: 'empty',
-                prompt: '제목이 없어요ㅜㅜ'
-              }]
-            },
-            post_content: 
-            {
-              identifier: 'post_content',
-              rules: 
-              [{
-                type: 'empty',
-                prompt: '냉무??'
-              }]
-            }
-          }
-        });
-      });
-    
-    
     </script>
 <style type="text/css">
-        @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+        @ import ;
         body {
             font-family: 'Jeju Gothic', serif !important;
              padding-top: 80px;
@@ -171,70 +137,6 @@
 </style>
 </head>
 <body>
-<<<<<<< HEAD
-    <!-- Navigation -->
-    <% include ./partials/navigation.ejs %>
-
-    <!-- Page Content -->
-    <div class="container">
-        <div class="content">
-            <div class="header" href="#"><h1><%= data[0].happyday_name %></h1></div>
-
-            <div class="ui segment">
-                <img class="ui centered fluid image" src=<%=data[0].img_url%>>
-                <div class="yellow two ui buttons">
-                    <button class="ui button" onClick="javascript:goDetail('<%=data2.id%>')">상세보기</button>
-                    <button class="ui button" onClick="javascript:goPostList('<%=data2.id%>')">후기보기</button>
-                </div>
-                <p> </p>
-                <% for (var i=0; i < data.length; i++) { %>
-                    <div class="ui segment" onclick=javascript:showContent("<%=data[i].post_id %>") >
-                    <p>
-                    <%=data[i].post_title %>
-                    <input type="text" value=<%=data[i].post_id %>>
-                    </p>
-                    <p>
-                    <%=data[i].user_name %> 시간
-                    </p>
-                    </div>
-                <% } %>
-            </div>
-        </div>
-    </div>
- 
-<!--조회모달 start-->
-    <div class="ui modal Select">
-        <div class="header">
-            <h2 id='postselect_title'></h2>
-        </div>
-    <!-- modal header -->
-        <div class="content">
-            <div class="ui items">
-                <div class="item">
-                    <div class="image">
-                        <img src="http://ph.joongboo.com/news/photo/201609/1104374_1013213_0804.jpg">
-                    </div>
-                    <div class="content">
-                        <a class="header" id="postselect_writer">작성자</a>
-                        <div class="meta">
-                            <span id="postselect_time">시간</span>
-                        </div>
-                    <div class="description">
-                        <p id="postselect_content">
-                        해피데이 내용
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="actions">
-        <button class="ui primary button" id="happyday_post_update"> Update </button>
-        <button class="negative ui button" id="happyday_post_delete"> Delete </button>
-        <!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
-        <div class="ui button" onclick=javascript:modalClose()> Cancel </div>
-    </div>
-=======
 <!-- Navigation -->
 <% include ./partials/navigation.ejs %>
 <!-- Page Content -->
@@ -252,19 +154,14 @@
 			</div>
 			<p>
 			</p>
-			
 			<% for (var i=0; i < postdata.length; i++) { %>
 			<div class="ui segment" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
 				<h3>
 				<%=postdata[i].post_title %>
-				<input type="hidden" value=<%=postdata[i].post_id %>>
-			
-				</h3>
+				<input type="hidden" value=<%=postdata[i].post_id %>> </h3>
 				<p>
-					<img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" >
-					<%=postdata[i].user_name %>&nbsp;&nbsp;&nbsp;&nbsp;
-					<%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp;
-					<i class="unhide icon"></i>
+					<img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
+					<%=postdata[i].user_name %>&nbsp;&nbsp;&nbsp;&nbsp; <%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp; <i class="unhide icon"></i>
 					<%=postdata[i].post_count %>
 				</p>
 			</div>
@@ -304,7 +201,6 @@
 		</div>
 		<input type="hidden" name="happyID" value=<%=data.happyday_id %>>
 	</form>
->>>>>>> ff80340b62769e969b543bf576ac3e8716ea3c88
 </div>
 <!--등록모달 end-->
 <!--조회모달 start-->
@@ -347,6 +243,8 @@
 	</div>
 </form>
 <!--조회 모달 end-->
+</body>
+</html>
 <!--수정 모달 start-->
 <div class="ui modal Update">
 	<form class="ui form segment" name="postupdatemodal" action="/postupdate_KJB" method="post">
@@ -377,10 +275,3 @@
 	</form>
 </div>
 <!--수정모달 end	-->
-
-
-
-</body>
-</html>
-
-
