@@ -29,29 +29,19 @@
     <script src="../javascripts/bootstrap.js"></script>-->
 
     <script type="text/javascript">
-
-
         function goDetail(id) {
-
             location.href = '../detail/' + id;
-
         }
-
         function goRegist() {
-
             location.href = '../postreg_KJB';
-
         }
-
         function showParticipants(happy_id) {
-
             $.ajax({
                 type: "post",
                 url: "/showparticipants",
                 data: {
                     happyday_id: happy_id
                 },
-
                 success: function(data) {
                     
                     alert(data.peoplelist)
@@ -66,15 +56,12 @@
                 error: function(e) {
                     alert(e.responseText);
                 }
-
             });
-
         }
     </script>
 
 
     <style type="text/css">
-
         
         .ui.card>.content>.header,
         .ui.cards>.card>.content>.header {
@@ -91,15 +78,9 @@
             margin-top: .4em;
         }
         
-        .ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg {
-    width: 150px;
-  height: 150px;
-    font-size: 0.928571rem;
-}
         
-
         
-
+        
     </style>
 
 </head>
@@ -134,16 +115,12 @@
 
 
             <% for (var i = 0; i < data.length; i++) { %>
-
-
                 <div class="ui centered card">
                     <div class="content" onclick="javascript:goDetail('<%=data[i].happyday_id%>')" style="background-color:#ee5252;  max-height:56px">
-
                         <div class="right floated meta" style="margin-top: 7px; font-size:0.9em">등록
                             <%=data[i].reg_dtm%>
                         </div>
                         <img class="ui avatar image" src="<%=data[i].user_img%>"> <span style="color:#fff"><%=data[i].user_name%> (B2B플랫폼)</span>
-
                     </div>
                     <div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="image">
                         <img src="<%=data[i].img_url%>" style="height: 200px;">
@@ -152,7 +129,6 @@
                         <div class="header">
                             <%=data[i].happyday_name%>
                         </div>
-
                         <div class="description">
                             <p>
                                 모임일자 :
@@ -164,7 +140,6 @@
                                 장소 :
                                 <%=data[i].place_name%>
                             </p>
-
                         </div>
                     </div>
                     <div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="extra content">
@@ -173,12 +148,9 @@
         모집인원 <%=data[i].num_participants%>명(<%=data[i].vacancy%>자리남음)
       </span>
                     </div>
-
                     <div class="extra content">
                         <span onclick="javascript:showParticipants('<%=data[i].happyday_id%>')"><i class="user icon"></i>현재 참가자 (<%=data[i].num_participants-data[i].vacancy%>명 클릭해서 확인)</span>
-
                     </div>
-
                     <div class="extra content">
                         <span>
         <i class="diamond icon"></i>
@@ -188,7 +160,6 @@
                             <%=data[i].req_point%> P</div>
                     </div>
                 </div>
-
                 <% } %>
 
 
@@ -203,7 +174,11 @@
             현재 참가자
         </div>
         <div class="content">
-
+            <div id="cards" class="ui eight doubling cards">
+<!--카드들..-->
+      
+      
+    </div>
             
             
         </div>

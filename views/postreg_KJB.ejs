@@ -12,80 +12,123 @@
 
 
 <script type="text/javascript">
-
-	function modalClose(){
-		 $('.ui.modal.Reg').modal('hide');
-		 
-		 
-		 
+function modalClose(){
+		 //$('.ui.modal.Reg').modal('hide');
+		 $('.ui.modal').modal('hide');
 	}
-	
 $(function(){
     $("#HappyDayRegist").click(function(){
         $('.ui.modal.Reg').modal('show');
     });
-   
+    
+    $("#happyday_post_update").click(function(){
+     $.ajax({
+	        type: "post",
+	        url : "/postgetdata",
+	        data: {
+       			postid : '60'
+	        },
+        success:function(data){   
+        	// alert(data.datas.post_title)
+        
+        	$("#postupdate_title").val(data.datas.post_title);
+        	$("#postupdate_content").html(data.datas.post_content);
+            $('.ui.modal.Update').modal('show');
+        },
+        error:function(e){  
+            alert(e.responseText);  
+        }  
+     	});   
+    });
     $("#HappyDaySelect").click(function(){
-    	
 	$.ajax({
 	        type: "post",
 	        url : "/postgetdata",
 	        data: {
-       			postid : '1qw412'
+       			postid : '56'
 	        },
-
-        success:function(data){   
-        	alert(data.datas.emp_num)
-        	$("#inputname").html(data.datas.user_name);
+        success:function(data){ 
+        	
+        	// alert ("<%= data.user_name %>")
+        	var year =data.datas.modify_dtm.substring(0,4);
+        	var month = data.datas.modify_dtm.substring(4,6);
+        	var date = data.datas.modify_dtm.substring(6,8);
+        	var hour = data.datas.modify_dtm.substring(8,10);
+        	var minute = data.datas.modify_dtm.substring(10,12);
+        	var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
+        	
+        	if("<%=data.user_name %>" == data.datas.user_name )
+        	{
+        		$('#happyday_post_update').show()
+        		$('#happyday_post_delete').show()
+      		} 
+      		else 
+      		{
+        		$('#happyday_post_update').hide()
+        		$('#happyday_post_delete').hide()
+      		}    
+        	// alert(data.datas.post_id)
+        	$("#postselect_title").html(data.datas.post_title);
+        	$("#postselect_writer").html(data.datas.user_name);
+        	$("#postselect_time").html(dtm);
+        	$("#postselect_content").html(data.datas.post_content);
             $('.ui.modal.Select').modal('show');
         },
         error:function(e){  
             alert(e.responseText);  
         }  
-
      	});
-
-        
     });
-
 });
+
 </script>
 </head>
 <body>
+	 <!-- Navigation -->
+   <% include ./partials/navigation.ejs %>
 <h2> 후기 등록 </h2>
-
-<label>이름 : <%= data.user_name %></label>
-
+<label>이름 : <%=data.user_name %></label>
 <div>
 	<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>
-
-	    <button class="ui inverted red button" id='HappyDaySelect'>조회 </button>
+	<button class="ui inverted red button" id='HappyDaySelect'>조회 </button>
 </div>
+
+
+
+
+
+
+
+
+
+
 
 <!--등록 모달 Start-->
 <div class="ui modal Reg">
-	<form name="postregistmodal" action="/postregist" method="post">
+	<form class="ui form segment" name="postregistmodal" action="/postregist" method="post">
 		<div class="header">
 			<h1>후기 등록</h1>
 		</div>
-		<!-- modal header -->
 		<div class="content">
-			<div class="ui two column grid">
-				<div class="column">
+			<div class="field">
 					<h3> 후기 title </h3>
 					<div class="ui left icon input" style=" width: 100%;">
 						<input type="text" name="post_title" placeholder="해피데이 후기 title" style="width: 100%">
 						<i class="user icon"></i>
 					</div>
-				</div>
 			</div>
+			<div class="field">
 			<h3>후기 내용</h3>
 			<textarea name="post_content" style="width:100% ;height: 200px;"></textarea>
+			</div>
 		</div>
+		<div class="ui clearing divider"></div>
+		<div class="ui error message"></div>
 		<div class="actions">
-			<button class="ui primary button">  Save </button>
-		<!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
-			<div class="ui button" onClick=javascript:modalClose()>cancel</div>
+			<button class="ui primary button"> Save </button>
+			<div class="ui button" onclick=javascript:modalClose()>
+				 cancel
+			</div>
 		</div>
 	</form>
 </div>
@@ -94,32 +137,62 @@ $(function(){
 <!--조회모달 start-->
 <div class="ui modal Select">
 	<div class="header">
-		<h1>후기 수정/조회</h1>
+		<h2 id='postselect_title'></h2>
 	</div>
 	<!-- modal header -->
 	<div class="content">
-		<div class="ui two column grid">
-			<div class="column">
-				<h3> 후기 title </h3>
-				<div class="ui left icon input" style=" width: 100%;">
-					<input type="text" placeholder="해피데이 후기 title" style="width: 100%">
-					
-					<i class="user icon"></i>
+		<div class="ui items">
+			<div class="item">
+				<div class="image">
+					<img src="http://ph.joongboo.com/news/photo/201609/1104374_1013213_0804.jpg">
 				</div>
-			</div>
-			<!--column-->
-			<div class="column">
-				<h3> 작성자</h3>
-				<div class="ui left icon input" style=" width: 40%;">
-					<input type="text" id = 'inputname' placeholder="김준범" style="width: 100%" >
-					<i class="user icon"></i>
+				<div class="content">
+					<a class="header" id="postselect_writer">작성자</a>
+					<div class="meta">
+						<span id="postselect_time">시간</span>
+					</div>
+					<div class="description">
+						<p id="postselect_content">
+							 해피데이 내용
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
-		<h3>후기 내용</h3>
-		<textarea style="width:100% ;height: 200px;"> </textarea>
 	</div>
-	
+	<div class="actions">
+		<button class="ui primary button" id="happyday_post_update"> Update </button>
+		<button class="negative ui button" id="happyday_post_delete"> Delete </button>
+		<!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
+		<div class="ui button" onclick=javascript:modalClose()> Cancel </div>
+	</div>
+</div>
 <!--조회 모달 end-->
+
+<!--수정 모달 start-->
+<div class="ui modal Update">
+	<form class="ui form segment" name="postupdatemodal" action="/postupdate" method="post">
+		<div class="header">
+			<h1>후기 수정</h1>
+		</div>
+		<div class="content">
+			<div class="column">
+			<h3> 후기 title </h3>
+				<div class="ui left icon input" style=" width: 100%;">
+					<input type="text" id="postupdate_title" name="post_title" style="width: 100%">
+					<i class="user icon"></i>
+				</div>
+			</div>
+			<h3>후기 내용</h3>
+			<textarea id = "postupdate_content" name="post_content" style="width:100% ;height: 200px;"></textarea>
+		</div>
+		<div class="ui clearing divider"></div>
+		<div class="actions">
+			<button class="ui primary button"> Update </button>
+			<div class="ui button" onclick=javascript:modalClose()> cancel	</div>
+		</div>
+	</form>
+</div>
+<!--수정모달 end	-->
 </body>
 </html>
