@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
-<script src="/dist/semantic.min.js"></script>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>B2B사업팀 HappyDay</title>
+   
+
+    <script src="../../javascripts/jquery.js"></script>
+    <script src="../../javascripts/jquery.min.js"></script>
+   
+
+
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+    <script src="/dist/semantic.min.js"></script>
+   
+   
+	
+	
 <script type="text/javascript">
     function modalClose(){
-   		$('.ui.modal').modal('hide');
-  		// window.location.reload();
+   $('.ui.modal').modal('hide');
+   //window.location.reload();
 	}
         function goDetail(id) {
             location.href = '../../detail/' + id;
@@ -36,7 +50,6 @@
         	var hour = data.datas.modify_dtm.substring(8,10);
         	var minute = data.datas.modify_dtm.substring(10,12);
         	var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
-      // alert("<%=session.user_name %>")
       if("<%=session.user_name %>" == data.datas.user_name )
         	{
           $('#happyday_post_update').show()
@@ -85,7 +98,7 @@
     //삭제 후기 자바스크립트
      function postDel() {
          var post_id = $("#postselect_postid").val();
-        // alert(post_id);
+        alert(post_id);
          $.ajax({
 	        type: "post",
 	        url : "/postdel_KJB",
@@ -102,38 +115,22 @@
         }  
      	});   
     }
+    
     function PostReg(id) {
         $('.ui.modal.Reg').modal('show');
     }
+
     </script>
+    
+    
 <style type="text/css">
-        @ import ;
+        @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
         body {
             font-family: 'Jeju Gothic', serif !important;
-             padding-top: 80px;
+            padding-top: 80px;
+            background-color:#e2e2e2;
         }
-        .ui.card > .content > .header, .ui.cards > .card > .content > .header {
-            display: block;
-            font-family:  'Jeju Gothic', serif;
-            color: rgba(0,0,0,.85);
-        }
-        .ui link cards {
-            margin-top: 30p;
-        }
-        .navbar-inverse .navbar-brand {
-            color: #ffffff;
-        }
-        .navbar-inverse .navbar-collapse,
-        .navbar-inverse .navbar-form {
-            border-color: #fff;
-        }
-        .navbar-inverse .navbar-toggle {
-            border-color: #fff;
-        }
-        .navbar-inverse {
-            background-color: #FFCC00;
-            border-color: #FFCC00;
-        }
+  
 </style>
 </head>
 <body>
@@ -147,15 +144,22 @@
 		</div>
 		<div class="ui segment">
 			<img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">
-			<div class="yellow three ui buttons">
+			<!--<img class="ui centered fluid image" src=<%=data.img_url%>>-->
+			<div class="yellow two ui buttons">
 				<button class="ui button" onclick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
-				<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>
+				<!--<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>-->
 				<button class="ui button" onclick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
 			</div>
 			<p>
 			</p>
+			<!--post Reg Div default-->
+			<div class="ui segment" onclick="javascript:PostReg('<%=data.happyday_id%>')"> <i class="huge yellow add circle icon"></i>
+				<font size="4"> 후기 등록을 해주세요 </font>
+			</div>
+			<!--show post list-->
 			<% for (var i=0; i < postdata.length; i++) { %>
-			<div class="ui segment" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
+			<div class="ui segment" onclick=javascript:showContent("<%=postdata[i].post_id %>
+				","<%=data.happyday_id %>")>
 				<h3>
 				<%=postdata[i].post_title %>
 				<input type="hidden" value=<%=postdata[i].post_id %>> </h3>
@@ -169,6 +173,8 @@
 		</div>
 	</div>
 </div>
+
+
 <!--등록 모달 Start-->
 <div class="ui modal Reg">
 	<!--<form class="ui form segment" name="postregistmodal" action="/postregist_KJB" method="post">-->
@@ -203,6 +209,8 @@
 	</form>
 </div>
 <!--등록모달 end-->
+
+
 <!--조회모달 start-->
 <form action="/postdel_KJB" method="post">
 	<div class="ui modal Select">

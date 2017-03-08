@@ -53,4 +53,38 @@ module.exports = function(app, connectionPool) {
     });
     
    
+   
+   
+   
+   
+   
+   
+   app.post('/Happdaygetdata_KJY', function(req, res, next) {
+        
+        console.log(req.body);
+        
+        
+        connectionPool.getConnection(function(err, connection) {
+            connection.query('select * from happyday_master where happyday_id = ?;', [req.body.happyID], function(error, rows) {
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    res.send({datas : rows[0], session : req.session});
+                        connection.release();
+                }    
+                
+            });
+        });
+    });
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 }
