@@ -109,26 +109,52 @@
                     <a class="ui basic red left pointing label">10</a>
                 </div>
                 
-                <div class="ui segment">
-                    <p>- 일    시 : <%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></p>
-                    <p>- 장    소 : <%= data.place_name %></p>
-                    <p>- 모집인원 : <%= data.num_participants %>명</p>
-                    <p>  * 모집 조건 : 타 SM구성원 2명 이상 참가</p>
-                    <p>- 모집기간 : <%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>) </p>
-                    <p>- 참가포인트 : <%= data.req_point%>P <div class="ui floating labeled icon dropdown button">
-                            <i class="filter icon"></i>
-                            <span class="text">상세내역보기</span>
-                            <div class="menu">
-                                <div class="ui error message">
-                                    <p>1. 야구관람 티켓 : 1,500P</p>
-                                    <p>2. 치킨 & 맥주   : 1,000P</p>
+
+                <table class="ui definition table">
+                    <tbody>
+                        <tr>
+                            <td class="two wide column">일 시</td>
+                            <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
+                        </tr>
+                        <tr>
+                            <td>장 소</td>
+                            <td><%= data.place_name %></td>
+                        </tr>
+                        <tr>
+                            <td>모집인원</td>
+                            <td><%= data.num_participants %>명</td>
+                        </tr>
+                        <tr>
+                            <td>모집기간</td>
+                            <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
+                        </tr>
+                        <tr>
+                            <td>참가포인트</td>
+                            <td><%= data.req_point%>P 
+
+                                <!--<div class="ui button" data-inverted="" data-tooltip="1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P" data-position="right center">-->
+                                <!--      상세내역보기-->
+                                <!--</div>-->
+                                
+                                <div class="ui styled accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                            상세내역보기
+                                    </div>
+                                    <div class="content">
+                                        <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </p>
-                    <p>-내     용</p>
-                    <p><%= data.happyday_contents %></p>
-                </div>
+                                
+                            </td>
+                        </tr>  
+                        <tr>
+                            <td>내 용</td>
+                            <td><%= data.happyday_contents %></td>
+                        </tr>
+                    </tbody>
+                </table>
+
 
                 <div class="ui segment">
                     <div id="mapArea"></div>
