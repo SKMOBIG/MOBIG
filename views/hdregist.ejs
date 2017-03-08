@@ -29,7 +29,7 @@ function modalClose(){
 };
 
 function Happdaygetdata() {
-    var happyday_id = 23;
+    var happyday_id = 56;
     $.ajax({
 	     type: "post",
 	     url : "/Happdaygetdata_KJY",
@@ -38,14 +38,23 @@ function Happdaygetdata() {
          happyID : happyday_id
        },
         success:function(data){   
-          // alert(data.datas.category_code);
+          // alert(data.datas.num_participants);
+          var start_date = data.datas.happyday_dt.substring(0,8);
+          var start_hour = data.datas.happyday_dt.substring(8,10);
+          var start_minute = data.datas.happyday_dt.substring(10,12);
+          var start_time = start_hour+':'+start_minute;
+          
         	$("#happyday_name_show").val(data.datas.happyday_name);
         	$("#happyday_category_show").append(data.datas.category_code);   
           $("#img_url_show").val(data.datas.img_url);
           $("#place_name_show").val(data.datas.place_name);
-          $("#place_name_show").val(data.datas.place_name);
-          $("#place_name_show").val(data.datas.place_name);
-          $("#place_name_show").val(data.datas.place_name);
+          $("#startdate_show").val(start_date);
+          $("#starttime_show").val(start_time);
+          $("#num_participants_show").val(data.datas.num_participants);
+          $("#dday_dt_show").val(data.datas.dday_dt);
+          $("#req_point_show").val(data.datas.req_point);
+          $("#happyday_contents_show").html(data.datas.happyday_contents);
+        
           },
         error:function(e){  
             alert(e.responseText);  
@@ -300,7 +309,7 @@ $('.ui.dropdown').dropdown({
                 <div class="item" data-value="10">10명</div>
               </div>
         </div>
-    </div>
+      </div>
     <div class="column">
       <div class="ui sub header">마감일</div>
       <div class="ui calendar" id="dday_dt">
@@ -403,107 +412,73 @@ $('.ui.dropdown').dropdown({
       <div class="ui sub header">장소</div>	
     	<div class="ui right labeled left icon action input"><!-- action?? -->
     		<i class="marker icon"></i>
-    		<input type="text" placeholder="Search the location" id="location" name="place_name">
-    		<!--<i class="inverted circular search link icon"></i>-->
+    		<input type="text" placeholder="Search the location" id="place_name_show" name="place_name">
     		<div class="ui label"><i class="search icon"></i></div>
-      </div><!-- location -->
+      </div>
     </div>
+  
   
     <div class="ui two column grid">
     <div class="column">
-      <div class="ui sub header">Start Date</div>
+      <div class="ui sub header">출발 날짜</div>
       <div class="ui calendar" name="example2">
         <div class="ui input left icon" style=" width: 100%;"> 
           <i class="calendar icon"></i>
-          <input type="text" placeholder="Check the calendar" style=" width: 100%;" name="happyday_dt">
+          <input type="text" id="startdate_show" sytle="width: 100%;" name="happyday_dt">
         </div>
       </div><!-- calendar -->
     </div>
     <div class="column">
-      <div class="ui sub header">Start Time</div>
+      <div class="ui sub header">출발 시간</div>
       <div class="ui calendar" id="example3">
         <div class="ui input left icon" style=" width: 100%;">
           <i class="time icon"></i>
-          <input type="text" placeholder="Time" style=" width: 100%;" name="happyday_time">
+          <input type="text" id="starttime_show" style=" width: 100%;" name="happyday_time">
         </div>
       </div> 
     </div>
-    </div><!-- ui two column grid -->
+    </div>
     
     <div class="ui two column grid">
-    <div class="column">
-      <div class="ui sub header">출발 날짜 & 시간</div>
-      <div class="ui calendar" id="hddate">
-        <div class="ui input left icon" style=" width: 100%;"> 
-          <i class="calendar icon"></i>
-          <input type="text" placeholder="Check the calendar" style=" width: 100%;" name="happyday_dt">
+      <div class="column">
+        <div class="ui selection dropdown">
+          <input type="hidden" name="num_participants" id="num_participants_show" >
+          <i class="dropdown icon"></i>
+            <div class="default text">사람수</div>
+              <div class="menu">
+                <div class="item" data-value="5">5명</div>
+                <div class="item" data-value="6">6명</div>
+                <div class="item" data-value="7">7명</div>
+                <div class="item" data-value="8">8명</div>
+                <div class="item" data-value="9">9명</div>
+                <div class="item" data-value="10">10명</div>
+              </div>
         </div>
-      </div><!-- calendar -->
-    </div>
+      </div>
     <div class="column">
       <div class="ui sub header">마감일</div>
       <div class="ui calendar" id="dday_dt">
         <div class="ui input left icon" style=" width: 100%;">
           <i class="calendar icon"></i>
-          <input type="text" placeholder="Date" style=" width: 100%;" name="dday_dt">
+          <input type="text" id="dday_dt_show" style=" width: 100%;" name="dday_dt">
         </div>
       </div>
     </div>
-    </div><!-- ui two column grid -->
+    </div>
   
-    <div class="ui two column grid">
-      <div class="column">
-        <div class="ui sub header">멤버수</div>
-        <div style=" width: 100%;">
-        <button class="circular ui icon button" id="a" value="5">
-            05
-        </button>
-        <button class="circular ui icon button" id="a" value="6">
-            06
-        </button>
-        <button class="circular ui icon button" id="a" value="7">
-            07
-        </button>
-        <button class="circular ui icon button" id="a" value="8">
-            08
-        </button>
-        <button class="circular ui icon button" id="a" value="9">
-            09
-        </button>
-        </div>
-      </div>
-      <div class="column">
-        <div class="ui pagination menu">
-          <a class="item">
-            01
-          </a>
-          <div class="disabled item">
-            05
-          </div>
-          <a class="item">
-            10
-          </a>
-          <a class="item">
-            11
-          </a>
-          <a class="item active">
-            12
-          </a>
-        </div><!--ui pagination menu-->
-      </div>
-    </div><!-- two columns -->
+    
     
     <div class="field">
     	<div class="ui sub header">차감포인트</div>	
       <div class="ui left icon input" style=" width: 100%;">
-      	<input type="text" placeholder="2500" style=" width: 100%;" name="req_point">
+      	<input type="text" id="req_point_show" style=" width: 100%;" name="req_point">
       	<i class="won icon"></i>
       </div><!-- point -->
     </div>
   
     <div class="field">
   	  <div class="ui sub header">해피데이 설명</div>	
-  		<textarea style="width:100% ;height: 200px;" name="happyday_contents"></textarea>
+  		<textarea id="happyday_contents_show" style="width:100% ;height: 200px;" name="happyday_contents"></textarea>
     </div>
     <div class="ui error message"></div>
   </div><!-- content -->
@@ -516,19 +491,6 @@ $('.ui.dropdown').dropdown({
 </form>  
 
 </div><!-- modal -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>
