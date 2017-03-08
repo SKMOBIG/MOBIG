@@ -33,7 +33,7 @@
             location.href = '../detail/' + id;
         }
         function goRegist() {
-            location.href = '../postreg_KJB';
+            location.href = '../hdregist';
         }
         function showParticipants(happy_id) {
             $.ajax({
@@ -57,6 +57,19 @@
                     alert(e.responseText);
                 }
             });
+        }
+        
+        function showMap(){
+                
+                var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
+                var popupX = (window.screen.width / 2) - (1200 / 2);
+                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+
+                var popupY= (window.screen.height /2) - (700 / 2);
+                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+
+                window.open(popUrl, '', 'status=no, height=700, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+
         }
     </script>
 
@@ -165,6 +178,10 @@
 
 
         </div>
+        
+        <button class="ui basic button" onclick="javascript:showMap()">
+  <i class="icon map"></i>
+  지도 팝업 아놔
     </div>
 
 
