@@ -49,11 +49,11 @@ module.exports = function(app, connectionPool) {
                                     connection.release();
                                 }else {
                                     res.redirect('/');
-                                    connection.release();
+                                    connection.release(); 
                                 }
                             }
                         });
-                      //  connection.release();                                         
+                                        
                     }else {
                         res.redirect('/');
                         connection.release();
