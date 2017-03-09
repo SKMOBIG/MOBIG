@@ -34,7 +34,6 @@ $(document).ready(function() {
   // 등록모달 show
   $("#HappyDayRegist").click(function(){
       $('.ui.modal.Regist').modal('show');
-      $('#happyday_name_alert').hide()   //열었을때 일단 hide
       $('#category_code_alert').hide()
       $('#num_participants_alert').hide()
       $('#place_name_alert').hide()
@@ -73,7 +72,8 @@ $(document).ready(function() {
     
     // 해피데이 이름 check
     if(happyday_name == ''){
-      $('#happyday_name_alert').show()
+      $('#happyday_name_alert').css("visibility","visible");
+      
       flag = 0;
     }
     else{
@@ -288,7 +288,7 @@ $(document).ready(function() {
 	  <div class="field">
   	  <div class="ui sub header">*해피데이 이름</div>
   			<input type="text" placeholder="<%= data.user_name %>님 입력해주세요." id="happyday_name" name="happyday_name">
-  			<p id="happyday_name_alert" style="color:red">*해피데이 이름을 입력해 주세요</p>
+  			<p id="happyday_name_alert" style="color:red; visibility:hidden;">*해피데이 이름을 입력해 주세요</p>
   	</div> 
   	
   	<!--날짜합치기 히든-->
