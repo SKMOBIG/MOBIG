@@ -9,11 +9,8 @@
 
     <title>B2B사업팀 HappyDay</title>
     
-
     <script src="../../javascripts/jquery.js"></script>
     <script src="../../javascripts/jquery.min.js"></script>
-    
-
 
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
@@ -182,7 +179,7 @@
     <input type="hidden" value=<%=postdata[i].post_id %>> </h3>
     <p>
      <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
-     <%=postdata[i].user_name %>&nbsp;&nbsp;&nbsp;&nbsp; <%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp; <i class="unhide icon"></i>
+     <%=postdata[i].user_name %> (<%=postdata[i].sm_id %>)&nbsp;&nbsp;&nbsp;&nbsp; <%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp; <i class="unhide icon"></i>
      <%=postdata[i].post_count %>
     </p>
    </div>
