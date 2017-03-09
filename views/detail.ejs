@@ -39,6 +39,13 @@
             location.href = '../detail/' + id + '/postlist';
         }
         
+        function accordian() {
+            $('.ui.accordion').accordion();
+        }
+ 
+ 
+
+        
     </script>
 
     <style type="text/css">
@@ -137,8 +144,8 @@
                                 <!--</div>-->
                                 
                                 <div class="ui styled accordion">
-                                    <div class="title">
-                                        <i class="dropdown icon"></i>
+                                    <div class="title" onclick="javascript:accordian()">
+                                        <i class="dropdown icon" width=25></i>
                                             상세내역보기
                                     </div>
                                     <div class="content">
@@ -175,7 +182,7 @@
                 <div class="image"> * 신청현황보기 (3/8)
                     <% for (var i = 0; i < data1.length; i++) { %>
                         <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
-                        <span> <%=data1[i].user_name%> (<%=data1[i].org_nm%>) </span></p>
+                        <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
                        
                     <% } %>
                 </div>
