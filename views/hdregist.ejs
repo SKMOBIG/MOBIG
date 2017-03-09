@@ -28,130 +28,11 @@
 function modalClose(){
   $('.ui.modal').modal('hide');
 };
-<<<<<<< HEAD
 
 $(document).ready(function() {
 
   // 등록모달 show
   $("#HappyDayRegist").click(function(){
-=======
-function Happdaygetdata() {
-    var happyday_id = 56;
-    $.ajax({
-	     type: "post",
-	     url : "/Happdaygetdata_KJY",
-	     data: 
-	     {
-         happyID : happyday_id
-       },
-        success:function(data){   
-          // alert(data.datas.num_participants);
-          var start_date = data.datas.happyday_dt.substring(0,8);
-          var start_hour = data.datas.happyday_dt.substring(8,10);
-          var start_minute = data.datas.happyday_dt.substring(10,12);
-          var start_time = start_hour+':'+start_minute;
-          
-        	$("#happyday_name_show").val(data.datas.happyday_name);
-        	$("#happyday_category_show").append(data.datas.category_code);   
-          $("#img_url_show").val(data.datas.img_url);
-          $("#place_name_show").val(data.datas.place_name);
-          $("#startdate_show").val(start_date);
-          $("#starttime_show").val(start_time);
-          $("[name='num_participants']").val(data.datas.num_participants);
-          $("#dday_dt_show").val(data.datas.dday_dt);
-          $("#req_point_show").val(data.datas.req_point);
-          $("#happyday_contents_show").html(data.datas.happyday_contents);
-        
-          },
-        error:function(e){  
-            alert(e.responseText);  
-        }  
-     	});   
-    }
-  
-var val;
-$(document).ready(function() {
-  
-  /* 정합성 체크 */
-  // $('.ui.segment.form').form
-  // ({
-  //   fields: 
-  //   {
-  //     happyday_name: 
-  //     {
-  //       identifier: 'happyday_name',
-  //       rules: 
-  //       [{
-  //         type   : 'empty',
-  //         prompt : 'Please enter your name'
-  //       }]
-  //     },
-  //     category_code: 
-  //     {
-  //       identifier: 'category_code',
-  //       rules: 
-  //       [{
-  //         type   : 'empty',
-  //         prompt : 'Please select category'
-  //       }]
-  //     },
-  //     img_url: 
-  //     {
-  //       identifier: 'img_url',
-  //       rules: 
-  //       [{
-  //         type   : 'empty',
-  //         prompt : 'Please enter img_url'
-  //       }]
-  //     },
-  //     place_name: 
-  //     {
-  //       identifier: 'place_name',
-  //       rules: 
-  //       [{
-  //         type   : 'empty',
-  //         prompt : 'Please enter place_name'
-  //       }]
-  //     },
-  //     req_point: 
-  //     {
-  //       identifier: 'req_point',
-  //       rules: 
-  //       [{
-  //         type   : 'empty',
-  //         prompt : 'Please enter req_point'
-  //       }]
-  //     },
-  //     happyday_contents: 
-  //     {
-  //       identifier: 'happyday_contents',
-  //       rules: 
-  //       [{
-  //         type   : 'empty',
-  //         prompt : 'Please enter happyday_contents'
-  //       }]
-  //     }
-  //   }
-  // });  
-    /* 정합성 체크 */
-   $('.ui.segment.form').form
-   ({
-     fields: 
-     {
-       req_point: 
-       {
-         identifier: 'req_point',
-         rules: 
-         [{
-           type   : 'integer[0..8000]',
-           prompt : 'Please enter an integer value'
-         }]
-       }
-     }
-   });
-    $("#HappyDayRegist").click(function(){
-      // alert("bbb");
->>>>>>> f0d69e1806a4ee2c2cdb0c38028b3ed74b0c1e22
       $('.ui.modal.Regist').modal('show');
       $('#happyday_name_alert').hide()   //열었을때 일단 hide
       $('#category_code_alert').hide()
@@ -220,7 +101,7 @@ $(document).ready(function() {
       flag = 1;
     } 
     
-     // 장소 check  TODO
+     // 장소 check  
     if(place_name == ''){
       $('#place_name_alert').show()
       flag = 0;
@@ -272,7 +153,7 @@ $(document).ready(function() {
           } 
      }
  
-    alert(req_point);
+    
     // 포인트 check 
     if(req_point == ''){
       $('#req_point_alert').show()
@@ -385,6 +266,7 @@ $(document).ready(function() {
       }
   });
 });
+
 </script>
 
 </head>
