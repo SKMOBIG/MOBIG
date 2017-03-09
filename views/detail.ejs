@@ -26,7 +26,7 @@
     <script src="../javascripts/bootstrap.min.js"></script>
     <script src="../javascripts/bootstrap.js"></script>
 
-    <script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
     <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script> 
     
     <script type="text/javascript">
@@ -39,9 +39,9 @@
             location.href = '../detail/' + id + '/postlist';
         }
         
-         function accordion() {
+        $(document).ready(function() {
             $('.ui.accordion').accordion();
-        }
+        });
  
  
 
@@ -145,7 +145,7 @@
                                 
                                 <div class="ui accordion">
                                     <div class="title">
-                                        <i class="dropdown icon" width=25 onClick="javascript:accordion"></i>
+                                        <i class="dropdown icon" width=25></i>
                                             상세내역보기
                                     </div>
                                     <div class="content">
