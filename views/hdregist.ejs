@@ -45,12 +45,12 @@ function Happdaygetdata() {
           var start_time = start_hour+':'+start_minute;
           
         	$("#happyday_name_show").val(data.datas.happyday_name);
-        	$("#happyday_category_show").append(data.datas.category_code);   
+        	$("#happyday_category_show").val(data.datas.category_code).change();   
           $("#img_url_show").val(data.datas.img_url);
           $("#place_name_show").val(data.datas.place_name);
           $("#startdate_show").val(start_date);
           $("#starttime_show").val(start_time);
-          $("[name='num_participants']").val(data.datas.num_participants);
+          $("#num_participants_show").val(data.datas.num_participants).change();
           $("#dday_dt_show").val(data.datas.dday_dt);
           $("#req_point_show").val(data.datas.req_point);
           $("#happyday_contents_show").html(data.datas.happyday_contents);
@@ -163,7 +163,7 @@ $(document).ready(function() {
   
 //TODO : 하나 선택하고 아래가 다 보이게    
 $('.ui.dropdown').dropdown({
-   maxSelections: 1
+   maxSelections: 3
 });
  
   // START DATE 됐어 수정까지
@@ -376,21 +376,6 @@ $('.ui.dropdown').dropdown({
 <!--등록모달end-->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!--수정모달-->
 <div class="ui modal Update">
 
@@ -407,7 +392,7 @@ $('.ui.dropdown').dropdown({
     <div class="column">
       <div class="ui sub header">카테고리</div>
       <div class="ui fluid multiple search selection dropdown"  style=" width: 100%;">
-        <input name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
+        <input name="category_code" type="hidden" value="" style=" width: 100%;" id="happyday_category_show" readonly="true">
         <i class="dropdown icon"></i>
       <div class="default text">Select</div>
       <div class="menu">
@@ -422,7 +407,7 @@ $('.ui.dropdown').dropdown({
     <div class="column">
       <div class="ui sub header">멤버수</div>
       <div class="ui selection dropdown"  style=" width: 100%;">
-        <input type="hidden" name="num_participants" style=" width: 100%;" readonly="true" >
+        <input type="hidden" name="num_participants" style=" width: 100%;" readonly="true" id="num_participants_show">
         <i class="dropdown icon"></i>
         <div class="default text"></div>
         <div class="menu">

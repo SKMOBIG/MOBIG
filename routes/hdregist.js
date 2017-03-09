@@ -10,10 +10,27 @@ module.exports = function(app, connectionPool) {
     
         console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
         
-        connectionPool.getConnection(function(err, connection) {
+/*        connectionPool.getConnection(function(err, connection) {
             connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
                 
-                // console.log("rows : " + rows.length);
+                
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(rows.length > 0) {
+                        res.render('hdregist', {data : rows[0], session : req.session});
+                        connection.release();
+                    }else {
+                        res.redirect('/');
+                        connection.release();
+                    }    
+                }
+            });
+        });*/
+                connectionPool.getConnection(function(err, connection) {
+            connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
+                
                 
                 if(error) {
                     connection.release();
