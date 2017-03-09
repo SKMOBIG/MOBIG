@@ -32,6 +32,8 @@ module.exports = function(app, connectionPool) {
                             req.session.sm_id = rows[0].sm_id;
                             req.session.mileage = rows[0].mileage;
                             req.session.user_id = rows[0].id;
+                            //KJB
+                            req.session.happy_point = rows[0].happy_point;
 
                             res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사
                           }

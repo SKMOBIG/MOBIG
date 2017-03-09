@@ -12,7 +12,7 @@ module.exports = function(app, connectionPool) {
         }
         
          connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_master a, user b, com_org c where 1=1 and a.reg_user_id = b.id and b.sm_id = c.org_id and a.happyday_id = ?;', req.params.id, function(error, rows) {
+            connection.query('select * from happyday_master a, user b where a.reg_user_id = b.id and a.happyday_id = ?;', req.params.id, function(error, rows) {
                 
                 if(error) {
                     connection.release();
@@ -24,7 +24,6 @@ module.exports = function(app, connectionPool) {
                         connection.query('select hp.*, hm.*, us.*, concat(left(hp.modify_dtm,4) ,".",substring(hp.modify_dtm,5,2),".",substring(hp.modify_dtm,7,2)) as date  from happyday_post hp, happyday_master hm, user us where hp.happyday_id = ? and hp.happyday_id = hm.happyday_id and hp.user_id = us.id order by post_id desc;', req.params.id, function(error, rows1) {
                             
                             if(error){
-                            
                                 connection.release();
                                 throw error;
                             }else {
@@ -93,8 +92,7 @@ module.exports = function(app, connectionPool) {
                             }
                         });
                         
-                         
-                       
+                        
                     }else {
 
                     }    
