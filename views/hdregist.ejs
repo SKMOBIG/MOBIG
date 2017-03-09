@@ -22,7 +22,11 @@
 
 <script type="text/javascript">
 
+var date1 ='';
+var date2 ='';
+
 function modalClose(){
+  alert(date1+date2);
   $('.ui.modal').modal('hide');
 };
 
@@ -182,7 +186,7 @@ $('.ui.dropdown').dropdown({
         var day = date.getDate().toString();
         day = day.length > 1 ? day : '0' + day;
         var fullDate = year + month + day;
-        
+        date1 = fullDate;
         return fullDate;
         
       }
@@ -219,7 +223,8 @@ $('.ui.dropdown').dropdown({
         var minute = date.getMinutes().toString();
         minute = minute.length > 1 ? minute : '0' + minute;
         var time = hour + minute; //DB
-        //return time;
+        //return time;]\
+        date2 = time;
         return hour + ':' + minute;
       }
     }
@@ -408,7 +413,7 @@ $('.ui.dropdown').dropdown({
   <div class="ui clearing divider"></div>
   <div class="actions">
     <div class="ui button" onClick=javascript:modalClose()>cancel</div>
-    <button class="ui yellow submit button" id="submit" name="submit">regist</button>
+    <button class="ui yellow submit button" id="submit" name="submit"> </button>
   </div><!-- actions -->
 </form>  
 
