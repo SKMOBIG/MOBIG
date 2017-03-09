@@ -16,7 +16,12 @@
   <!--    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">-->
 
 
-  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+ 
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+    <script src="/dist/semantic.min.js"></script>
+    <script src="/dist/components/visibility.js"></script>
+    <script src="/dist/components/sidebar.js"></script>
+    <script src="/dist/components/transition.js"></script>
 
   <style type="text/css">
 
@@ -41,7 +46,7 @@
     .map_wrap {
       position: relative;
       width: 100%;
-      height: 500px;
+      height: 100%;
     }
     
     #menu_wrap {
@@ -49,13 +54,13 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: 250px;
+      width: 35%;
       margin: 10px 0 30px 10px;
       padding: 5px;
       overflow-y: auto;
       background: rgba(255, 255, 255, 0.7);
       z-index: 1;
-      font-size: 12px;
+      font-size: 10px;
       border-radius: 10px;
     }
     
@@ -92,7 +97,7 @@
       border-bottom: 1px solid #888;
       overflow: hidden;
       cursor: pointer;
-      min-height: 65px;
+      min-height: 25px;
     }
     
     #placesList .item span {
@@ -108,7 +113,7 @@
     }
     
     #placesList .item .info {
-      padding: 10px 0 10px 55px;
+      padding: 10px 0 10px 10px;
     }
     
     #placesList .info .gray {
@@ -218,18 +223,34 @@
 </head>
 
 <body>
+  
+
+  
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-    <div id="menu_wrap" class="bg_white">
-        <div class="option">
+  
+   
+   
+   <div id="menu_wrap" class="bg_white" style="width:97%; height:50px;">
+             <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-                    <button type="submit">검색하기</button> 
+
+   
+                      <div class="ui fluid action input">
+  <input type="text" value="SK C&C 판교캠퍼스" id="keyword" placeholder="Search...">
+  <button type="submit" class="ui button">Search</button>
+</div>
                 </form>
             </div>
         </div>
+     </div>
+     
+     
+     
+     
+    <div id="menu_wrap" class="bg_white"  style=" top:60px;">
+
         <hr>
         <ul id="placesList"></ul>
         <div id="pagination"></div>
@@ -238,12 +259,16 @@
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script>
 <script>
+
+var globalTitle = '';
+var globalPoint = '';
+
 // 마커를 담을 배열입니다
 var markers = [];
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
-        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        center: new daum.maps.LatLng(37.405725,127.09834230000001), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };  
 
@@ -315,9 +340,9 @@ function displayPlaces(places) {
     for ( var i=0; i<places.length; i++ ) {
 
         // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new daum.maps.LatLng(places[i].latitude, places[i].longitude),
-            marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다
+        var placePosition = new daum.maps.LatLng(places[i].latitude, places[i].longitude);
+        var    marker = addMarker(placePosition, i);
+        var    itemEl = getListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
@@ -334,6 +359,26 @@ function displayPlaces(places) {
             daum.maps.event.addListener(marker, 'mouseout', function() {
                 infowindow.close();
             });
+            
+            daum.maps.event.addListener(marker, 'click', function() {
+            // 마커 위에 인포윈도우를 표시합니다
+
+            globalTitle = title;
+            globalPoint = marker.getPosition();
+            
+            $('#confirmtext').text(title+'로 해피데이 장소를 지정하시겠습니까?');
+            $('.small.modal').modal('show');
+
+            });
+            
+            itemEl.onclick = function (){
+                            globalTitle = title;
+            globalPoint = marker.getPosition();
+            
+            $('#confirmtext').text(title+'로 해피데이 장소를 지정하시겠습니까?');
+            $('.small.modal').modal('show');
+            };
+          
 
             itemEl.onmouseover =  function () {
                 displayInfowindow(marker, title);
@@ -359,19 +404,9 @@ function displayPlaces(places) {
 function getListItem(index, places) {
 
     var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+    itemStr = 
                 '<div class="info">' +
-                '   <h5>' + places.title + '</h5>';
-
-    if (places.newAddress) {
-        itemStr += '    <span>' + places.newAddress + '</span>' +
-                    '   <span class="jibun gray">' +  places.address  + '</span>';
-    } else {
-        itemStr += '    <span>' +  places.address  + '</span>'; 
-    }
-                 
-      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-                '</div>';           
+                '   <h5>' + (index+1) +'.'+ places.title + '</h5>';
 
     el.innerHTML = itemStr;
     el.className = 'item';
@@ -446,6 +481,8 @@ function displayInfowindow(marker, title) {
 
     infowindow.setContent(content);
     infowindow.open(map, marker);
+    
+    
 }
 
  // 검색결과 목록의 자식 Element를 제거하는 함수입니다
@@ -454,7 +491,29 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+
+
+function returnLocation() {
+  opener.setLocationValue(globalTitle, globalPoint);
+  window.close();
+
+}
 </script>
 </body>
+
+<div class="ui small modal">
+    <div class="header">
+     <p id='confirmtext'></p>
+    </div>
+    <div class="actions">
+      <div class="ui negative button">
+        No
+      </div>
+      <div class="ui positive right labeled icon button" onclick="javascript:returnLocation()">
+        Yes
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
 
 </html>
