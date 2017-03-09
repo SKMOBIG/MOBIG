@@ -27,7 +27,7 @@
     <script src="../javascripts/bootstrap.js"></script>
 
     <script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src = "https://openapi.map.naver.com/openapi/v3/maps.js?clientId=ooScMbXZjXvHRXASb8X8"></script>
+    <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script> 
     
     <script type="text/javascript">
     
@@ -39,7 +39,7 @@
             location.href = '../detail/' + id + '/postlist';
         }
         
-        function accordian() {
+         function accordion() {
             $('.ui.accordion').accordion();
         }
  
@@ -143,9 +143,9 @@
                                 <!--      상세내역보기-->
                                 <!--</div>-->
                                 
-                                <div class="ui styled accordion">
-                                    <div class="title" onclick="javascript:accordian()">
-                                        <i class="dropdown icon" width=25></i>
+                                <div class="ui accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon" width=25 onClick="javascript:accordion"></i>
                                             상세내역보기
                                     </div>
                                     <div class="content">
@@ -166,15 +166,24 @@
                 <div class="ui segment">
                     <div id="mapArea"></div>
                     <script>
-                        var map = new naver.maps.Map('mapArea', { 
-                            center: new naver.maps.LatLng(37.435056, 126.690760),
-                            zoom:11
+                        var mapContainer = document.getElementById('mapArea')    // 지도 표시 div
+                        var mapOption = {
+                                center : new daum.maps.LatLng(37.405725,127.09834230000001),    //지도 중심좌표
+                                level : 3 //지도 확대레벨
+                            };
+                        
+                        var map = new daum.maps.Map(mapContainer, mapOption); //지도 생성
+                        var markerPosition = new daum.maps.LatLng(37.405725,127.098342);    //마커 표시좌표
+                        var marker = new daum.maps.Marker({    //마커 생성
+                             position : markerPosition
                         });
-                        var marker = new naver.maps.Marker({
-                            position:new naver.maps.LatLng(37.435056, 126.690760),
-                            map : map
+                        marker.setMap(map);    //마커 지도위에 표시
+                        
+                        var infowindow = new daum.maps.InfoWindow({    //장소명 생성
+                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
                         });
-                         ///
+                        infowindow.open(map, marker);    //장소명 표시
+                        
                     </script>
                 </div>
                 
