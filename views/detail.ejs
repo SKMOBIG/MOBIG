@@ -80,88 +80,101 @@
 <body>
     <!-- Navigation -->
     <% include ./partials/navigation.ejs %>
-
     <!-- Page Content -->
     <div class="container">
         <div class="content">
-            <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
-
-            <div class="ui segment">
-                <img class="ui centered fluid image" src=<%=data.img_url%>>
-                <div class="yellow two ui buttons">
-                    <button class="ui button" onClick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
-                    <button class="ui button" onClick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
+            <div class="ui segments">
+                <div class="ui segment">
+                    <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
                 </div>
-                <p> </p>
-                <div class="image">
-                    <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg"> 
-                    <span> 작성자 : <%= data.user_name %> ( <%=data.org_nm%> ) </span>
+                <div class="ui segment">
+                    <img class="ui centered fluid image" src=<%=data.img_url%>>
                 </div>
-                <div class="meta">
+            </div>
+            
+            <div class="ui segments">
+                <div class="ui segment">
+                    <div class="yellow two ui buttons">
+                        <button class="ui button" onClick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
+                        <button class="ui button" onClick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
+                    </div>
+                </div>
+                <div class="ui horizontal segments">
+                    <div class="ui segment">
+                        <div class="image">
+                            <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg"> 
+                            <span> 작성자 : <%= data.user_name %> ( <%=data.org_nm%> ) </span>
+                        </div>
+                    </div>    
+                    <div class="ui right aligned segment">
+                            <span class="right floated">등록 : <%= data.reg_dtm %> </span>
+                    </div>
+                </div>
+                <div class="ui segment">
                     <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
-                    <p> </p>
-                    <span class="right floated">등록 : <%= data.reg_dtm %> </span>
                 </div>
                 
-                <div class="ui labeled button" tabindex="0">
-                    <div class="ui yellow button">
-                        <i class="heart icon"></i> Like
+                <div class="ui segment">
+                    <div class="ui labeled button" tabindex="0">
+                        <div class="ui yellow button">
+                            <i class="heart icon"></i> Like
+                        </div>
+                        <a class="ui basic red left pointing label">1,048</a>
                     </div>
-                    <a class="ui basic red left pointing label">1,048</a>
-                </div>
-                <div class="ui labeled button" tabindex="0">
-                    <div class="ui gray button">
-                        <i class="feed icon"></i> Feed
+                    <div class="ui labeled button" tabindex="0">
+                        <div class="ui gray button">
+                            <i class="feed icon"></i> Feed
+                        </div>
+                        <a class="ui basic red left pointing label">10</a>
                     </div>
-                    <a class="ui basic red left pointing label">10</a>
                 </div>
                 
-
-                <table class="ui definition table">
-                    <tbody>
-                        <tr>
-                            <td class="two wide column">일 시</td>
-                            <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
-                        </tr>
-                        <tr>
-                            <td>장 소</td>
-                            <td><%= data.place_name %></td>
-                        </tr>
-                        <tr>
-                            <td>모집인원</td>
-                            <td><%= data.num_participants %>명</td>
-                        </tr>
-                        <tr>
-                            <td>모집기간</td>
-                            <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
-                        </tr>
-                        <tr>
-                            <td>참가포인트</td>
-                            <td><%= data.req_point%>P 
-
-                                <!--<div class="ui button" data-inverted="" data-tooltip="1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P" data-position="right center">-->
-                                <!--      상세내역보기-->
-                                <!--</div>-->
-                                
-                                <div class="ui accordion">
-                                    <div class="title">
-                                        <i class="dropdown icon" width=25></i>
-                                            상세내역보기
+                <div class="ui segment">
+                    <table class="ui definition table">
+                        <tbody>
+                            <tr>
+                                <td class="two wide column">일 시</td>
+                                <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
+                            </tr>
+                            <tr>
+                                <td>장 소</td>
+                                <td><%= data.place_name %></td>
+                            </tr>
+                            <tr>
+                                <td>모집인원</td>
+                                <td><%= data.num_participants %>명</td>
+                            </tr>
+                            <tr>
+                                <td>모집기간</td>
+                                <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
+                            </tr>
+                            <tr>
+                                <td>참가포인트</td>
+                                <td><%= data.req_point%>P 
+    
+                                    <!--<div class="ui button" data-inverted="" data-tooltip="1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P" data-position="right center">-->
+                                    <!--      상세내역보기-->
+                                    <!--</div>-->
+                                    
+                                    <div class="ui accordion">
+                                        <div class="title">
+                                            <i class="dropdown icon" width=25></i>
+                                                상세내역보기
+                                        </div>
+                                        <div class="content">
+                                            <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P </p>
+                                        </div>
                                     </div>
-                                    <div class="content">
-                                        <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P </p>
-                                    </div>
-                                </div>
-                                
-                            </td>
-                        </tr>  
-                        <tr>
-                            <td>내 용</td>
-                            <td><%= data.happyday_contents %></td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                                    
+                                </td>
+                            </tr>  
+                            <tr>
+                                <td>내 용</td>
+                                <td><%= data.happyday_contents %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="ui segment">
                     <div id="mapArea"></div>
@@ -184,21 +197,32 @@
                         });
                         infowindow.open(map, marker);    //장소명 표시
                         
+                        var mapTypeControl = new daum.maps.MapTypeControl(); // 지도 타입 전환 컨트롤 생성
+                        map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+                        
+                        var zoomControl = new daum.maps.ZoomControl();    // 지도 줌 컨트롤 생성
+                        map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+                        
                     </script>
                 </div>
                 
-                <div class="image"> * 신청현황보기 (3/8)
-                    <% for (var i = 0; i < data1.length; i++) { %>
-                        <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
-                        <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
-                       
-                    <% } %>
+                <div class="ui segment">
+                    <div class="image"> * 신청현황보기 (3/8)
+                        <% for (var i = 0; i < data1.length; i++) { %>
+                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
+                            <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
+                           
+                        <% } %>
+                    </div>
+                </div>
+                
+                <div class="ui right aligned segment">
+                    <button class="ui primary button">신청</button>
+                    <button class="ui button">취소</button>
                 </div>
                 
             </div>
-            
-            <button class="ui primary button">신청</button>
-            <button class="ui button">취소</button>
+
 
         </div> <!-- content -->
 
