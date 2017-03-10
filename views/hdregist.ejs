@@ -32,8 +32,6 @@ function modalClose(){
 
 $(document).ready(function() {
   
-  $('.ui.accordion').accordion();
-  
   // 등록모달 show
   $("#HappyDayRegist").click(function(){
       $('.ui.modal.Regist').modal('show');
@@ -69,7 +67,7 @@ $(document).ready(function() {
     var happyday_contents = $("#happyday_contents").val()
     
     
-    var flag = 1;
+    var flag = 0;
     
      //$('#req_point_alert').hide()
       //$('#req_point_alert2').hide()
@@ -77,65 +75,64 @@ $(document).ready(function() {
     // 해피데이 이름 check
     if(happyday_name == ''){
       $('#happyday_name_alert').css("visibility","visible");
-      
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#happyday_name_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     }
     
     // 카테고리 check
     if(category_code == ''){
       $('#category_code_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#category_code_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     }
     
     // 맴버수 check
     if(num_participants == ''){
       $('#num_participants_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#num_participants_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     } 
     
      // 장소 check  
     if(place_name == ''){
       $('#place_name_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#place_name_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     } 
     
     // 출발날짜 check
     if(startdate == ''){
       $('#startday_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#startday_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     } 
     
     // 출발시간 check TODO 왜 디폴트가 2300으로 등러갈가요??? 저녁 11시에 놀러가는 사람 없겠죠??
-    // alert("aa"+starttime);
+   
     if(starttime == '2300'){
-      // alert("aa"+starttime);
+     
       $('#starttime_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
-      // alert("bb"+starttime); 
+    
       $('#starttime_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     } 
  
      // 마감일 출발일 비교 check
@@ -158,17 +155,17 @@ $(document).ready(function() {
      
     if(ddaydate == ''){
       $('#dday_dt_alert').css("visibility","visible").text("*마감일을 선택 해 주세요");
-      flag = 0;
+      // flag = 0;
     }
     else{
-      flag = 1;
+      
         if(startdate > ddaydate){
            $('#dday_dt_alert').css("visibility","visible").text("*마감일이 출발일 보다 빠릅니다");
-          flag = 0;
+          // flag = 0;
         }
         else{
            $('#dday_dt_alert').css("visibility","hidden");
-          flag = 1;
+          flag = flag+1;
       } 
     }
     
@@ -192,48 +189,49 @@ $(document).ready(function() {
 */  // 포인트 check   
     if(req_point == ''){
       $('#point_alert').css("visibility","visible").text("*차감포인트를 작성해 주세요");
-      flag = 1;
+      // flag = 1;
     }
     else{
       if(req_point > my_point){
         $('#point_alert').css("visibility","visible").text("*보유한 포인트보다 소모 포인트가 많습니다");
-        flag = 0;
+        // flag = 0;
       }
       else {
         $('#point_alert').css("visibility","hidden");
-        flag = 1;
+        flag = flag+1;
       }        
     } 
 
     // 사유 check 
     if(point_rsn == ''){
       $('#point_rsn_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#point_rsn_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     }
     
     
     // 내용 check 
     if(happyday_contents == ''){
       $('#happyday_contents_alert').css("visibility","visible");
-      flag = 0;
+      // flag = 0;
     }
     else{
       $('#happyday_contents_alert').css("visibility","hidden");
-      flag = 1;
+      flag = flag+1;
     }
     
     
-    if(flag == 0){
-      //입력 내용이 완벽하지 않으면 false
-      return false;
-    }
-    else{
+    if(flag == 10){
       // 입력 내용이 완벽하면 true
       return true;
+    }
+    else{
+      
+      //입력 내용이 완벽하지 않으면 false
+      return false;
     }
  
   });
