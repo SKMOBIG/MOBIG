@@ -23,7 +23,24 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
-  
+
+
+
+function showHdReg(){
+                https://happyapp1-myoro1d.c9users.io/hdupdate
+                var popUrl = "../hdregpopup";	//팝업창에 출력될 페이지 URL
+                var popupX = (window.screen.width / 2) - (1200);
+                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+
+                // var popupY= (window.screen.height /2) - (700 / 2);
+                var popupY= (window.screen.height /2) ;
+                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+
+                window.open(popUrl, '', 'status=no, height=600, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+
+        }
+
+
 function modalClose(){
   $('.ui.modal').modal('hide');
 };
@@ -116,24 +133,6 @@ $(document).ready(function() {
       flag = flag+1;
     } 
  
-     // 마감일 출발일 비교 check
-    /*if(ddaydate == ''){
-      $('#dday_dt_alert2').css("visibility","visible");
-      flag = 0;
-    }
-    else{
-      $('#dday_dt_alert2').css("visibility","hidden");
-      flag = 1;
-          if(startdate > ddaydate){
-             $('#dday_dt_alert').css("visibility","visible");
-            flag = 0;
-          }
-          else{
-             $('#dday_dt_alert').css("visibility","hidden");
-            flag = 1;
-          } 
-     }*/
-     
     if(ddaydate == ''){
       $('#dday_dt_alert').css("visibility","visible").text("*마감일을 선택 해 주세요");
       // flag = 0;
@@ -150,24 +149,7 @@ $(document).ready(function() {
       } 
     }
     
-    // 포인트 check 
-/*    if(req_point == ''){
-      $('#req_point_alert').css("visibility","visible");
-      flag = 0;
-    }
-    else{
-      $('#req_point_alert').css("visibility","hidden");
-      flag = 1;
-        if(req_point > my_point && req_point != ''){
-             $('#req_point_alert2').css("visibility","visible");
-            flag = 0;
-          }
-          else{
-             $('#req_point_alert2').css("visibility","hidden");
-            flag = 1;
-          } 
-    } 
-*/  // 포인트 check   
+  // 포인트 check   
     if(req_point == ''){
       $('#point_alert').css("visibility","visible").text("*차감포인트를 작성해 주세요");
       // flag = 1;
@@ -289,6 +271,12 @@ $(document).ready(function() {
   
 <div>
 	<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>
+	
+	<button class="ui basic button" onclick="javascript:showHdReg()"> 
+  
+  등록 팝업
+    </div>
+	
 </div>
 
 <!--등록 모달start--> 
@@ -307,8 +295,8 @@ $(document).ready(function() {
   	<input id="starthappyday" type="hidden"  name="starthappyday">
   	<!--날짜합치기 히든 end-->
   
-    <div class="ui two column grid">
-    <div class="column">
+    <div class="ui two fields">
+    <div class="field">
       <div class="ui sub header">*카테고리</div>
       <!--<div class="ui fluid multiple search selection dropdown"  style=" width: 100%;">-->
       <div class="ui multiple selection dropdown"  style=" width: 100%;">

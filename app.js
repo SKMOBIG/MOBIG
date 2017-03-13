@@ -88,6 +88,8 @@ var detail = require('./routes/detail')(app, connectionPool);
 var postlist = require('./routes/postlist')(app, connectionPool);
 
 var mappopup = require('./routes/mappopup')(app, connectionPool);
+var hdregpopup = require('./routes/hdregpopup')(app, connectionPool);
+
 
 
 http.createServer(app).listen(app.get('port'), function(){
