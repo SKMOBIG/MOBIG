@@ -17,6 +17,31 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
+  
+   function showMap(){
+                
+                var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
+                var popupX = (window.screen.width / 2) - (1200 / 2);
+                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+
+                var popupY= (window.screen.height /2) - (700 / 2);
+                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+
+                window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+
+        }
+        
+    function setLocationValue(title, point){
+          alert('주소 정상 호출 확인 '+title+' '+point);
+          //경도 longitude
+          //위도 latitude
+          //var afterStr = point. 아놔 왜 split가 안되는거지 ..ㅠㅠ
+          $("#place_name").val(title);
+          $("#latitude").val(point);
+          //$("#longitude").val(addressArray[1]);
+        }
+  
+  
 $(document).ready(function() {
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
@@ -216,7 +241,21 @@ $(document).ready(function() {
     .ui.sub.header{
         margin-top: 10px;
     }
+    .ui.segment.form {
+    background: #FBBD08;
+	}
     
+    .ui.yellow.submit.button {
+    background: peru;
+	}
+	
+	.ui.sub.header {
+    	color:white;
+	}
+    
+    /*마우스 올리면 손모양으로*/
+    /*.ui.label*/
+    /*{cursor: pointer;}*/
         
 </style>
 
@@ -225,7 +264,7 @@ $(document).ready(function() {
 </head>
 <body>
 <form id="hdregmodal" class="ui segment form" action="/happyday_regist" method="post">
-	<h3 class="ui left floated header">HappyDay를 등록 해 주세요</h3>
+	<h3 class="ui left floated header" style="color:white">HappyDay를 등록 해 주세요</h3>
 	<div class="ui clearing divider">
 	</div>
 	<div class="content">
@@ -320,7 +359,7 @@ $(document).ready(function() {
 				 이미지 링크
 			</div>
 			<div class="ui labeled input">
-				<div class="ui label">
+				<div class="ui label" style="background:#A5673F; color:white">
 					 http://
 				</div>
 				<input type="text" placeholder="mysite.com" name="img_url" id>
@@ -332,11 +371,14 @@ $(document).ready(function() {
 			</div>
 			<div class="ui right labeled left icon action input">
 				<i class="marker icon"></i>
-				<input type="text" placeholder="Search the location" id="place_name" name="place_name">
-				<div class="ui label">
-					<i class="search icon"></i>
+				<input id="place_name" type="text" placeholder="Search the location"  name="place_name">
+				<div class="ui label" onclick="javascript:showMap()" style="background:#A5673F; color:white; cursor: pointer;" >
+					<i class="search icon" ></i>
 				</div>
+					
 			</div>
+			<input id="latitude" type="text" value="위도 히든값으로 넘기자">
+			<input id="longitude" type="text" value="경도 히든값으로 넘기자">
 			<p class="p validation" id="place_name_alert" style="color:red; visibility:hidden;">
 				 *장소를 선택해 주세요
 			</p>
@@ -433,10 +475,10 @@ $(document).ready(function() {
 		<div class="ui clearing divider">
 		</div>
 		<div class="actions">
-			<div class="ui button" onclick=javascript:modalClose()>
+			<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:modalClose()>
 				 cancel
 			</div>
-			<button class="ui yellow submit button" id="submit" name="submit">regist</button>
+			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">regist</button>
 		</div>
 		<!-- actions -->
 	</div>
