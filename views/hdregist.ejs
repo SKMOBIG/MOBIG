@@ -33,19 +33,6 @@ $(document).ready(function() {
   // 등록모달 show
   $("#HappyDayRegist").click(function(){
       $('.ui.modal.Regist').modal('show');
-      //$('#category_code_alert').hide()
-      //$('#num_participants_alert').hide()
-      //$('#place_name_alert').hide()
-      //$('#startday_alert').hide()
-      //$('#starttime_alert').hide()
-       //$('#dday_dt_alert').hide()
-       //$('#dday_dt_alert2').hide() 
-       
-      //$('#req_point_alert').hide()
-      //$('#req_point_alert2').hide()
-      //$('#point_rsn_alert').hide()
-       //$('#happyday_contents_alert').hide()
-      
       
   });
   
@@ -64,12 +51,8 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn").val()
     var happyday_contents = $("#happyday_contents").val()
     
-    
     var flag = 0;
-    
-     //$('#req_point_alert').hide()
-      //$('#req_point_alert2').hide()
-    
+  
     // 해피데이 이름 check
     if(happyday_name == ''){
       $('#happyday_name_alert').css("visibility","visible");
