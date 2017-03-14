@@ -4,8 +4,8 @@
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -13,10 +13,6 @@
 
     <script src="../javascripts/jquery.js"></script>
     <script src="../javascripts/jquery.min.js"></script>
-    <!-- Bootstrap Core CSS -->
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="/stylesheets/shop-homepage.css" rel="stylesheet">
 
     <!--<script src="../javascripts/bootstrap.min.js"></script>-->
     <!--<script src="../javascripts/bootstrap.js"></script>-->
@@ -28,7 +24,44 @@
    
 
     <script type="text/javascript">
-    
+        
+        $(document)
+            .ready(function() {
+            $('.ui.accordion').accordion();
+            
+                /* 본인이면 수정 및 삭제버튼 표시
+                타인이면 신청 및 신청 취소버튼 표시*/
+            var regUserId = <%=data.reg_user_id %>;
+            var sessionUserId = <%=session.user_id%>;
+            
+            if(regUserId == sessionUserId){
+                alert("내가 작성자일 때,");
+                $('#modify_happyday').show();
+                $('#delete_happyday').show();
+                $('#apply_happyday').hide();
+                $('#cancel_happyday').hide();
+            }
+            else{
+                alert("내가 작성자가 아닐 때,");
+                $('#modify_happyday').hide();
+                $('#delete_happyday').hide();
+                
+                var reg_state = "<%= reg_state %>";
+                if(reg_state == "N"){
+                    alert("내가 신청자가 아닐 때,");
+                    $('#apply_happyday').show();
+                    $('#cancel_happyday').hide();
+                }
+                else{
+                    alert("내가 신청자일  때,");
+                    $('#apply_happyday').hide();
+                    $('#cancel_happyday').show();
+                }
+            }
+        
+        });
+
+        
         function goDetail(id) {
             location.href = '../detail/' + id;
         }
@@ -37,9 +70,7 @@
             location.href = '../detail/' + id + '/postlist';
         }
         
-        $(document).ready(function() {
-            $('.ui.accordion').accordion();
-        });
+        
  
  //수정필요
 
@@ -64,6 +95,7 @@
             });
         }
 
+        
         
     </script>
 
@@ -100,7 +132,7 @@
     <!-- Navigation -->
     <% include ./partials/navigation.ejs %>
     <!-- Page Content -->
-    <div class="container">
+    <div class="ui container">
         <div class="content">
             <div class="ui segments">
                 <div class="ui segment">
@@ -223,16 +255,18 @@
                 
                 <div class="ui segment">
                     <div class="image"> * 신청현황보기 (3/8)
-                        <% for (var i = 0; i < data1.length; i++) { %>
-                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=data1[i].user_id%>')">
-                            <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
+                        <% for (var i = 0; i < userList.length; i++) { %>
+                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
+                            <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span></p>
                         <% } %>
                     </div>
                 </div>
                 
                 <div class="ui right aligned segment">
-                    <button class="ui primary button">신청</button>
-                    <button class="ui button">수정</button>
+                    <button class="ui primary button" id="modify_happyday">수정</button>
+                    <button class="ui button" id="delete_happyday">삭제</button>
+                    <button class="ui primary button" id="apply_happyday">신청</button>
+                    <button class="ui button" id="cancel_happyday">취소</button>                        
                 </div>
                 
             </div>

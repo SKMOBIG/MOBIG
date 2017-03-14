@@ -42,7 +42,17 @@ module.exports = function(app, connectionPool) {
                                 throw error;
                             }else {
                                 if(rows1.length > 0){
-                                    res.render('detail', {data : rows[0], data1 : rows1, session : req.session});
+                                    var reg_state = "N";
+                                    
+                                    for(var i=0; i<rows1.length; i++) {
+                                        var cur_user_id = rows1[i].user_id;
+                                        if(req.session.user_id == cur_user_id) {
+                                            reg_state = "Y";
+                                            break;
+                                        }
+                                    }
+                                    
+                                    res.render('detail', {data : rows[0], userList : rows1, session : req.session, reg_state : reg_state});
                                     connection.release();
                                 }else {
                                     res.redirect('/');
