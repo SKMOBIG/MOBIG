@@ -10,25 +10,23 @@
     <meta name="author" content="">
 
     <title>B2B사업팀 HappyDay</title>
-    <!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
-    
+
     <script src="../javascripts/jquery.js"></script>
     <script src="../javascripts/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="/stylesheets/shop-homepage.css" rel="stylesheet">
-    
-    
+
+    <!--<script src="../javascripts/bootstrap.min.js"></script>-->
+    <!--<script src="../javascripts/bootstrap.js"></script>-->
+
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
-    
-    <script src="../javascripts/bootstrap.min.js"></script>
-    <script src="../javascripts/bootstrap.js"></script>
 
-    <!--<script type="text/javascript" src = "https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
     <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script> 
-    
+   
+
     <script type="text/javascript">
     
         function goDetail(id) {
@@ -43,7 +41,28 @@
             $('.ui.accordion').accordion();
         });
  
- 
+ //수정필요
+
+        function infoUser(reg_user_id) {
+            $.ajax({
+                type: "post",
+                url: "/infouser",
+                data: {
+                    user_id : reg_user_id
+                },
+                success: function(data) {
+                    // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
+                    $('#modal_user_name').html("이름 : " + data.user.user_name);
+                    $('#modal_user_sm_id').html("소속 : " + data.user.sm_id);
+                    $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
+                    $('.ui.modal').modal('show');
+
+                },
+                error: function(e) {
+                    alert(e.responseText);
+                }
+            });
+        }
 
         
     </script>
@@ -99,15 +118,16 @@
                         <button class="ui button" onClick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
                     </div>
                 </div>
-                <div class="ui horizontal segments">
+                <div class="ui horizontal segments" style="background-color:#FFFFFF">
                     <div class="ui segment">
                         <div class="image">
-                            <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg"> 
-                            <span> 작성자 : <%= data.user_name %> ( <%=data.org_nm%> ) </span>
+                            <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=data.reg_user_id%>')"> 
+                            <span> 작성자 : <%= data.user_name %> </span>
                         </div>
+
                     </div>    
-                    <div class="ui right aligned segment">
-                            <span class="right floated">등록 : <%= data.reg_dtm %> </span>
+                    <div class="ui segment">
+                            <span> 등록 : <%= data.reg_dtm %> </span>
                     </div>
                 </div>
                 <div class="ui segment">
@@ -151,18 +171,13 @@
                             <tr>
                                 <td>참가포인트</td>
                                 <td><%= data.req_point%>P 
-    
-                                    <!--<div class="ui button" data-inverted="" data-tooltip="1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P" data-position="right center">-->
-                                    <!--      상세내역보기-->
-                                    <!--</div>-->
-                                    
                                     <div class="ui accordion">
                                         <div class="title">
                                             <i class="dropdown icon" width=25></i>
-                                                상세내역보기
+                                            상세내역보기
                                         </div>
                                         <div class="content">
-                                            <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P, 2. 치킨 & 맥주   : 1,000P </p>
+                                            <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P <p></p> 2. 치킨 & 맥주   : 1,000P </p>
                                         </div>
                                     </div>
                                     
@@ -209,16 +224,15 @@
                 <div class="ui segment">
                     <div class="image"> * 신청현황보기 (3/8)
                         <% for (var i = 0; i < data1.length; i++) { %>
-                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
+                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=data1[i].user_id%>')">
                             <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
-                           
                         <% } %>
                     </div>
                 </div>
                 
                 <div class="ui right aligned segment">
                     <button class="ui primary button">신청</button>
-                    <button class="ui button">취소</button>
+                    <button class="ui button">수정</button>
                 </div>
                 
             </div>
@@ -231,62 +245,6 @@
         
         <div class="ui link cards">
             <div class="card">
-                <div class="content">
-
-        <div class="right floated meta">등록 2017.2.21</div>
-        <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg"> 임현우(B2B플랫폼)
-      
-                </div>
-                <div class="image">
-                    <img src="http://www.image114.co.kr/files/attach/images/170/065/039/DSC_3496.png">
-                </div>
-                <div class="content">
-                    <div class="header">삼성 VS LG 야구 보러갑시다!!</div>
-                    <div class="meta">
-                        <p>B2B플랫폼 홍길동</a>
-                    </div>
-                    <div class="description">
-                       <p>
-                           
-                       </p>
-                    </div>
-                </div>
-                <div class="extra content">
-                    <span class="right floated">
-        필요 마일리지
-      </span>
-                    <span>
-        <i class="user icon"></i>
-        75 Friends
-      </span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="image">
-                    <img src="http://www.image114.co.kr/files/attach/images/170/065/039/DSC_3496.png">
-                </div>
-                <div class="content">
-                    <div class="header">Matt Giampietro</div>
-                    <div class="meta">
-                        <a>Friends</a>
-                    </div>
-                    <div class="description">
-                        Matthew is an interior designer living in New York.
-                    </div>
-                </div>
-                <div class="extra content">
-                    <span class="right floated">
-        Joined in 2013
-      </span>
-                    <span>
-        <i class="user icon"></i>
-        75 Friends
-      </span>
-                </div>
-            </div>
-
-            <div class="card">
                 <div class="image">
                     <img src="http://www.image114.co.kr/files/attach/images/170/065/039/DSC_3496.png">
                 </div>
@@ -311,35 +269,38 @@
             </div>
         </div>
     </div>
+    
+    
+    
 </body>
 
-
-<div class="ui modal">
+<!---->
+<div class="ui modal" >
     <i class="close icon"></i>
-    <div class="header">
-        Profile Picture
-    </div>
+        <div class="header">
+            사용자 정보
+        </div>
     <div class="image content">
         <div class="ui medium image">
-            <img src="/images/avatar/large/chris.jpg">
+            <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
         </div>
         <div class="description">
-            <div class="ui header">We've auto-chosen a profile image for you.</div>
-            <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-            <p>Is it okay to use this photo?</p>
+            <div class="ui header" id="usermodal">
+                <span id="modal_user_name"> </span> <p></p>
+                <span id="modal_user_sm_id"> </span> <p></p>
+                <span id="modal_user_phone_number"> </span>
+                
+            </div>
+            <p>우왕 good!</p>
         </div>
     </div>
     <div class="actions">
-        <div class="ui black deny button">
-            Nope
-        </div>
         <div class="ui positive right labeled icon button">
-            Yep, that's me
+            확인
             <i class="checkmark icon"></i>
         </div>
     </div>
 </div>
-
-
+<!---->  
 
 </html>
