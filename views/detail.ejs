@@ -17,13 +17,12 @@
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="/stylesheets/shop-homepage.css" rel="stylesheet">
-    
-    
+
+    <!--<script src="../javascripts/bootstrap.min.js"></script>-->
+    <!--<script src="../javascripts/bootstrap.js"></script>-->
+
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
-    
-    <script src="../javascripts/bootstrap.min.js"></script>
-    <script src="../javascripts/bootstrap.js"></script>
 
     <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script> 
    
@@ -52,8 +51,10 @@
                     user_id : reg_user_id
                 },
                 success: function(data) {
-                    alert(data.user.user_name + " " +data.user.sm_id)
-                    $('#cards').html(data.user);
+                    // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
+                    $('#modal_user_name').html("이름 : " + data.user.user_name);
+                    $('#modal_user_sm_id').html("소속 : " + data.user.sm_id);
+                    $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
                     $('.ui.modal').modal('show');
 
                 },
@@ -223,9 +224,8 @@
                 <div class="ui segment">
                     <div class="image"> * 신청현황보기 (3/8)
                         <% for (var i = 0; i < data1.length; i++) { %>
-                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onClick="alert('나는 오원석이다!!')">
+                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=data1[i].user_id%>')">
                             <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
-                           
                         <% } %>
                     </div>
                 </div>
@@ -285,10 +285,11 @@
             <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
         </div>
         <div class="description">
-            <div class="ui header">
-                <span> 이름 : <%= data.user_name %> </span>
-                <p></p><span> 소속 : <%= data.sm_id %> </span>
-                <p></p><span> 번호 : 010-xxxx-xxxx </span>
+            <div class="ui header" id="usermodal">
+                <span id="modal_user_name"> </span> <p></p>
+                <span id="modal_user_sm_id"> </span> <p></p>
+                <span id="modal_user_phone_number"> </span>
+                
             </div>
             <p>우왕 good!</p>
         </div>
