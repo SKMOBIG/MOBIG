@@ -307,8 +307,10 @@ $(document).ready(function() {
   	<input id="starthappyday" type="hidden"  name="starthappyday">
   	<!--날짜합치기 히든 end-->
   
-    <div class="ui two column grid">
-    <div class="column">
+    <!--<div class="ui two column grid">-->
+    
+    <div class="two fields">
+    <div class="field">
       <div class="ui sub header">*카테고리</div>
       <!--<div class="ui fluid multiple search selection dropdown"  style=" width: 100%;">-->
       <div class="ui multiple selection dropdown"  style=" width: 100%;">
@@ -326,7 +328,7 @@ $(document).ready(function() {
       </div>
       <p id="category_code_alert" style="color:red; visibility:hidden;">*카테고리를 선택해 주세요</p>
     </div>
-    <div class="column">
+    <div class="field">
       <div class="ui sub header">*맴버수</div>
       <div class="ui selection dropdown"  style=" width: 100%;">
         <input type="hidden" id="num_participants" name="num_participants" style=" width: 100%;" readonly="true">
@@ -344,6 +346,7 @@ $(document).ready(function() {
       <p id="num_participants_alert" style="color:red; visibility:hidden;">*멤버 수를 선택해 주세요</p>
     </div>
     </div>
+ 
     <br>
     <div class="field">
       <div class="ui sub header">이미지 링크</div>
@@ -368,9 +371,8 @@ $(document).ready(function() {
     
     <div class="ui two column grid">
     <div class="column">  
-      <div class="ui two column grid">
-      
-      <div class="column">
+      <div class="two fields">
+      <div class="field">
         <div class="ui sub header">*출발 날짜</div>
         <div class="ui calendar" name="example2">
           <div class="ui input left icon" style=" width: 100%;"> 
@@ -381,7 +383,7 @@ $(document).ready(function() {
         <p id="startday_alert" style="color:red; visibility:hidden;">*출발날짜를 선택해 주세요</p>
       </div><!-- column -->
       
-      <div class="column">
+      <div class="field">
         <div class="ui sub header">*출발 시각</div>
         <div class="ui calendar" name="example3">
           <div class="ui input left icon" style=" width: 100%;">
@@ -390,10 +392,9 @@ $(document).ready(function() {
           </div>
         </div>
         <p id="starttime_alert" style="color:red; visibility:hidden;">*출발시간를 선택해 주세요</p>
-      </div>
+      </div><!-- two fields-->
       </div>
     </div>
-    
     <div class="column">
       <div class="ui sub header">*마감일</div>
       <div class="ui calendar" name="example4">
