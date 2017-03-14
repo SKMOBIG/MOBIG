@@ -8,8 +8,6 @@ module.exports = function(app, connectionPool) {
             res.redirect('/');
         }
     
-        console.log("user page session : " + req.session.user_name+" / "+req.session.emp_num+" / "+req.session.user_id);
-        
         connectionPool.getConnection(function(err, connection) {
             connection.query('select u.* '+
                                 ', (select org_nm from com_org where org_id = u.team_id) as team_name '+
@@ -32,5 +30,40 @@ module.exports = function(app, connectionPool) {
                 }
             });
         });
+    });
+    
+    app.post('/user', function(req, res, next) {
+        /* session 없을 땐 로그인 화면으로 */
+        if(!req.session.user_name) {
+            res.redirect('/');
+            
+        }else if(req.session.user_id == req.body.user_id) {
+            connectionPool.getConnection(function(err, connection) {
+                
+                console.log(req.body);
+                
+                var params = [req.body.phone_number, req.body.birthday, req.body.blood_type, req.body.address, req.body.home_town, req.session.user_id];
+                var queries = connection.query('update user '+
+                                 'set phone_number = ?, birthday = ?, blood_type = ?, address = ?, home_town = ? '+
+                                 'where id = ?;', params, function(error, result) {
+                    
+                    if(error) {
+                        connection.release();
+                        throw error;
+                    }else {
+                        connection.release();
+                        res.json({success : "Updated Successfully", status : 200}); // express 사용 시
+                        /*
+                        var response = {
+                            status  : 200,
+                            success : 'Updated Successfully'
+                        }
+                        
+                        res.end(JSON.stringify(response));
+                        */
+                    }
+                });
+            });    
+        }
     });
 }
