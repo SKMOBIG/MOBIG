@@ -1,14 +1,7 @@
 
 module.exports = function(app, connectionPool) {
 
-    app.get('/hdupdate', function(req, res, next) {
-        
-        // /* session 없을 땐 로그인 화면으로 */
-        // if(!req.session.user_name) {
-        //     res.redirect('/');
-        // }
-    
-        // console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
+    app.get('/hduppopup', function(req, res, next) {
         
         connectionPool.getConnection(function(err, connection) {
             connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
@@ -20,7 +13,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('hdupdate', {data : rows[0], session : req.session});
+                        res.render('hduppopup', {data : rows[0], session : req.session});
                         connection.release();
                     }else {
                         res.redirect('/');
@@ -50,7 +43,7 @@ module.exports = function(app, connectionPool) {
     //     });
     // });
     
-   /*app.post('/Happdaygetdata_KJY', function(req, res, next) {
+   app.post('/Happdaygetdata_KJY', function(req, res, next) {
         
         // console.log(req.body);
         
@@ -73,20 +66,20 @@ module.exports = function(app, connectionPool) {
     app.post('/happyday_update', function(req, res, next) {
        
         connectionPool.getConnection(function(err, connection) {
-            connection.query('update happyday_master set happyday_name = ?, happyday_contents = ?, category_code=?, dday_dt = ?, happyday_dt = ?, req_point =?, num_participants =?, place_name = ?, img_url =?, point_rsn = ?, update_dtm = date_format(sysdate(), "%Y%m%d%H%i%s") where happyday_id = 84;'                       
-            , [req.body.happyday_name, req.body.happyday_contents, req.body.category_code, req.body.dday_dt, req.body.starthappyday, req.body.req_point, req.body.num_participants, req.body.place_name,  req.body.img_url, req.body.point_rsn ], function(error, rows) {
+            connection.query('update happyday_master set happyday_name = ?, happyday_contents = ?, category_code=?, dday_dt = ?, happyday_dt = ?, req_point =?, num_participants =?, place_name = ?, img_url =?, point_rsn = ?, update_dtm = date_format(sysdate(), "%Y%m%d%H%i%s") where happyday_id = 147;'                       
+            , [req.body.happyday_name, req.body.happyday_contents, req.body.category_code, req.body.dday_dt, req.body.starthappyday, req.body.req_point, req.body.num_participants, req.body.place_name,  req.body.img_url, req.body.point_rsn], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
                     connection.release();
                    
-                    res.redirect('/hdupdate');
+                    res.redirect('/closepopup');
                 }    
                 
             });
         });
-    });*/
+    });
    
    
    

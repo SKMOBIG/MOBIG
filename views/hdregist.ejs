@@ -19,7 +19,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <script type="text/javascript">
-
 function showHdReg(){
                 
                 var popUrl = "../hdregpopup";	//팝업창에 출력될 페이지 URL
@@ -27,11 +26,8 @@ function showHdReg(){
                 // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
                 var popupY= (window.screen.height /2) - (700 / 2);
                 // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-
                 window.open(popUrl, '', 'status=no, height=700, width=445, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-
         }
-
 </script>
 
 </head>
@@ -41,131 +37,8 @@ function showHdReg(){
 <% include ./partials/navigation.ejs %>
   
 <div>
-<<<<<<< HEAD
-	<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>
-</div>
-
-<!--등록 모달start--> 
-<div class="ui modal Regist">
-<form id ="hdregmodal" class="ui segment form" action="/happyday_regist" method="post">
-  <h3 class="ui left floated header">HappyDay Regist Page</h3>
-  <div class="ui clearing divider"></div>
-	<div class="content">
-	  <div class="field">
-  	  <div class="ui sub header">*해피데이 이름</div>
-  			<input type="text" placeholder="<%= data.user_name %>님 입력해주세요." id="happyday_name" name="happyday_name">
-  			<p id="happyday_name_alert" style="color:red; visibility:hidden;">*해피데이 이름을 입력해 주세요</p>
-  	</div> 
-  	
-  	<!--날짜합치기 히든-->
-  	<input id="starthappyday" type="hidden"  name="starthappyday">
-  	<!--날짜합치기 히든 end-->
-  
-    <!--<div class="ui two column grid">-->
-    
-    <div class="two fields">
-    <div class="field">
-      <div class="ui sub header">*카테고리</div>
-      <!--<div class="ui fluid multiple search selection dropdown"  style=" width: 100%;">-->
-      <div class="ui multiple selection dropdown"  style=" width: 100%;">
-        <input id="category_code" name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
-        
-        <i class="dropdown icon"></i>
-      <div class="default text" >Select</div>
-      <div class="menu">
-        <div class="item" data-value="스포츠관람">스포츠관람</div>
-        <div class="item" data-value="2">야외활동</div>
-        <div class="item" data-value="3">실내활동</div>
-        <div class="item" data-value="4">영화,연극</div>
-        <div class="item" data-value="5">문화체험</div>
-      </div>
-      </div>
-      <p id="category_code_alert" style="color:red; visibility:hidden;">*카테고리를 선택해 주세요</p>
-    </div>
-    <div class="field">
-      <div class="ui sub header">*맴버수</div>
-      <div class="ui selection dropdown"  style=" width: 100%;">
-        <input type="hidden" id="num_participants" name="num_participants" style=" width: 100%;" readonly="true">
-        <i class="dropdown icon"></i>
-        <div class="default text"></div>
-        <div class="menu">
-          <div class="item" data-value="5">5명</div>
-          <div class="item" data-value="6">6명</div>
-          <div class="item" data-value="7">7명</div>
-          <div class="item" data-value="8">8명</div>
-          <div class="item" data-value="9">9명</div>
-          <div class="item" data-value="10">10명</div>
-        </div>
-      </div>
-      <p id="num_participants_alert" style="color:red; visibility:hidden;">*멤버 수를 선택해 주세요</p>
-    </div>
-    </div>
- 
-    <br>
-    <div class="field">
-      <div class="ui sub header">이미지 링크</div>
-      <div class="ui labeled input">
-        <div class="ui label">
-          http://
-        </div>
-        <input type="text" placeholder="mysite.com" name="img_url" id>
-      </div>
-    </div>
-   
-    <div class="field">
-      <div class="ui sub header">*장소</div>	
-    	<div class="ui right labeled left icon action input">
-    		<i class="marker icon"></i>
-    		<input type="text" placeholder="Search the location" id="place_name" name="place_name" >
-    		
-    		<div class="ui label"><i class="search icon"></i></div>
-      </div>
-      <p id="place_name_alert" style="color:red; visibility:hidden;">*장소를 선택해 주세요</p>
-    </div>
-    
-    <div class="ui two column grid">
-    <div class="column">  
-      <div class="two fields">
-      <div class="field">
-        <div class="ui sub header">*출발 날짜</div>
-        <div class="ui calendar" name="example2">
-          <div class="ui input left icon" style=" width: 100%;"> 
-            <i class="calendar icon"></i>
-            <input type="text" placeholder="Check the calendar" style=" width: 100%;" name="happyday_dt" readonly="true">
-          </div>
-        </div><!-- calendar -->
-        <p id="startday_alert" style="color:red; visibility:hidden;">*출발날짜를 선택해 주세요</p>
-      </div><!-- column -->
-      
-      <div class="field">
-        <div class="ui sub header">*출발 시각</div>
-        <div class="ui calendar" name="example3">
-          <div class="ui input left icon" style=" width: 100%;">
-            <i class="time icon"></i>
-            <input type="text" placeholder="Time" style=" width: 100%;" id="happyday_time" name="happyday_time" readonly="true">
-          </div>
-        </div>
-        <p id="starttime_alert" style="color:red; visibility:hidden;">*출발시간를 선택해 주세요</p>
-      </div><!-- two fields-->
-      </div>
-    </div>
-    <div class="column">
-      <div class="ui sub header">*마감일</div>
-      <div class="ui calendar" name="example4">
-        <div class="ui input left icon" style=" width: 100%;">
-          <i class="calendar icon"></i>
-          <input type="text" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
-        </div>
-        <!--<p id="dday_dt_alert" style="color:red; visibility:hidden;">*마감일이 출발일 보다 빠릅니다</p>-->
-        <!--<p id="dday_dt_alert2" style="color:red; visibility:hidden;">*마감일을 선택 해 주세요</p>-->
-       <P id="dday_dt_alert" style="color:red; visibility:hidden;"></p>        
-      </div>
-    </div>
-    </div><!-- ui two column grid -->
-=======
 	<!--<button class="ui inverted red button" id='HappyDayRegist'>등록 </button>-->
 	<button class="ui basic button" onclick="javascript:showHdReg()"> 
->>>>>>> 9d3e8dee64627615a2d3054b056040f4c67273b9
   
   등록 팝업
     </div>
