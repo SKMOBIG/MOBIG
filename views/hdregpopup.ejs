@@ -40,15 +40,25 @@
           $("#latitude").val(latitude);  // 위도
           $("#longitude").val(longitude);  //경도
         }
+    function windowClose(){
+      window.close();  
+    }
         
-    window.onunload = refreshParent;
-    function refreshParent() {
-        window.opener.location.reload();
-    }    
-        
-        
+    // window.onunload = refreshParent;
+    // function refreshParent() {
+    //     window.opener.location.reload();
+    // }    
+      
+    
+       
         
 $(document).ready(function() {
+  
+  function refreshParent() {
+      // alert("aa");
+        window.opener.location.reload();
+    }  
+  
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
     $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
@@ -166,9 +176,12 @@ $(document).ready(function() {
     }
     if(flag == 9){
       // 입력 내용이 완벽하면 true
+      // window.parent.location.reload();
+      refreshParent();
       return true;
     }
     else{
+      
       //입력 내용이 완벽하지 않으면 false
       return false;
     }
@@ -433,7 +446,7 @@ $(document).ready(function() {
 					 *차감포인트
 				</div>
 				<div class="ui left icon input" style=" width: 100%;">
-					<input type="text" id="req_point" placeholder="포인트를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
+					<input type="text" id="req_point" placeholder="Input Point" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
 					<i class="won icon"></i>
 				</div>
 				<!-- point -->
@@ -482,10 +495,11 @@ $(document).ready(function() {
 		<div class="ui clearing divider">
 		</div>
 		<div class="actions">
-			<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:modalClose()>
+			<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:windowClose()>
 				 취소
 			</div>
-			<button class="ui submit button" id="submit" name="submit" onclick="window.parent.location.reload();" style="background:#A5673F; color:white">등록</button>
+			<!--<button class="ui submit button" id="submit" name="submit" onclick="window.parent.location.reload();" style="background:#A5673F; color:white">등록</button>-->
+			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
 		</div>
 		<!-- actions -->
 	</div>

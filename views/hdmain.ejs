@@ -104,8 +104,7 @@
 		</div>
 		<% for (var i=0; i < data.length; i++) { %>
 		<div class="ui centered card">
-			<div class="content" onclick="javascript:goDetail('<%=data[i].happyday_id%>
-				')" style="background-color:#ee5252; max-height:56px">
+			<div class="content" onclick="javascript:goDetail('<%=data[i].happyday_id%>')" style="background-color:#ee5252; max-height:56px">
 				<div class="right floated meta" style="margin-top: 7px; font-size:0.9em">
 					등록 <%=data[i].reg_dtm%>
 				</div>
@@ -127,8 +126,7 @@
 					</p>
 				</div>
 			</div>
-			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>
-				')" class="extra content"> <span>
+			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="extra content"> <span>
 				<i class="user icon"></i>
 				모집인원 <%=data[i].num_participants%>명(<%=data[i].vacancy%>자리남음) </span>
 			</div>
