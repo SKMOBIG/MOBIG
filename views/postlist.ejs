@@ -17,7 +17,9 @@
     
 <script type="text/javascript">
     function modalClose(){
-   $('.ui.modal').modal('hide');
+     // alert("aa");
+    $('.ui.modal').modal('hide');
+    window.location.reload();
    
    }
         function goDetail(id) {
@@ -44,6 +46,8 @@
          var hour = data.datas.modify_dtm.substring(8,10);
          var minute = data.datas.modify_dtm.substring(10,12);
          var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
+         var post_content = data.datas.post_content;
+         // alert(post_content);
     
       if("<%=session.user_name %>" == data.datas.user_name )
          {
@@ -58,7 +62,7 @@
          $("#postselect_title").html(data.datas.post_title);
          $("#postselect_writer").html(data.datas.user_name);
          $("#postselect_time").html(dtm);
-         $("#postselect_content").html(data.datas.post_content);
+         $("#postselect_content").html(post_content.replace(/\r\n/gi, "<BR/>"));
          $("#postselect_postid").val(data.datas.post_id);
          $("#postselect_happydayid").val(data.datas.happyday_id);
             $('.ui.modal.Select').modal('show');
@@ -82,8 +86,9 @@
         success:function(data){   
          $("#postupdate_title").val(data.datas.post_title);
          $("#postupdate_content").html(data.datas.post_content);
+         // alert(data.datas.post_content);
          $("#selectPostId").val(data.datas.post_id);
-            $('.ui.modal.Update').modal('show');
+         $('.ui.modal.Update').modal('show');
         },
         error:function(e){  
             alert(e.responseText);  
@@ -115,13 +120,12 @@
     }
     
   $(document).ready(function() {  
-   
    // 등록 모달에서 submit 하기 전에 해야 될 사항 -> 정합성 체크  
    $('.ui.modal.Reg').submit(function() {
     var post_name = $("#post_title").val(); // 후기 제목
     var post_content = $("#post_content").val(); // 후기 내용
     flag = 0;
-    
+ 
     // 후기 제목 체크
     if(post_name == ''){
       $('#post_title_alert').css("visibility","visible");
@@ -145,6 +149,7 @@
     
      if(flag == 2){
       // 입력 내용이 완벽하면 true
+      $("#post_content").val(post_content);
       return true;
     }
     else{
@@ -213,7 +218,14 @@
              padding-top: 80px;
         }
      .ui.segment.jun {cursor: pointer;}
+     
+     .ui.form.segment{
+       background:orange;
+     }
+
  </style>
+ 
+ 
 </head>
 <body>
 <!-- Navigation -->
@@ -258,15 +270,14 @@
 </div>
 <!--등록 모달 Start-->
 <div class="ui modal Reg">
- <!--<form class="ui form segment" name="postregistmodal" action="/postregist_KJB" method="post">-->
- <form class="ui form segment" action="/postregist_KJB" method="post">
+ <form class="ui form segment" action="/postregist_KJB" method="post" >
   <div class="header">
-   <h1>후기 등록</h1>
+   <h1 style="color:white">후기 등록</h1>
   </div>
   <div class="content">
    <div class="field">
-    <div class="ui sub header" style="margin: 10px; margin-bottom: 0px; font-size: 17px;">
-				 후기 제목
+    <div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
+				 제목
 			</div>
     <div class="ui left icon input" style=" width: 100%;">
      <input type="text" id="post_title" name="post_title" placeholder="해피데이 후기 title" style="width: 100%" maxlength="20">
@@ -275,7 +286,7 @@
     <p id="post_title_alert" style="color:red; visibility:hidden;">*후기 제목을 입력해 주세요</p>
    </div>
    <div class="field">
-     <div class="ui sub header" style="margin: 10px; margin-bottom: 0px; font-size: 17px;">
+     <div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
 				 후기 내용
 			</div>
     <textarea id="post_content" name="post_content" style="width:100% ;height: 200px; resize:none;" maxlength="700"></textarea>
@@ -287,9 +298,9 @@
   <div class="ui error message">
   </div>
   <div class="actions">
-   <button class="ui primary button"> Save </button>
-   <div class="ui button" onclick=javascript:modalClose()>
-     cancel
+   <button class="ui button" style="background:#A5673F; color:white"> 등록 </button>
+   <div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
+     취소
    </div>
   </div>
   <input type="hidden" name="happyID" value=<%=data.happyday_id %>>
@@ -312,13 +323,13 @@
       <img src=<%=data.img_url%>>
      </div>
      <div class="content">
-      <a class="header" id="postselect_writer">작성자</a>
+      <a class="header" id="postselect_writer">postselect_writer_Error</a>
       <div class="meta">
-       <span id="postselect_time">시간</span>
+       <span id="postselect_time">postselect_time_Error</span>
       </div>
       <div class="description">
        <p id="postselect_content">
-         해피데이 내용
+         postselect_content_Error
        </p>
       </div>
      </div>
@@ -361,9 +372,9 @@
   <div class="ui clearing divider">
   </div>
   <div class="actions">
-   <button class="ui primary button"> Update </button>
+   <button class="ui button"> 수정 </button>
    <div class="ui button" onclick=javascript:modalClose()>
-     cancel
+     취소
    </div>
   </div>
   <input type="hidden" name="happyID" value=<%=data.happyday_id %>>
