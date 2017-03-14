@@ -43,7 +43,7 @@
 $(document).ready(function() {
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
-    $('#starthappyday').val(startdate+starttime); //날짜 합치기
+    $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
     var happyday_name = $("#happyday_name").val(); //해피데이 네임
     var category_code = $("#category_code").val();
     var num_participants = $("#num_participants").val();
@@ -139,14 +139,14 @@ $(document).ready(function() {
       }        
     } 
     // 사유 check 
-    if(point_rsn == ''){
-      $('#point_rsn_alert').css("visibility","visible");
-      // flag = 0;
-    }
-    else{
-      $('#point_rsn_alert').css("visibility","hidden");
-      flag = flag+1;
-    }
+    // if(point_rsn == ''){
+    //   $('#point_rsn_alert').css("visibility","visible");
+    //   // flag = 0;
+    // }
+    // else{
+    //   $('#point_rsn_alert').css("visibility","hidden");
+    //   flag = flag+1;
+    // }
     // 내용 check 
     if(happyday_contents == ''){
       $('#happyday_contents_alert').css("visibility","visible");
@@ -156,7 +156,7 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
-    if(flag <= 10){
+    if(flag == 9){
       // 입력 내용이 완벽하면 true
       return true;
     }
@@ -287,16 +287,16 @@ $(document).ready(function() {
 						<div class="item" data-value="스포츠관람">
 							 스포츠관람
 						</div>
-						<div class="item" data-value="2">
+						<div class="item" data-value="야외활동">
 							 야외활동
 						</div>
-						<div class="item" data-value="3">
+						<div class="item" data-value="실내활동">
 							 실내활동
 						</div>
-						<div class="item" data-value="4">
+						<div class="item" data-value="영화,연극">
 							 영화,연극
 						</div>
-						<div class="item" data-value="5">
+						<div class="item" data-value="문화체험">
 							 문화체험
 						</div>
 					</div>
@@ -403,56 +403,69 @@ $(document).ready(function() {
 			
 		</div>
 		<br>
-		<div class="column">
-			<div class="ui sub header">
-				 *마감일
-			</div>
-			<div class="ui calendar" name="example4">
-				<div class="ui input left icon" style=" width: 100%;">
-					<i class="calendar icon"></i>
-					<input type="text" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
-					<input type="hidden" placeholder="Date" style=" width: 100%;" id="HappyDDay" name="HappyDDay" readonly="true">
-					
-				</div>
-				<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
-				  *edddd
-				</p>
-			</div>
-		</div>
-		
-		<!-- ui two column grid -->
 		<div class="ui two column grid" >
-			<div class="column">
+  		<div class="column">
+  			<div class="ui sub header">
+  				 *마감일
+  			</div>
+  			<div class="ui calendar" name="example4">
+  				<div class="ui input left icon" style=" width: 100%;">
+  					<i class="calendar icon"></i>
+  					<input type="text" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
+  					<input type="hidden" placeholder="Date" style=" width: 100%;" id="HappyDDay" name="HappyDDay" readonly="true">
+  					
+  				</div>
+  				<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
+  				  *edddd
+  				</p>
+  			</div>
+  		</div>
+  		<div class="column">
 				<div class="ui sub header">
 					 *차감포인트
 				</div>
 				<div class="ui left icon input" style=" width: 100%;">
-					<input type="text" id="req_point" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
+					<input type="text" id="req_point" placeholder="포인트를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
 					<i class="won icon"></i>
 				</div>
 				<!-- point -->
 				<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
 				</p>
 			</div>
-			<div class="column">
-				<div class="ui sub header">
-					 *참가 포인트 상세 내역
-				</div>
-				<div class="ui input" style=" width: 100%;">
-					<input type="text" id="point_rsn" name="point_rsn" placeholder="사유를입력해주세요..." style=" width: 100%;">
-				</div>
-				<!-- point rsn-->
-				<p class="p validation" id="point_rsn_alert" style="color:red; visibility:hidden;">
-					 *상세 내역을 작성해 주세요
-				</p>
-			</div>
 		</div>
+		<!-- ui two column grid -->
+		<!--<div class="ui two column grid" >-->
+		<!--	<div class="column">-->
+		<!--		<div class="ui sub header">-->
+		<!--			 *차감포인트-->
+		<!--		</div>-->
+		<!--		<div class="ui left icon input" style=" width: 100%;">-->
+		<!--			<input type="text" id="req_point" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">-->
+		<!--			<i class="won icon"></i>-->
+		<!--		</div>-->
+				<!-- point -->
+		<!--		<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">-->
+		<!--		</p>-->
+		<!--	</div>-->
+		<!--	<div class="column">-->
+		<!--		<div class="ui sub header">-->
+		<!--			 *참가 포인트 상세 내역-->
+		<!--		</div>-->
+		<!--		<div class="ui input" style=" width: 100%;">-->
+		<!--			<input type="text" id="point_rsn" name="point_rsn" placeholder="사유를입력해주세요..." style=" width: 100%;">-->
+		<!--		</div>-->
+		<!--		 point rsn-->
+		<!--		<p class="p validation" id="point_rsn_alert" style="color:red; visibility:hidden;">-->
+		<!--			 *상세 내역을 작성해 주세요-->
+		<!--		</p>-->
+		<!--	</div>-->
+		<!--</div>-->
 		<br>
 		<div class="field">
 			<div class="ui sub header">
 				 *활동 내용
 			</div>
-			<textarea id="happyday_contents" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700"></textarea>
+			<textarea id="happyday_contents" placeholder="포인트 사용 내용을 입력 해 주세요" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700"></textarea>
 			<p class="p validation" id="happyday_contents_alert" style="color:red; visibility:hidden;">
 				 *활동 내용을 작성해 주세요
 			</p>

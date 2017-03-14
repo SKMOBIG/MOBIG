@@ -52,8 +52,6 @@ module.exports = function(app, connectionPool) {
     
     
     app.post('/postregist_KJB', function(req, res, next) {
-        
-    
        connectionPool.getConnection(function(err, connection) {
         //   console.log("aa"+req.body.happyID);
             connection.query('insert into happyday_post (happyday_id, user_id, post_title, post_content, reg_dtm, modify_dtm, post_count) value( ?,?,?,?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d%H%i%s"),0);',
