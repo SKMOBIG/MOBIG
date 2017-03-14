@@ -40,6 +40,14 @@
           $("#latitude").val(latitude);  // 위도
           $("#longitude").val(longitude);  //경도
         }
+        
+    window.onunload = refreshParent;
+    function refreshParent() {
+        window.opener.location.reload();
+    }    
+        
+        
+        
 $(document).ready(function() {
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
@@ -477,7 +485,7 @@ $(document).ready(function() {
 			<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:modalClose()>
 				 취소
 			</div>
-			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
+			<button class="ui submit button" id="submit" name="submit" onclick="window.parent.location.reload();" style="background:#A5673F; color:white">등록</button>
 		</div>
 		<!-- actions -->
 	</div>
