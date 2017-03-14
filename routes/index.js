@@ -1,9 +1,18 @@
 
 module.exports = function(app, connectionPool) {
     
+    // Use the session middleware
+    //app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+    
     /* GET home page. */
     app.get('/', function(req, res) {
-        res.render('index', { title: 'Happy App' });
+        var sess = req.session
+        if(sess.views) {
+            res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사    
+        }else {
+            res.render('index', { title: 'Happy App' });    
+        }
+        
     });
     
     app.post('/login', function(req, res, next) {
