@@ -35,25 +35,25 @@
             var sessionUserId = <%=session.user_id%>;
             
             if(regUserId == sessionUserId){
-                alert("내가 작성자일 때,");
+                // alert("내가 작성자일 때,");
                 $('#modify_happyday').show();
                 $('#delete_happyday').show();
                 $('#apply_happyday').hide();
                 $('#cancel_happyday').hide();
             }
             else{
-                alert("내가 작성자가 아닐 때,");
+                // alert("내가 작성자가 아닐 때,");
                 $('#modify_happyday').hide();
                 $('#delete_happyday').hide();
                 
                 var reg_state = "<%= reg_state %>";
                 if(reg_state == "N"){
-                    alert("내가 신청자가 아닐 때,");
+                    // alert("내가 신청자가 아닐 때,");
                     $('#apply_happyday').show();
                     $('#cancel_happyday').hide();
                 }
                 else{
-                    alert("내가 신청자일  때,");
+                    // alert("내가 신청자일  때,");
                     $('#apply_happyday').hide();
                     $('#cancel_happyday').show();
                 }
@@ -208,7 +208,7 @@
                                             상세내역보기
                                         </div>
                                         <div class="content">
-                                            <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P <p></p> 2. 치킨 & 맥주   : 1,000P </p>
+                                            <p class="transition hidden"> 1. 티켓 : 1,500P <p></p> 2. 회식 : 1,000P </p>
                                         </div>
                                     </div>
                                     
@@ -227,21 +227,21 @@
                     <script>
                         var mapContainer = document.getElementById('mapArea')    // 지도 표시 div
                         var mapOption = {
-                                center : new daum.maps.LatLng(37.405725,127.09834230000001),    //지도 중심좌표
+                                center : new daum.maps.LatLng(<%=data.place_latitude%>,<%=data.place_longitude%>),    //지도 중심좌표
                                 level : 3 //지도 확대레벨
                             };
                         
                         var map = new daum.maps.Map(mapContainer, mapOption); //지도 생성
-                        var markerPosition = new daum.maps.LatLng(37.405725,127.098342);    //마커 표시좌표
+                        var markerPosition = new daum.maps.LatLng(<%=data.place_latitude%>,<%=data.place_longitude%>);    //마커 표시좌표
                         var marker = new daum.maps.Marker({    //마커 생성
                              position : markerPosition
                         });
                         marker.setMap(map);    //마커 지도위에 표시
                         
                         var infowindow = new daum.maps.InfoWindow({    //장소명 생성
-                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                            // content: '<div style="width:150px;text-align:center;padding:6px 0;"></div>'
                         });
-                        infowindow.open(map, marker);    //장소명 표시
+                        // infowindow.open(map, marker);    //장소명 표시
                         
                         var mapTypeControl = new daum.maps.MapTypeControl(); // 지도 타입 전환 컨트롤 생성
                         map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
@@ -253,7 +253,7 @@
                 </div>
                 
                 <div class="ui segment">
-                    <div class="image"> * 신청현황보기 (3/8)
+                    <div class="image"> * 신청현황보기 
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
                             <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span></p>
