@@ -19,7 +19,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }
                 else {
-                    if (rows.length > 0) {
+                    if (rows.length >= 0) {
                         res.render('hdmain', { data: rows,session: req.session });
                         connection.release();
                     }
