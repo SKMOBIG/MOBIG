@@ -103,7 +103,6 @@
         @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
         body {
             font-family: 'Jeju Gothic', serif !important;
-            padding-top: 80px;
             background-color:#e2e2e2;
         }
         
@@ -139,7 +138,7 @@
                     <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
                 </div>
                 <div class="ui segment">
-                    <img class="ui centered fluid image" src=<%=data.img_url%>>
+                    <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
                 </div>
             </div>
             
@@ -184,24 +183,24 @@
                 <div class="ui segment">
                     <table class="ui definition table">
                         <tbody>
-                            <tr>
-                                <td class="two wide column">일 시</td>
+                            <tr style = 'max-height:50px'>
+                                <td class="two wide column" style = "margin-top: -15px;">일 시</td>
                                 <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
                             </tr>
-                            <tr>
-                                <td>장 소</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">장 소</td>
                                 <td><%= data.place_name %></td>
                             </tr>
-                            <tr>
-                                <td>모집인원</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">모집인원</td>
                                 <td><%= data.num_participants %>명</td>
                             </tr>
-                            <tr>
-                                <td>모집기간</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">모집기간</td>
                                 <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
                             </tr>
-                            <tr>
-                                <td>참가포인트</td>
+                            <tr style = 'max-height:80px'>
+                                <td style = "margin-top: -15px;">참가포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
@@ -215,8 +214,8 @@
                                     
                                 </td>
                             </tr>  
-                            <tr>
-                                <td>내 용</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">내 용</td>
                                 <td><%= data.happyday_contents %></td>
                             </tr>
                         </tbody>
@@ -311,7 +310,7 @@
 <!---->
 <div class="ui modal" >
     <i class="close icon"></i>
-    <div class="image content">
+    <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
         <div class="ui medium image" >
             <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
         </div>
