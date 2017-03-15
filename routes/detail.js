@@ -10,10 +10,7 @@ module.exports = function(app, connectionPool) {
     });*/
     
     /*POST방식은 HTTP HEADER를 통해 데이터를 넘겨주는 방식 */
-    
-    app.post('/detail', function(req, res){
-  
-    });
+
     
     
     /*GET방식은 URL을 통해 데이터를 넘겨주는 방식 */
@@ -35,7 +32,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ?) t2 where t1.id = t2.user_id;', req.params.id, function(error, rows1){
+                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2 where t1.id = t2.user_id;', req.params.id, function(error, rows1){
                             // console.log("haha :" + rows1[0].user_name);
                             if(error){
                                 connection.release();
@@ -69,6 +66,7 @@ module.exports = function(app, connectionPool) {
             });
         });
     });
+
     
     app.post('/infouser', function(req, res, next) {
          connectionPool.getConnection(function(err, connection) {
@@ -91,4 +89,39 @@ module.exports = function(app, connectionPool) {
             });
         });
     });
+    
+    app.post('/applyhappyday', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) values(?, ?, date_format(sysdate(), "%Y%m%d"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows){
+        
+                console.log("req.session.user_id : " + req.session.user_id);
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    res.redirect('/detail/'+ req.body.happyday_id);
+                    connection.release();
+                }
+            });
+        });
+    });
+    
+    app.post('/cancelhappyday', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            // 테이블 구성 이슈
+            // connection.query('update happyday_user_hst set state = "n" where user_id = ? and happyday_id = ? and state = "y";', [req.session.user_id, req.body.happyday_id], function(error, rows){
+            connection.query('delete from happyday_user_hst where user_id = ? and happyday_id = ? and state = "y";', [req.session.user_id, req.body.happyday_id], function(error, rows){
+        
+                console.log("req.session.user_id : " + req.session.user_id);
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    res.redirect('/detail/'+ req.body.happyday_id);
+                    connection.release();
+                }
+            });
+        });
+    });
+    
 }

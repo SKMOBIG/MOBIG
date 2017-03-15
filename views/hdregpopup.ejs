@@ -26,6 +26,7 @@
       $("#req_point").val(val+point);  
     }
   }
+
   function showMap(){
               var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
               var popupX = (window.screen.width / 2) - (1200 / 2);
@@ -51,10 +52,13 @@
   function windowClose(){
       window.close();  
   }
+
 $(document).ready(function() {
+  
   function refreshParent() {
       window.opener.location.reload();
   }  
+
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
     $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
@@ -191,8 +195,10 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
-    // if(flag == 9){
-    if(flag <= 9){
+
+    if(flag == 9){
+    // if(flag <= 9){
+
       return true;
     }
     else{
@@ -548,9 +554,12 @@ $(document).ready(function() {
 				</div>
 				<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
 			</div>
+
 			<!-- actions -->
 		</div>
 		<!-- content -->
 	</form>
 	</body>
 	</html>
+
+
