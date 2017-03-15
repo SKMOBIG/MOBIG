@@ -43,16 +43,16 @@ module.exports = function(app, connectionPool) {
                                 connection.release();
                                 throw error;
                             }else {
-                                    console.log("aa"+req.body.req_point + req.session.user_id);
+                                    
                                     //TODO : user테이블에서 point 차감
                                   connection.query('update user set happy_point = happy_point - ? where id = ?;',[req.body.req_point, req.session.user_id], function(error, rows1) {
-                                      console.log("dd");
+                                    
                                     if(error){
-                                        console.log("bb");
+                                    
                                           connection.release();
                                          throw error;
                                      }else {
-                                         console.log("cc");
+                                    
                                              connection.release();
                                              res.redirect('/closepopup');
                                          }
