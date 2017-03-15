@@ -4,8 +4,8 @@
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -13,10 +13,6 @@
 
     <script src="../javascripts/jquery.js"></script>
     <script src="../javascripts/jquery.min.js"></script>
-    <!-- Bootstrap Core CSS -->
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="/stylesheets/shop-homepage.css" rel="stylesheet">
 
     <!--<script src="../javascripts/bootstrap.min.js"></script>-->
     <!--<script src="../javascripts/bootstrap.js"></script>-->
@@ -28,7 +24,44 @@
    
 
     <script type="text/javascript">
-    
+        
+        $(document)
+            .ready(function() {
+            $('.ui.accordion').accordion();
+            
+                /* 본인이면 수정 및 삭제버튼 표시
+                타인이면 신청 및 신청 취소버튼 표시*/
+            var regUserId = <%=data.reg_user_id %>;
+            var sessionUserId = <%=session.user_id%>;
+            
+            if(regUserId == sessionUserId){
+                // alert("내가 작성자일 때,");
+                $('#modify_happyday').show();
+                $('#delete_happyday').show();
+                $('#apply_happyday').hide();
+                $('#cancel_happyday').hide();
+            }
+            else{
+                // alert("내가 작성자가 아닐 때,");
+                $('#modify_happyday').hide();
+                $('#delete_happyday').hide();
+                
+                var reg_state = "<%= reg_state %>";
+                if(reg_state == "N"){
+                    // alert("내가 신청자가 아닐 때,");
+                    $('#apply_happyday').show();
+                    $('#cancel_happyday').hide();
+                }
+                else{
+                    // alert("내가 신청자일  때,");
+                    $('#apply_happyday').hide();
+                    $('#cancel_happyday').show();
+                }
+            }
+        
+        });
+
+        
         function goDetail(id) {
             location.href = '../detail/' + id;
         }
@@ -37,9 +70,7 @@
             location.href = '../detail/' + id + '/postlist';
         }
         
-        $(document).ready(function() {
-            $('.ui.accordion').accordion();
-        });
+        
  
  //수정필요
 
@@ -65,13 +96,13 @@
         }
 
         
+        
     </script>
 
     <style type="text/css">
         @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
         body {
             font-family: 'Jeju Gothic', serif !important;
-            padding-top: 80px;
             background-color:#e2e2e2;
         }
         
@@ -100,14 +131,14 @@
     <!-- Navigation -->
     <% include ./partials/navigation.ejs %>
     <!-- Page Content -->
-    <div class="container">
+    <div class="ui container">
         <div class="content">
             <div class="ui segments">
                 <div class="ui segment">
                     <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
                 </div>
                 <div class="ui segment">
-                    <img class="ui centered fluid image" src=<%=data.img_url%>>
+                    <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
                 </div>
             </div>
             
@@ -152,24 +183,24 @@
                 <div class="ui segment">
                     <table class="ui definition table">
                         <tbody>
-                            <tr>
-                                <td class="two wide column">일 시</td>
+                            <tr style = 'max-height:50px'>
+                                <td class="two wide column" style = "margin-top: -15px;">일 시</td>
                                 <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
                             </tr>
-                            <tr>
-                                <td>장 소</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">장 소</td>
                                 <td><%= data.place_name %></td>
                             </tr>
-                            <tr>
-                                <td>모집인원</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">모집인원</td>
                                 <td><%= data.num_participants %>명</td>
                             </tr>
-                            <tr>
-                                <td>모집기간</td>
+                            <tr style = 'max-height:50px'>
+                                <td style = "margin-top: -15px;">모집기간</td>
                                 <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td>참가포인트</td>
+                                <td style = "margin-top: -15px;">참가포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
@@ -177,14 +208,14 @@
                                             상세내역보기
                                         </div>
                                         <div class="content">
-                                            <p class="transition hidden"> 1. 야구관람 티켓 : 1,500P <p></p> 2. 치킨 & 맥주   : 1,000P </p>
+                                            <p class="transition hidden"> 1. 티켓 : 1,500P <p></p> 2. 회식 : 1,000P </p>
                                         </div>
                                     </div>
                                     
                                 </td>
                             </tr>  
                             <tr>
-                                <td>내 용</td>
+                                <td style = "margin-top: -15px;">내 용</td>
                                 <td><%= data.happyday_contents %></td>
                             </tr>
                         </tbody>
@@ -196,21 +227,21 @@
                     <script>
                         var mapContainer = document.getElementById('mapArea')    // 지도 표시 div
                         var mapOption = {
-                                center : new daum.maps.LatLng(37.405725,127.09834230000001),    //지도 중심좌표
+                                center : new daum.maps.LatLng(<%=data.place_latitude%>,<%=data.place_longitude%>),    //지도 중심좌표
                                 level : 3 //지도 확대레벨
                             };
                         
                         var map = new daum.maps.Map(mapContainer, mapOption); //지도 생성
-                        var markerPosition = new daum.maps.LatLng(37.405725,127.098342);    //마커 표시좌표
+                        var markerPosition = new daum.maps.LatLng(<%=data.place_latitude%>,<%=data.place_longitude%>);    //마커 표시좌표
                         var marker = new daum.maps.Marker({    //마커 생성
                              position : markerPosition
                         });
                         marker.setMap(map);    //마커 지도위에 표시
                         
                         var infowindow = new daum.maps.InfoWindow({    //장소명 생성
-                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                            // content: '<div style="width:150px;text-align:center;padding:6px 0;"></div>'
                         });
-                        infowindow.open(map, marker);    //장소명 표시
+                        // infowindow.open(map, marker);    //장소명 표시
                         
                         var mapTypeControl = new daum.maps.MapTypeControl(); // 지도 타입 전환 컨트롤 생성
                         map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
@@ -222,17 +253,19 @@
                 </div>
                 
                 <div class="ui segment">
-                    <div class="image"> * 신청현황보기 (3/8)
-                        <% for (var i = 0; i < data1.length; i++) { %>
-                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=data1[i].user_id%>')">
-                            <span> <%=data1[i].user_name%> (<%=data1[i].sm_id%>) </span></p>
+                    <div class="image"> * 신청현황보기 
+                        <% for (var i = 0; i < userList.length; i++) { %>
+                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
+                            <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span></p>
                         <% } %>
                     </div>
                 </div>
                 
                 <div class="ui right aligned segment">
-                    <button class="ui primary button">신청</button>
-                    <button class="ui button">수정</button>
+                    <button class="ui primary button" id="modify_happyday">수정</button>
+                    <button class="ui button" id="delete_happyday">삭제</button>
+                    <button class="ui primary button" id="apply_happyday">신청</button>
+                    <button class="ui button" id="cancel_happyday">취소</button>                        
                 </div>
                 
             </div>
@@ -277,11 +310,8 @@
 <!---->
 <div class="ui modal" >
     <i class="close icon"></i>
-        <div class="header">
-            사용자 정보
-        </div>
-    <div class="image content">
-        <div class="ui medium image">
+    <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
+        <div class="ui medium image" >
             <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
         </div>
         <div class="description">

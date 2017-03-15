@@ -43,22 +43,14 @@
     function windowClose(){
       window.close();  
     }
-        
-    // window.onunload = refreshParent;
-    // function refreshParent() {
-    //     window.opener.location.reload();
-    // }    
-      
-    
-       
+
         
 $(document).ready(function() {
   
  
   
   function refreshParent() {
-      // alert("aa");
-        window.opener.location.reload();
+      window.opener.location.reload();
     }  
   
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
@@ -133,8 +125,8 @@ $(document).ready(function() {
       // flag = 0;
     }
     else{
-        if(startdate > ddaydate){
-          $('#dday_dt_alert').css("visibility","visible").text("*마감일이 출발일 보다 빠릅니다");
+        if(startdate < ddaydate){
+          $('#dday_dt_alert').css("visibility","visible").text("*출발일이 마감일 보다 빠릅니다");
           // flag = 0;
         }
         else{
@@ -176,11 +168,22 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
+<<<<<<< HEAD
     if(flag <= 9){
       // 입력 내용이 완벽하면 true
       // window.parent.location.reload();
       setTimeout("refreshParent()",3000);
       //refreshParent();
+=======
+    // if(flag == 9){
+    if(flag <= 9){
+      // 입력 내용이 완벽하면 true
+      // window.parent.location.reload();
+     
+     window.setTimeout(refreshParent, 50000); //테스트해봤다....
+
+      refreshParent();
+>>>>>>> 6fdac16f1ae7ef99ca26a67f637dddb22ee35178
       return true;
     }
     else{
