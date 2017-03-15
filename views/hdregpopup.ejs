@@ -17,6 +17,17 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
+  
+  //차감 포인트 컨트롤
+  function pointControl(point){
+    var val = $("#req_point").val();
+    val *= 1; //string to int
+    point *=1; // string to int
+    
+    if(val+point <= 8000 && val+point >=500){
+      $("#req_point").val(val+point);  
+    }
+  }
 
    function showMap(){
                 var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
@@ -65,6 +76,31 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn").val()
     var happyday_contents = $("#happyday_contents").val()
     var flag = 0;
+    
+    
+    var today_date_ojbect = new Date();
+    var year = today_date_ojbect.getFullYear().toString();
+    var month;
+    var date; 
+    
+    
+    if(today_date_ojbect.getMonth()+1 < 10){
+      //앞에 0을 붙여야 2017'0'305가 됨
+      month = '0'+(today_date_ojbect.getMonth()+1).toString();
+    }
+    else{
+      month = (today_date_ojbect.getMonth()+1).toString();
+    }
+    
+    if(today_date_ojbect.getDate()<10){
+      //앞에 0을 붙여야 201703'0'5가 됨
+      date = '0'+today_date_ojbect.getDate().toString();
+    }
+    else{
+      date = today_date_ojbect.getDate().toString();
+    }
+    var today_date = year+month+date;   //form : 20170305 8자리
+    
     // 해피데이 이름 check
     if(happyday_name == ''){
       $('#happyday_name_alert').css("visibility","visible");
@@ -129,6 +165,9 @@ $(document).ready(function() {
           $('#dday_dt_alert').css("visibility","visible").text("*출발일이 마감일 보다 빠릅니다");
           // flag = 0;
         }
+        else if(ddaydate < today_date){
+          $('#dday_dt_alert').css("visibility","visible").text("*마감일이 오늘 보다 빠릅니다");
+        }
         else{
           $('#HappyDDay').val(ddaydate);
           $('#dday_dt_alert').css("visibility","hidden");
@@ -168,8 +207,23 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    if(flag == 9){
+    // if(flag <= 9){
+=======
+<<<<<<< HEAD
+    if(flag <= 9){
+      // 입력 내용이 완벽하면 true
+      // window.parent.location.reload();
+      setTimeout("refreshParent()",3000);
+      //refreshParent();
+=======
+>>>>>>> 929d2875cac141cc275bec77a4abd2df47ad1462
     // if(flag == 9){
     if(flag <= 9){
+>>>>>>> e208ba612cbc962137e99612dfea16574c934c91
       // 입력 내용이 완벽하면 true
       // window.parent.location.reload();
      
@@ -444,10 +498,12 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *차감포인트
 				</div>
-				<div class="ui left icon input" style=" width: 100%;">
-					<input type="text" id="req_point" placeholder="Input Point" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
+				<div class="ui  icon input" style=" width: 100%;">
+					<input type="text" id="req_point" placeholder="Input Point" value="3000" readonly="true" style= "width:100%" name="req_point">
 					<i class="won icon"></i>
 				</div>
+				<i class="chevron up icon" onclick=javascript:pointControl(500)></i>
+				<i class="chevron down icon" onclick=javascript:pointControl(-500)></i>
 				<!-- point -->
 				<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
 				</p>
