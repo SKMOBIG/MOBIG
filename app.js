@@ -89,6 +89,7 @@ var postlist = require('./routes/postlist')(app, connectionPool);
 
 var mappopup = require('./routes/mappopup')(app, connectionPool);
 var hdregpopup = require('./routes/hdregpopup')(app, connectionPool);
+var hduppopup = require('./routes/hduppopup')(app, connectionPool);
 var closepopup = require('./routes/closepopup')(app, connectionPool);
 
 
