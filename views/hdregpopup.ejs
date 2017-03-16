@@ -322,6 +322,10 @@ $(document).ready(function() {
 </style>
 </head>
 <body>
+  
+<!-- Navigation -->
+<% include ./partials/navigation.ejs %>
+<div class="ui container">
 <form id="hdregmodal" class="ui segment form" action="/happyday_regist" method="post">
 	<h3 class="ui left floated header" style="color:white"><%=data.user_name %>님 HappyDay를 등록 해 주세요</h3>
 	<div class="ui clearing divider">
@@ -559,6 +563,7 @@ $(document).ready(function() {
 		</div>
 		<!-- content -->
 	</form>
+	</div>
 	</body>
 	</html>
 
