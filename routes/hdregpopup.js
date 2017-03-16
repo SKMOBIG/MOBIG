@@ -54,7 +54,7 @@ module.exports = function(app, connectionPool) {
                                      }else {
                                     
                                              connection.release();
-                                             res.redirect('/closepopup');
+                                             res.redirect('/hdmain');
                                          }
                                      });
                             }
@@ -65,6 +65,4 @@ module.exports = function(app, connectionPool) {
             });
         });
     });
-    
-
 }

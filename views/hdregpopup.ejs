@@ -17,13 +17,11 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
-  
   //차감 포인트 컨트롤
   function pointControl(point){
     var val = $("#req_point").val();
     val *= 1; //string to int
     point *=1; // string to int
-    
     if(val+point <= 8000 && val+point >=500){
       $("#req_point").val(val+point);  
     }
@@ -55,13 +53,12 @@
       window.close();  
   }
 
-        
 $(document).ready(function() {
   
   function refreshParent() {
       window.opener.location.reload();
   }  
-  
+
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
     $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
@@ -74,14 +71,10 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn").val()
     var happyday_contents = $("#happyday_contents").val()
     var flag = 0;
-    
-    
     var today_date_ojbect = new Date();
     var year = today_date_ojbect.getFullYear().toString();
     var month;
     var date; 
-    
-    
     if(today_date_ojbect.getMonth()+1 < 10){
       //앞에 0을 붙여야 2017'0'305가 됨
       month = '0'+(today_date_ojbect.getMonth()+1).toString();
@@ -89,7 +82,6 @@ $(document).ready(function() {
     else{
       month = (today_date_ojbect.getMonth()+1).toString();
     }
-    
     if(today_date_ojbect.getDate()<10){
       //앞에 0을 붙여야 201703'0'5가 됨
       date = '0'+today_date_ojbect.getDate().toString();
@@ -98,7 +90,6 @@ $(document).ready(function() {
       date = today_date_ojbect.getDate().toString();
     }
     var today_date = year+month+date;   //form : 20170305 8자리
-    
     // 해피데이 이름 check
     if(happyday_name == ''){
       $('#happyday_name_alert').css("visibility","visible");
@@ -154,7 +145,6 @@ $(document).ready(function() {
       flag = flag+1;
     } 
     if(ddaydate == ''){
-      
       $('#dday_dt_alert').css("visibility","visible").text("*마감일을 선택 해 주세요");
       // flag = 0;
     }
@@ -205,20 +195,24 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
+
     if(flag == 9){
     // if(flag <= 9){
+
       return true;
     }
     else{
-      
       //입력 내용이 완벽하지 않으면 false
       return false;
     }
   });
   //카테고리 드롭다운(등록,수정)
-   $('.ui.dropdown').dropdown({
+  // ui multiple selection dropdown
+  $('#MultipleSelection').dropdown({
        maxSelections: 1
    });
+    //모집 정원 제이쿼리
+    $('#SelectionDropdown').dropdown();
   // 출발 날짜(등록,수정)
   $("[name=example2]").calendar({
     type: 'date',
@@ -275,36 +269,63 @@ $(document).ready(function() {
 });
 </script>
 <style type="text/css">
+
+    /*카테고리 최소 너비*/
     .ui.multiple.selection.dropdown {
 	    min-width: 20px;	/* 최소 너비 */
     }
+    
+    /*모집 정원 최소 너비*/
     .ui.selection.dropdown {
     	min-width: 20px;	/* 최소 너비 */
     }
+    
+    /*기억 안나*/
     .ui.two.column.grid {
         margin-bottom: -30px;
     }
+    
+    /*정합성 체크p태그*/
     .p.validation{
         font-size: 11px;
     }
     .ui.sub.header{
         margin-top: 10px;
     }
+    
+    /*등록버튼*/
     .ui.segment.form {
     background: #FBBD08;
 	}
+	
+	/*취소 버튼*/
     .ui.yellow.submit.button {
     background: peru;
 	}
+	
+	/*제목마다 흰글자*/
 	.ui.sub.header {
     	color:white;
 	}
+
+  /*포인트 아이콘 손모양*/
+	.large.toggle{
+	  cursor: pointer;
+	  color:#A5673F;
+	}
+	
+	
+	
     /*마우스 올리면 손모양으로*/
     /*.ui.label*/
     /*{cursor: pointer;}*/
 </style>
 </head>
 <body>
+  
+<!-- Navigation -->
+<% include ./partials/navigation.ejs %>
+<div class="ui container">
 <form id="hdregmodal" class="ui segment form" action="/happyday_regist" method="post">
 	<h3 class="ui left floated header" style="color:white"><%=data.user_name %>님 HappyDay를 등록 해 주세요</h3>
 	<div class="ui clearing divider">
@@ -327,7 +348,7 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *카테고리
 				</div>
-				<div class="ui multiple selection dropdown" style=" width: 100%;">
+				<div class="ui multiple selection dropdown" id="MultipleSelection" style=" width: 100%;">
 					<input id="category_code" name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
@@ -359,11 +380,11 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *모집 정원
 				</div>
-				<div class="ui selection dropdown" style=" width: 100%;">
+				<div class="ui selection dropdown" id="SelectionDropdown" style=" width: 100%;">
 					<input type="hidden" id="num_participants" name="num_participants" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
-					전체
+						 전체
 					</div>
 					<div class="menu">
 						<div class="item" data-value="5">
@@ -421,121 +442,129 @@ $(document).ready(function() {
 			</p>
 		</div>
 		<div class="ui two column grid" style="margin-top: -30px">
-				<div class="column">
-					<div class="ui sub header">
-						 *출발 날짜
-					</div>
-					<div class="ui calendar" name="example2">
-						<div class="ui input left icon" style=" width: 100%;">
-							<i class="calendar icon"></i>
-							<input type="text" placeholder="출발날짜 선택" style=" width: 100%;" name="happyday_dt" readonly="true">
-						</div>
-					</div>
-					<!-- calendar -->
-					<p class="p validation" id="startday_alert" style="color:red; visibility:hidden;">
-						 *출발날짜를 선택해 주세요
-					</p>
-				</div>
-				<!-- column -->
-				<div class="column">
-					<div class="ui sub header">
-						 *출발 시각
-					</div>
-					<div class="ui calendar" name="example3">
-						<div class="ui input left icon" style=" width: 100%;">
-							<i class="time icon"></i>
-							<input type="text" placeholder="출발시간 선택" style=" width: 100%;" id="happyday_time" name="happyday_time" readonly="true">
-						</div>
-					</div>
-					<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
-						 *출발시간를 선택해 주세요
-					</p>
-				</div>
-			
-		</div>
-		<br>
-		<div class="ui two column grid" >
-  		<div class="column">
-  			<div class="ui sub header">
-  				 *마감일
-  			</div>
-  			<div class="ui calendar" name="example4">
-  				<div class="ui input left icon" style=" width: 100%;">
-  					<i class="calendar icon"></i>
-  					<input type="text" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
-  					<input type="hidden" placeholder="Date" style=" width: 100%;" id="HappyDDay" name="HappyDDay" readonly="true">
-  					
-  				</div>
-  				<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
-  				  *edddd
-  				</p>
-  			</div>
-  		</div>
-  		<div class="column">
+			<div class="column">
 				<div class="ui sub header">
-					 *차감포인트
+					 *출발 날짜
 				</div>
-				<div class="ui  icon input" style=" width: 100%;">
-					<input type="text" id="req_point" placeholder="Input Point" value="3000" readonly="true" style= "width:100%" name="req_point">
-					<i class="won icon"></i>
+				<div class="ui calendar" name="example2">
+					<div class="ui input left icon" style=" width: 100%;">
+						<i class="calendar icon"></i>
+						<input type="text" placeholder="출발날짜 선택" style=" width: 100%;" name="happyday_dt" readonly="true">
+					</div>
 				</div>
-				<i class="chevron up icon" onclick=javascript:pointControl(500)></i>
-				<i class="chevron down icon" onclick=javascript:pointControl(-500)></i>
-				<!-- point -->
-				<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
+				<!-- calendar -->
+				<p class="p validation" id="startday_alert" style="color:red; visibility:hidden;">
+					 *출발날짜를 선택해 주세요
+				</p>
+			</div>
+			<!-- column -->
+			<div class="column">
+				<div class="ui sub header">
+					 *출발 시각
+				</div>
+				<div class="ui calendar" name="example3">
+					<div class="ui input left icon" style=" width: 100%;">
+						<i class="time icon"></i>
+						<input type="text" placeholder="출발시간 선택" style=" width: 100%;" id="happyday_time" name="happyday_time" readonly="true">
+					</div>
+				</div>
+				<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
+					 *출발시간를 선택해 주세요
 				</p>
 			</div>
 		</div>
-		<!-- ui two column grid -->
-		<!--<div class="ui two column grid" >-->
-		<!--	<div class="column">-->
-		<!--		<div class="ui sub header">-->
-		<!--			 *차감포인트-->
-		<!--		</div>-->
-		<!--		<div class="ui left icon input" style=" width: 100%;">-->
-		<!--			<input type="text" id="req_point" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">-->
-		<!--			<i class="won icon"></i>-->
-		<!--		</div>-->
-				<!-- point -->
-		<!--		<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">-->
-		<!--		</p>-->
-		<!--	</div>-->
-		<!--	<div class="column">-->
-		<!--		<div class="ui sub header">-->
-		<!--			 *참가 포인트 상세 내역-->
-		<!--		</div>-->
-		<!--		<div class="ui input" style=" width: 100%;">-->
-		<!--			<input type="text" id="point_rsn" name="point_rsn" placeholder="사유를입력해주세요..." style=" width: 100%;">-->
-		<!--		</div>-->
-		<!--		 point rsn-->
-		<!--		<p class="p validation" id="point_rsn_alert" style="color:red; visibility:hidden;">-->
-		<!--			 *상세 내역을 작성해 주세요-->
-		<!--		</p>-->
-		<!--	</div>-->
-		<!--</div>-->
 		<br>
-		<div class="field">
-			<div class="ui sub header">
-				 *활동 내용
+		<div class="ui two column grid">
+			<div class="column">
+				<div class="ui sub header">
+					 *마감일
+				</div>
+				<div class="ui calendar" name="example4">
+					<div class="ui input left icon" style=" width: 100%;">
+						<i class="calendar icon"></i>
+						<input type="text" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
+						<input type="hidden" placeholder="Date" style=" width: 100%;" id="HappyDDay" name="HappyDDay" readonly="true">
+					</div>
+					<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
+						 텍스트는 자바스크립트로 설정
+					</p>
+				</div>
 			</div>
-			<textarea id="happyday_contents" placeholder="포인트 사용 내용을 입력 해 주세요" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700"></textarea>
-			<p class="p validation" id="happyday_contents_alert" style="color:red; visibility:hidden;">
-				 *활동 내용을 작성해 주세요
-			</p>
-		</div>
-		<!--<div class="ui error message"></div>-->
-		<div class="ui clearing divider">
-		</div>
-		<div class="actions">
-			<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:windowClose()>
-				 취소
+			<div class="column">
+				<div class="ui sub header">
+					 *차감포인트
+				</div>
+				<div class="ui left icon input" style=" width: 100%;">
+					<input type="text" id="req_point" placeholder="Input Point" value="0" readonly="true" style="width:100%" name="req_point">
+					<i class="won icon"></i>
+					<div style="height:37.67px;">
+					   <div>
+						    <i class="large toggle up icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(500)></i>
+					   </div>
+					   <div>
+							<i class="large toggle down icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(-500)></i>
+						  </div>
+					</div>
+					</div>	  
+					<!-- point -->
+					<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
+					</p>
+			
 			</div>
-			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
-		</div>
-		<!-- actions -->
-	</div>
-	<!-- content -->
-</form>
+			</div>
+			<!-- ui two column grid -->
+			<!--<div class="ui two column grid" >-->
+			<!--	<div class="column">-->
+			<!--		<div class="ui sub header">-->
+			<!--			 *차감포인트-->
+			<!--		</div>-->
+			<!--		<div class="ui left icon input" style=" width: 100%;">-->
+			<!--			<input type="text" id="req_point" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">-->
+			<!--			<i class="won icon"></i>-->
+			<!--		</div>-->
+			<!-- point -->
+			<!--		<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">-->
+			<!--		</p>-->
+			<!--	</div>-->
+			<!--	<div class="column">-->
+			<!--		<div class="ui sub header">-->
+			<!--			 *참가 포인트 상세 내역-->
+			<!--		</div>-->
+			<!--		<div class="ui input" style=" width: 100%;">-->
+			<!--			<input type="text" id="point_rsn" name="point_rsn" placeholder="사유를입력해주세요..." style=" width: 100%;">-->
+			<!--		</div>-->
+			<!--		 point rsn-->
+			<!--		<p class="p validation" id="point_rsn_alert" style="color:red; visibility:hidden;">-->
+			<!--			 *상세 내역을 작성해 주세요-->
+			<!--		</p>-->
+			<!--	</div>-->
+			<!--</div>-->
+			<br>
+			<div class="field">
+				<div class="ui sub header">
+					 *활동 내용
+				</div>
+				<textarea id="happyday_contents" placeholder="포인트 사용 내용을 입력 해 주세요" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700"></textarea>
+				<p class="p validation" id="happyday_contents_alert" style="color:red; visibility:hidden;">
+					 *활동 내용을 작성해 주세요
+				</p>
+			</div>
+			<!--<div class="ui error message"></div>-->
+			<div class="ui clearing divider">
+			</div>
+			<div class="actions">
+				<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:windowClose()>
+					 취소
+				</div>
+				<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
+			</div>
 
-</body>
-</html>
+			<!-- actions -->
+		</div>
+		<!-- content -->
+	</form>
+	</div>
+	</body>
+	</html>
+
+

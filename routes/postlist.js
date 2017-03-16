@@ -73,7 +73,7 @@ module.exports = function(app, connectionPool) {
          connectionPool.getConnection(function(err, connection) {
             //  console.log(req.body.happyID);
             //  console.log(req.body.postid);
-            connection.query('select hp.*, us.user_name from happyday_post hp, user us where hp.happyday_id = ? and hp.post_id = ? and hp.user_id = us.id;', [req.body.happyID, req.body.postid], function(error, rows) {
+            connection.query('select hp.*, us.* from happyday_post hp, user us where hp.happyday_id = ? and hp.post_id = ? and hp.user_id = us.id;', [req.body.happyID, req.body.postid], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;
