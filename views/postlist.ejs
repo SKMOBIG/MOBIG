@@ -52,7 +52,7 @@
           $('#happyday_post_delete').hide()
         }    
          $("#postselect_title").html(data.datas.post_title);
-         $("#postselect_writer").html(data.datas.user_name);
+         $("#postselect_writer").html(data.datas.user_name+'('+data.datas.sm_id+')');
          $("#postselect_time").html(dtm);
          $("#postselect_content").html(post_content.replace(/\r\n/gi, "<BR/>"));
          $("#postselect_postid").val(data.datas.post_id);

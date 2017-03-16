@@ -27,6 +27,11 @@
         
         $(document)
             .ready(function() {
+            
+            var pointRsn = <%=data.point_rsn%>
+         //   $("#point_rsn").html(pointRsn.replace(/\r\n/g, "<p>"));
+         //   $("#point_rsn").val("aaaa"); 
+            
             $('.ui.accordion').accordion();
             
                 /* 본인이면 수정 및 삭제버튼 표시
@@ -283,7 +288,7 @@
                                             상세내역보기
                                         </div>
                                         <div class="content">
-                                            <p class="transition hidden"> 1. 티켓 : 1,500P <p></p> 2. 회식 : 1,000P </p>
+                                            <p class="transition hidden" id = "point_rsn"> </p>
                                         </div>
                                     </div>
                                     
