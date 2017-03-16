@@ -22,72 +22,67 @@
     var val = $("#req_point_show").val();
     val *= 1; //string to int
     point *=1; // string to int
-    
     if(val+point <= 8000 && val+point >=500){
       $("#req_point_show").val(val+point);  
     }
   }
-   function showMap(){
-                var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
-                var popupX = (window.screen.width / 2) - (1200 / 2);
-                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-                var popupY= (window.screen.height /2) - (700 / 2);
-                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-                window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-               
-        }
-    function setLocationValue(title, point){
-          // alert('주소 정상 호출 확인 '+title+' '+point);
-          //경도 longitude
-          //위도 latitude
-          var global_point = point;
-          //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
-          global_point += "";
-          var locationArray= global_point.split(',');
-          var latitude = locationArray[0].substring(1,locationArray[0].length);
-          var longitude = locationArray[1].substring(0,locationArray[1].length-1);
-          $("#place_name").val(title);   //지역 명
-          $("#latitude").val(latitude);  // 위도
-          $("#longitude").val(longitude);  //경도
-        }
-function Happdaygetdata() {
-<<<<<<< HEAD
-    var happyday_id = 205;
-=======
+  function showMap(){
+    var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
+    var popupX = (window.screen.width / 2) - (1200 / 2);
+    // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+    var popupY= (window.screen.height /2) - (700 / 2);
+    // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+    window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+   
+  }
+  function setLocationValue(title, point){
+    // alert('주소 정상 호출 확인 '+title+' '+point);
+    //경도 longitude
+    //위도 latitude
+    var global_point = point;
+    //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
+    global_point += "";
+    var locationArray= global_point.split(',');
+    var latitude = locationArray[0].substring(1,locationArray[0].length);
+    var longitude = locationArray[1].substring(0,locationArray[1].length-1);
+    $("#place_name").val(title);   //지역 명
+    $("#latitude").val(latitude);  // 위도
+    $("#longitude").val(longitude);  //경도
+  }
+  function Happdaygetdata() {
     var happyday_id = 208;
->>>>>>> 37a6929e245bfb977fa81d904ae38fa4b8d9e643
     $.ajax({
-	     type: "post",
-	     url : "/Happdaygetdata_KJY",
-	     data: 
-	     {
-         happyID : happyday_id
-       },
-        success:function(data){   
-          // alert(data.datas.num_participants);
-          var start_date = data.datas.happyday_dt.substring(0,8);
-          var start_hour = data.datas.happyday_dt.substring(8,10);
-          var start_minute = data.datas.happyday_dt.substring(10,12);
-          var start_time = start_hour+':'+start_minute;
-          
-        	$("#happyday_name_show").val(data.datas.happyday_name);
-        	$("#happyday_category_show").val(data.datas.category_code).change();   
-          $("#img_url_show").val(data.datas.img_url);
-          $("#place_name_show").val(data.datas.place_name);
-          $("#startdate_show").val(start_date);
-          $("#starttime_show").val(start_time);
-          $("[name='num_participants']").val(data.datas.num_participants).change();
-          $("#dday_dt_show").val(data.datas.dday_dt);
-          $("#req_point_show").val(data.datas.req_point);
-          $("#happyday_contents_show").val(data.datas.happyday_contents);
-          $("#point_rsn_show").val(data.datas.point_rsn);
+      type: "post",
+      url : "/Happdaygetdata_KJY",
+      data: 
+      {
+        happyID : happyday_id
+      },
+      success:function(data){   
+        // alert(data.datas.num_participants);
+        var start_date = data.datas.happyday_dt.substring(0,8);
+        var start_hour = data.datas.happyday_dt.substring(8,10);
+        var start_minute = data.datas.happyday_dt.substring(10,12);
+        var start_time = start_hour+':'+start_minute;
         
-          },
-        error:function(e){  
-            alert(e.responseText);  
-        }  
-     	});   
-    }        
+      	$("#happyday_name_show").val(data.datas.happyday_name);
+      	$("#happyday_category_show").val(data.datas.category_code).change();   
+        $("#img_url_show").val(data.datas.img_url);
+        $("#place_name_show").val(data.datas.place_name);
+        $("#startdate_show").val(start_date);
+        $("#starttime_show").val(start_time);
+        $("[name='num_participants']").val(data.datas.num_participants).change();
+        $("#dday_dt_show").val(data.datas.dday_dt);
+        $("#req_point_show").val(data.datas.req_point);
+        $("#happyday_contents_show").val(data.datas.happyday_contents);
+        $("#point_rsn_show").val(data.datas.point_rsn);
+      
+      },
+      error:function(e){  
+        alert(e.responseText);  
+      }  
+    });   
+  }        
 $(document).ready(function() {
   Happdaygetdata();
   //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
@@ -103,9 +98,12 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn_show").val()
     var happyday_contents = $("#happyday_contents_show").val()
     //추가
-    var ddaydate = $("#ddaydate_show").val()
-    var startdate = $("#startdate_show").val()
-    var starttime = $("#starttime_show").val()
+    //var ddaydate = $("#ddaydate_show").val()
+    //var startdate = $("#startdate_show").val()
+    //var starttime = $("#starttime_show").val()
+    ddaydate = $("#ddaydate_show").val()
+    startdate = $("#startdate_show").val()
+    starttime = $("#starttime_show").val()
     $('#starthappyday_update').val(startdate+starttime);
     
     //var flag = 1;
@@ -253,10 +251,8 @@ $(document).ready(function() {
    $('#multipleSelect').dropdown({ 
        maxSelections: 2
    });
-    $('#select').dropdown({
-   });
+    $('#select').dropdown();
    
-  
   // 출발 날짜(등록,수정)
   $("[name=example2]").calendar({
     type: 'date',
@@ -269,7 +265,7 @@ $(document).ready(function() {
         var day = date.getDate().toString();
         day = day.length > 1 ? day : '0' + day;
         var fullDate = year + month + day;
-        var fullDateShow = year+'년 ' + month+'월 ' + day+'일 ';
+        var fullDateShow = year+'/ ' + month+'/' + day;
         startdate = fullDate;
         return fullDateShow;
       }
@@ -305,8 +301,9 @@ $(document).ready(function() {
         var day = date.getDate().toString();
         day = day.length > 1 ? day : '0' + day;
         var fullDate = year + month + day;
-        var ddaydate = year + month + day;
-        return fullDate;
+        var fullDateShow = year+'/'+month+'/'+ day;
+        ddaydate  = fullDate;
+        return fullDateShow;
         }
       }
   });
