@@ -28,41 +28,37 @@
       $("#req_point").val(val+point);  
     }
   }
-
-   function showMap(){
-                var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
-                var popupX = (window.screen.width / 2) - (1200 / 2);
-                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-                var popupY= (window.screen.height /2) - (700 / 2);
-                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-                window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-        }
-    function setLocationValue(title, point){
-          // alert('주소 정상 호출 확인 '+title+' '+point);
-          //경도 longitude
-          //위도 latitude
-          var global_point = point;
-          //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
-          global_point += "";
-          var locationArray= global_point.split(',');
-          var latitude = locationArray[0].substring(1,locationArray[0].length);
-          var longitude = locationArray[1].substring(0,locationArray[1].length-1);
-          $("#place_name").val(title);   //지역 명
-          $("#latitude").val(latitude);  // 위도
-          $("#longitude").val(longitude);  //경도
-        }
-    function windowClose(){
+  function showMap(){
+              var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
+              var popupX = (window.screen.width / 2) - (1200 / 2);
+              // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+              var popupY= (window.screen.height /2) - (700 / 2);
+              // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+              window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+  }
+  function setLocationValue(title, point){
+        // alert('주소 정상 호출 확인 '+title+' '+point);
+        //경도 longitude
+        //위도 latitude
+        var global_point = point;
+        //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
+        global_point += "";
+        var locationArray= global_point.split(',');
+        var latitude = locationArray[0].substring(1,locationArray[0].length);
+        var longitude = locationArray[1].substring(0,locationArray[1].length-1);
+        $("#place_name").val(title);   //지역 명
+        $("#latitude").val(latitude);  // 위도
+        $("#longitude").val(longitude);  //경도
+  }
+  function windowClose(){
       window.close();  
-    }
-
+  }
         
 $(document).ready(function() {
   
- 
-  
   function refreshParent() {
       window.opener.location.reload();
-    }  
+  }  
   
     // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregmodal').submit(function() {
@@ -207,29 +203,8 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     if(flag == 9){
     // if(flag <= 9){
-=======
-<<<<<<< HEAD
-    if(flag <= 9){
-      // 입력 내용이 완벽하면 true
-      // window.parent.location.reload();
-      setTimeout("refreshParent()",3000);
-      //refreshParent();
-=======
->>>>>>> 929d2875cac141cc275bec77a4abd2df47ad1462
-    // if(flag == 9){
-    if(flag <= 9){
->>>>>>> e208ba612cbc962137e99612dfea16574c934c91
-      // 입력 내용이 완벽하면 true
-      // window.parent.location.reload();
-     
-     window.setTimeout(refreshParent, 50000); //테스트해봤다....
-
-      refreshParent();
       return true;
     }
     else{
@@ -553,16 +528,12 @@ $(document).ready(function() {
 			<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:windowClose()>
 				 취소
 			</div>
-			<!--<button class="ui submit button" id="submit" name="submit" onclick="window.parent.location.reload();" style="background:#A5673F; color:white">등록</button>-->
 			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
 		</div>
 		<!-- actions -->
 	</div>
 	<!-- content -->
 </form>
-
-
-
 
 </body>
 </html>

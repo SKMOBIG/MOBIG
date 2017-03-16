@@ -17,7 +17,16 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
-
+  //차감 포인트 컨트롤
+  function pointControl(point){
+    var val = $("#req_point_show").val();
+    val *= 1; //string to int
+    point *=1; // string to int
+    
+    if(val+point <= 8000 && val+point >=500){
+      $("#req_point_show").val(val+point);  
+    }
+  }
    function showMap(){
                 var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
                 var popupX = (window.screen.width / 2) - (1200 / 2);
@@ -42,7 +51,7 @@
           $("#longitude").val(longitude);  //경도
         }
 function Happdaygetdata() {
-    var happyday_id = 147;
+    var happyday_id = 205;
     $.ajax({
 	     type: "post",
 	     url : "/Happdaygetdata_KJY",
@@ -237,9 +246,12 @@ $(document).ready(function() {
 
   
   //카테고리 드롭다운(등록,수정)
-   $('.ui.dropdown').dropdown({
-       maxSelections: 1
+   $('#multipleSelect').dropdown({ 
+       maxSelections: 2
    });
+    $('#select').dropdown({
+   });
+   
   
   // 출발 날짜(등록,수정)
   $("[name=example2]").calendar({
@@ -349,7 +361,7 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *카테고리
 				</div>
-				<div class="ui multiple selection dropdown" style=" width: 100%;">
+				<div class="ui multiple selection dropdown" id="multipleSelect" style=" width: 100%;">
 					<input id="happyday_category_show" name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
@@ -381,7 +393,7 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *모집 정원
 				</div>
-				<div class="ui selection dropdown" style=" width: 100%;">
+				<div class="ui selection dropdown" id="select" style=" width: 100%;">
 					<input type="hidden" id="num_participants" name="num_participants" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
@@ -496,11 +508,23 @@ $(document).ready(function() {
 			<div class="ui sub header">
 				 *차감포인트
 			</div>
-			<div class="ui left icon input" style=" width: 100%;">
-				<input type="text" id="req_point_show" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
-				<i class="won icon"></i>
+			<div class="ui right icon input" style=" width: 100%;">
+				<input type="text" id="req_point_show" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point">
+				
+				<i class="icon" style="width: 10%;">
+			    <div>
+			      <i class="chevron up icon" onclick="javascript:pointControl(500)"></i>
+			    </div>
+			    <div>
+			      <i class="chevron down icon" onclick="javascript:pointControl(-500)"></i>
+			    </div>
+			  </i>
+			</input>
 			</div>
-			<!-- point -->
+			<i class="won icon"></i>
+			
+			
+			
 			<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
 			</p>
 		</div>
