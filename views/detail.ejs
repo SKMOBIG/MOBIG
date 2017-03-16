@@ -36,31 +36,30 @@
             
             if(regUserId == sessionUserId){
                 // alert("내가 작성자일 때,");
-                $('#modify_happyday').show();
-                $('#delete_happyday').show();
-                $('#apply_happyday').hide();
-                $('#cancel_happyday').hide();
+                $('#modify_button').show();
+                $('#delete_button').show();
+                $('#apply_button').hide();
+                $('#cancel_button').hide();
             }
             else{
                 // alert("내가 작성자가 아닐 때,");
-                $('#modify_happyday').hide();
-                $('#delete_happyday').hide();
+                $('#modify_button').hide();
+                $('#delete_button').hide();
                 
                 var reg_state = "<%= reg_state %>";
                 if(reg_state == "N"){
                     // alert("내가 신청자가 아닐 때,");
-                    $('#apply_happyday').show();
-                    $('#cancel_happyday').hide();
+                    $('#apply_button').show();
+                    $('#cancel_button').hide();
                 }
                 else{
                     // alert("내가 신청자일  때,");
-                    $('#apply_happyday').hide();
-                    $('#cancel_happyday').show();
+                    $('#apply_button').hide();
+                    $('#cancel_button').show();
                 }
             }
         
         });
-
         
         function goDetail(id) {
             location.href = '../detail/' + id;
@@ -70,16 +69,12 @@
             location.href = '../detail/' + id + '/postlist';
         }
         
-        
- 
- //수정필요
-
-        function infoUser(reg_user_id) {
+        function infoUser(user_id) {
             $.ajax({
                 type: "post",
                 url: "/infouser",
                 data: {
-                    user_id : reg_user_id
+                    user_id : user_id
                 },
                 success: function(data) {
                     // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
@@ -94,7 +89,87 @@
                 }
             });
         }
+        
+        
+        //등록 파트에서 수정
+        function modifyHappyday(happyday_id) {
+            alert("수정");
+            //  $.ajax({
+            //      type: "post",
+            //      url: "/applyhappyday",
+            //      data: {
+            //         happyday_id : happyday_id,
+            //         req_point : req_point
+            //      },
+            //      success: function(data) {
+            //         window.location.reload();
+            //       // $("present_condition").load();
 
+            //      },
+            //      error: function(e) {
+            //          alert(e.responseText);
+            //      }
+            //  });
+        }
+        
+        //happyday_master 테이블 내 삭제 여부 표현 이슈
+        function deleteHappyday(happyday_id) {
+            alert("삭제");
+            //  $.ajax({
+            //      type: "post",
+            //      url: "/applyhappyday",
+            //      data: {
+            //         happyday_id : happyday_id,
+            //         req_point : req_point
+            //      },
+            //      success: function(data) {
+            //         window.location.reload();
+            //       // $("present_condition").load();
+
+            //      },
+            //      error: function(e) {
+            //          alert(e.responseText);
+            //      }
+            //  });
+        }
+
+        // 해피데이 신청하기
+        function applyHappyday(happyday_id, req_point) {
+             $.ajax({
+                 type: "post",
+                 url: "/applyhappyday",
+                 data: {
+                    happyday_id : happyday_id,
+                    req_point : req_point
+                 },
+                 success: function(data) {
+                    window.location.reload();
+                   // $("present_condition").load();
+
+                 },
+                 error: function(e) {
+                     alert(e.responseText);
+                 }
+             });
+        }
+        
+        // 해피데이 취소하기
+        function cancelHappyday(happyday_id, req_point) {
+             $.ajax({
+                 type: "post",
+                 url: "/cancelhappyday",
+                 data: {
+                    happyday_id : happyday_id
+                 },
+                 success: function(data) {
+                    window.location.reload();
+
+                 },
+                 error: function(e) {
+                     alert(e.responseText);
+                 }
+             });
+        }
         
         
     </script>
@@ -253,7 +328,7 @@
                 </div>
                 
                 <div class="ui segment">
-                    <div class="image"> * 신청현황보기 
+                    <div class="image" id="present_condition"> * 신청현황보기 
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
                             <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span></p>
@@ -262,10 +337,10 @@
                 </div>
                 
                 <div class="ui right aligned segment">
-                    <button class="ui primary button" id="modify_happyday">수정</button>
-                    <button class="ui button" id="delete_happyday">삭제</button>
-                    <button class="ui primary button" id="apply_happyday">신청</button>
-                    <button class="ui button" id="cancel_happyday">취소</button>                        
+                    <button class="ui primary button" id="modify_button" onClick="javascript:modifyHappyday('<%=data.happyday_id%>')">수정</button>
+                    <button class="ui button" id="delete_button" onClick="javascript:deleteHappyday('<%=data.happyday_id%>')">삭제</button>
+                    <button class="ui primary button" id="apply_button" onClick="javascript:applyHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청하기</button>
+                    <button class="ui button" id="cancel_button" onClick="javascript:cancelHappyday('<%=data.happyday_id%>')">신청취소</button>                        
                 </div>
                 
             </div>

@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>B2B사업팀 HappyDay</title>
-    
-    <script src="../../javascripts/jquery.js"></script>
-    <script src="../../javascripts/jquery.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
-    <script src="/dist/semantic.min.js"></script>
-    
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>B2B사업팀 HappyDay</title>
+<script src="../../javascripts/jquery.js"></script>
+<script src="../../javascripts/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+<script src="/dist/semantic.min.js"></script>
 <script type="text/javascript">
     function modalClose(){
      // alert("aa");
     $('.ui.modal').modal('hide');
     window.location.reload();
-   
    }
         function goDetail(id) {
             location.href = '../../detail/' + id;
@@ -28,7 +23,6 @@
         function goPostList(id) {
             location.href = '../../detail/' + id + '/postlist';
         }
-        
         // 조회 자바스크립트
         function showContent(post_id, happyday_id){
          $.ajax({
@@ -39,7 +33,6 @@
          happyID : happyday_id
          },
         success:function(data){ 
-         
          var year =data.datas.modify_dtm.substring(0,4);
          var month = data.datas.modify_dtm.substring(4,6);
          var date = data.datas.modify_dtm.substring(6,8);
@@ -48,7 +41,6 @@
          var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
          var post_content = data.datas.post_content;
          // alert(post_content);
-    
       if("<%=session.user_name %>" == data.datas.user_name )
          {
           $('#happyday_post_update').show()
@@ -118,14 +110,12 @@
     function PostReg(id) {
         $('.ui.modal.Reg').modal('show');
     }
-    
   $(document).ready(function() {  
    // 등록 모달에서 submit 하기 전에 해야 될 사항 -> 정합성 체크  
    $('.ui.modal.Reg').submit(function() {
     var post_name = $("#post_title").val(); // 후기 제목
     var post_content = $("#post_content").val(); // 후기 내용
     flag = 0;
- 
     // 후기 제목 체크
     if(post_name == ''){
       $('#post_title_alert').css("visibility","visible");
@@ -135,7 +125,6 @@
       $('#post_title_alert').css("visibility","hidden");
       flag =flag+1;
     }
-    
     // 후기 내용 체크
     if(post_content == ''){
       $('#post_content_alert').css("visibility","visible");
@@ -145,8 +134,6 @@
       $('#post_content_alert').css("visibility","hidden");
       flag =flag+1;
     }
-    
-    
      if(flag == 2){
       // 입력 내용이 완벽하면 true
       $("#post_content").val(post_content);
@@ -156,16 +143,12 @@
       //입력 내용이 완벽하지 않으면 false
       return false;
     }
-   
    });
-   
-   
    // 업데이트 모달 서밋전에 정합성 체크
    $('.ui.modal.Update').submit(function() {
     var post_name = $("#postupdate_title").val(); // 후기 제목
     var post_content = $("#postupdate_content").val(); // 후기 내용
     flag = 0;
-    
     // 후기 제목 체크
     if(post_name == ''){
       $('#postupdate_title_alert').css("visibility","visible");
@@ -175,7 +158,6 @@
       $('#postupdate_title_alert').css("visibility","hidden");
       flag = flag+ 1;
     }
-    
     // 후기 내용 체크
     if(post_content == ''){
       $('#postupdate_content_alert').css("visibility","visible");
@@ -185,8 +167,6 @@
       $('#postupdate_content_alert').css("visibility","hidden");
       flag = flag+ 1;
     }
-    
-    
      if(flag ==2){
       // 입력 내용이 완벽하면 true
       return true;
@@ -195,190 +175,184 @@
       //입력 내용이 완벽하지 않으면 false
       return false;
     }
-   
    });
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    
   });
-    
     </script>
-  <style type="text/css">
+<style type="text/css">
         @ import ;
         body {
             font-family: 'Jeju Gothic', serif !important;
              padding-top: 80px;
         }
      .ui.segment.jun {cursor: pointer;}
-     
      .ui.form.segment{
        background:orange;
      }
-
- </style>
- 
- 
+</style>
 </head>
 <body>
 <!-- Navigation -->
 <% include ./partials/navigation.ejs %>
 <!-- Page Content -->
 <div class="ui container">
- <div class="content">
-  <div class="header" href="#">
-   <h1><%=data.happyday_name %></h1>
-  </div>
-  <div class="ui segment">
-   <img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">
-   <div class="yellow two ui buttons">
-    <button class="ui button" onclick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
-    <!--<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>-->
-    <button class="ui button" onclick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
-   </div>
-   <p>
-   </p>
-   
-   <!--post Reg Div default-->
-   <div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')">
-   <i class="huge yellow add circle icon"></i>
-   <font size="4"> 후기 등록을 해주세요 </font>
-   </div>
-  
-   <!--show post list-->
-   <% for (var i=0; i < postdata.length; i++) { %>
-   <div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
-    <h3>
-    <%=postdata[i].post_title %>
-    <input type="hidden" value=<%=postdata[i].post_id %>> </h3>
-    <p>
-     <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
-     <%=postdata[i].user_name %> (<%=postdata[i].sm_id %>)&nbsp;&nbsp;&nbsp;&nbsp; <%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp; <i class="unhide icon"></i>
-     <%=postdata[i].post_count %>
-    </p>
-   </div>
-   <% } %>
-  </div>
- </div>
+	<div class="content">
+    		 <div class="ui segments">
+                <div class="ui segment">
+                    <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
+                </div>
+                <div class="ui segment">
+                    <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
+                </div>
+        </div>
+     		
+    
+    		<div class="ui segment">
+    			<img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">
+    			<div class="yellow two ui buttons">
+    				<button class="ui button" onclick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
+    				<!--<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>-->
+    				<button class="ui button" onclick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
+    			</div>
+    			<p>
+    			</p>
+    			<!--post Reg Div default-->
+    			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')"> <i class="huge yellow add circle icon"></i>
+    				<font size="4"> 후기 등록을 해주세요 </font>
+    			</div>
+    			<!--show post list-->
+    			<% for (var i=0; i < postdata.length; i++) { %>
+    			<div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
+    				<h3>
+    				<%=postdata[i].post_title %>
+    				<input type="hidden" value=<%=postdata[i].post_id %>> </h3>
+    				<p>
+    					<img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
+    					<%=postdata[i].user_name %> (<%=postdata[i].sm_id %>)&nbsp;&nbsp;&nbsp;&nbsp; <%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp; <i class="unhide icon"></i>
+    					<%=postdata[i].post_count %>
+    				</p>
+    			</div>
+    			<% } %>
+    		</div>
+	</div>
 </div>
 <!--등록 모달 Start-->
 <div class="ui modal Reg">
- <form class="ui form segment" action="/postregist_KJB" method="post" >
-  <div class="header">
-   <h1 style="color:white">후기 등록</h1>
-  </div>
-  <div class="content">
-   <div class="field">
-    <div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
-				 제목
+	<form class="ui form segment" action="/postregist_KJB" method="post">
+		<div class="header">
+			<h1 style="color:white">후기 등록</h1>
+		</div>
+		<div class="content">
+			<div class="field">
+				<div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
+					 제목
+				</div>
+				<div class="ui left icon input" style=" width: 100%;">
+					<input type="text" id="post_title" name="post_title" placeholder="해피데이 후기 title" style="width: 100%" maxlength="20">
+					<i class="user icon"></i>
+				</div>
+				<p id="post_title_alert" style="color:red; visibility:hidden;">
+					*후기 제목을 입력해 주세요
+				</p>
 			</div>
-    <div class="ui left icon input" style=" width: 100%;">
-     <input type="text" id="post_title" name="post_title" placeholder="해피데이 후기 title" style="width: 100%" maxlength="20">
-     <i class="user icon"></i>
-    </div>
-    <p id="post_title_alert" style="color:red; visibility:hidden;">*후기 제목을 입력해 주세요</p>
-   </div>
-   <div class="field">
-     <div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
-				 후기 내용
+			<div class="field">
+				<div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
+					 후기 내용
+				</div>
+				<textarea id="post_content" name="post_content" style="width:100% ;height: 200px; resize:none;" maxlength="700"></textarea>
+				<p id="post_content_alert" style="color:red; visibility:hidden;">
+					*후기 내용을 입력해 주세요
+				</p>
 			</div>
-    <textarea id="post_content" name="post_content" style="width:100% ;height: 200px; resize:none;" maxlength="700"></textarea>
-    <p id="post_content_alert" style="color:red; visibility:hidden;">*후기 내용을 입력해 주세요</p>
-   </div>
-  </div>
-  <div class="ui clearing divider">
-  </div>
-  <div class="ui error message">
-  </div>
-  <div class="actions">
-   <button class="ui button" style="background:#A5673F; color:white"> 등록 </button>
-   <div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
-     취소
-   </div>
-  </div>
-  <input type="hidden" name="happyID" value=<%=data.happyday_id %>>
- </form>
+		</div>
+		<div class="ui clearing divider">
+		</div>
+		<div class="ui error message">
+		</div>
+		<div class="actions">
+			<button class="ui button" style="background:#A5673F; color:white"> 등록 </button>
+			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
+				 취소
+			</div>
+		</div>
+		<input type="hidden" name="happyID" value=<%=data.happyday_id %>>
+	</form>
 </div>
 <!--등록모달 end-->
 <!--조회모달 start-->
 <form action="/postdel_KJB" method="post">
- <div class="ui modal Select">
-  <div class="header">
-   <h2 id='postselect_title'></h2>
-   <input id='postselect_postid' type="hidden" value="">
-   <input id='postselect_happydayid' type="hidden" value="">
-  </div>
-  <!-- modal header -->
-  <div class="content">
-   <div class="ui items">
-    <div class="item">
-     <div class="image">
-      <img src=<%=data.img_url%>>
-     </div>
-     <div class="content">
-      <a class="header" id="postselect_writer">postselect_writer_Error</a>
-      <div class="meta">
-       <span id="postselect_time">postselect_time_Error</span>
-      </div>
-      <div class="description">
-       <p id="postselect_content">
-         postselect_content_Error
-       </p>
-      </div>
-     </div>
-    </div>
-   </div>
-  </div>
-  <div class="actions">
-   <button class="ui primary button" id="happyday_post_update" onclick=javascript:PostUpdate()> Update </button>
-   <button class="negative ui button" id="happyday_post_delete" onclick=javascript:postDel()> Delete </button>
-   <!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
-   <div class="ui button" onclick=javascript:modalClose()>
-     Cancel
-   </div>
-  </div>
- </div>
+	<div class="ui modal Select">
+		<div class="header">
+			<h2 id='postselect_title'></h2>
+			<input id='postselect_postid' type="hidden" value="">
+			<input id='postselect_happydayid' type="hidden" value="">
+		</div>
+		<!-- modal header -->
+		<div class="content">
+			<div class="ui items">
+				<div class="item">
+					<div class="image">
+						<img src=<%=data.img_url%>>
+					</div>
+					<div class="content">
+						<a class="header" id="postselect_writer">postselect_writer_Error</a>
+						<div class="meta">
+							<span id="postselect_time">postselect_time_Error</span>
+						</div>
+						<div class="description">
+							<p id="postselect_content">
+								 postselect_content_Error
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="actions">
+			<button class="ui primary button" id="happyday_post_update" onclick=javascript:PostUpdate()> Update </button>
+			<button class="negative ui button" id="happyday_post_delete" onclick=javascript:postDel()> Delete </button>
+			<!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
+			<div class="ui button" onclick=javascript:modalClose()>
+				 Cancel
+			</div>
+		</div>
+	</div>
 </form>
 <!--조회 모달 end-->
 </body>
 </html>
 <!--수정 모달 start-->
 <div class="ui modal Update">
- <form class="ui form segment" name="postupdatemodal" action="/postupdate_KJB" method="post">
-  <input id="selectPostId" name="postid" type="hidden" val="">
-  <div class="header">
-   <h1>후기 수정</h1>
-  </div>
-  <div class="content">
-   <div class="column">
-    <h3> 후기 title </h3>
-    <div class="ui left icon input" style=" width: 100%;">
-     <input type="text" id="postupdate_title" name="post_title" style="width: 100%" maxlength="20">
-     <i class="user icon"></i>
-    </div>
-    <p id="postupdate_title_alert" style="color:red; visibility:hidden;">*후기 제목을 입력해 주세요</p>
-   </div>
-   <h3>후기 내용</h3>
-   <textarea id="postupdate_content" name="post_content" style="width:100% ;height: 200px;" maxlength="700"></textarea>
-   <p id="postupdate_content_alert" style="color:red; visibility:hidden;">*후기 내용을 입력해 주세요</p>
-  </div>
-  <div class="ui clearing divider">
-  </div>
-  <div class="actions">
-   <button class="ui button"> 수정 </button>
-   <div class="ui button" onclick=javascript:modalClose()>
-     취소
-   </div>
-  </div>
-  <input type="hidden" name="happyID" value=<%=data.happyday_id %>>
- </form>
+	<form class="ui form segment" name="postupdatemodal" action="/postupdate_KJB" method="post">
+		<input id="selectPostId" name="postid" type="hidden" val="">
+		<div class="header">
+			<h1>후기 수정</h1>
+		</div>
+		<div class="content">
+			<div class="column">
+				<h3> 후기 title </h3>
+				<div class="ui left icon input" style=" width: 100%;">
+					<input type="text" id="postupdate_title" name="post_title" style="width: 100%" maxlength="20">
+					<i class="user icon"></i>
+				</div>
+				<p id="postupdate_title_alert" style="color:red; visibility:hidden;">
+					*후기 제목을 입력해 주세요
+				</p>
+			</div>
+			<h3>후기 내용</h3>
+			<textarea id="postupdate_content" name="post_content" style="width:100% ;height: 200px;" maxlength="700"></textarea>
+			<p id="postupdate_content_alert" style="color:red; visibility:hidden;">
+				*후기 내용을 입력해 주세요
+			</p>
+		</div>
+		<div class="ui clearing divider">
+		</div>
+		<div class="actions">
+			<button class="ui button"> 수정 </button>
+			<div class="ui button" onclick=javascript:modalClose()>
+				 취소
+			</div>
+		</div>
+		<input type="hidden" name="happyID" value=<%=data.happyday_id %>>
+	</form>
 </div>
-<!--수정모달 end --> 
- 
+<!--수정모달 end -->
