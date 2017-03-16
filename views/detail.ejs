@@ -28,8 +28,8 @@
         $(document)
             .ready(function() {
             
-            var pointRsn = <%=data.point_rsn%>
-         //   $("#point_rsn").html(pointRsn.replace(/\r\n/g, "<p>"));
+
+            // $('#point_rsn').html(pointRsn.replace(/\r\n/g, "<p>"));
          //   $("#point_rsn").val("aaaa"); 
             
             $('.ui.accordion').accordion();
@@ -140,6 +140,8 @@
 
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
+            
+            
              $.ajax({
                  type: "post",
                  url: "/applyhappyday",
