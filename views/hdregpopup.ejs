@@ -50,8 +50,8 @@
         $("#latitude").val(latitude);  // 위도
         $("#longitude").val(longitude);  //경도
   }
-  function windowClose(){
-      window.close();  
+  function goMain(){
+      location.href = '../hdmain';
   }
 
 $(document).ready(function() {
@@ -78,7 +78,7 @@ $(document).ready(function() {
     var date; 
   
     // 입력할 때 너무 보기가 안좋아 원석이형 꺼에서 바꾸는게 나을듯 싶다._KJB
-    $("#point_rsn").val(point_rsn.replace(/\n/g, "<p>"));
+    // $("#point_rsn").val(point_rsn.replace(/\n/g, "\"));
     
     if(today_date_ojbect.getMonth()+1 < 10){
       //앞에 0을 붙여야 2017'0'305가 됨
@@ -439,7 +439,7 @@ $(document).ready(function() {
 			</div>
 			<div class="ui right labeled left icon action input">
 				<i class="marker icon"></i>
-				<input id="place_name" type="text" placeholder="검색아이콘을 클릭하세요." name="place_name" readonly="true">
+				<input id="place_name" type="text" placeholder="검색아이콘을 클릭하세요." name="place_name" onclick="javascript:showMap()" readonly="true">
 				<div class="ui label" onclick="javascript:showMap()" style="background:#A5673F; color:white; cursor: pointer;">
 					<i class="search icon"></i>
 				</div>
@@ -529,7 +529,7 @@ $(document).ready(function() {
 					</div>
 					<div class="ui input" style=" width: 100%;">
 						<!--<input type="text" id="point_rsn" name="point_rsn" placeholder="사유를입력해주세요..." style=" width: 100%;">-->
-						<textarea id="point_rsn" placeholder="포인트 사용 내역을 입력 해 주세요" style="width:100% ;height: 100px; resize:none" name="point_rsn" maxlength="150"></textarea>
+						<textarea id="point_rsn" wrap="hard" placeholder="포인트 사용 내역을 입력 해 주세요" style="width:100% ;height: 100px; resize:none" name="point_rsn" maxlength="150"></textarea>
 					</div>
 					<p class="p validation" id="point_rsn_alert" style="color:red; visibility:hidden;">
 						 *상세 내역을 작성해 주세요
@@ -550,7 +550,7 @@ $(document).ready(function() {
 			<div class="ui clearing divider">
 			</div>
 			<div class="actions">
-				<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:windowClose()>
+				<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:goMain()>
 					 취소
 				</div>
 				<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>

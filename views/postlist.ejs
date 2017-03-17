@@ -40,7 +40,8 @@
          var minute = data.datas.modify_dtm.substring(10,12);
          var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
          var post_content = data.datas.post_content;
-         // alert(post_content);
+         alert(typeof(post_content));
+         alert(post_content);
       if("<%=session.user_name %>" == data.datas.user_name )
          {
           $('#happyday_post_update').show()
