@@ -45,7 +45,7 @@ var mysql = require('mysql');
 
 var connectionPool = mysql.createPool({
   user : 'admin',
-  password : 'happyappdb',
+  password : 'tobehappy',
   database : 'mysqldb',
   host : 'b2bdb.ciae2wm5rkuu.us-west-2.rds.amazonaws.com', //port빼고 end-point
   port : '3306',
