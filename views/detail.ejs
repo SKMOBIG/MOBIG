@@ -142,7 +142,9 @@
                         }else {
                             alert("참가신청이 되었습니다.");
                             //TODO : 화면에서 참가 리스트 갱신
-                            //console.log(result.userList);
+                            console.log(JSON.stringify(result.userList));
+                            
+                            makeParticipantList(result.userList);
                         }
                     }else {
                         alert("시스템 문제로 조회할 수 없습니다.");
@@ -185,6 +187,30 @@
         
             return yyyy + (mm[1] ? mm : '0'+mm[0]) + (dd[1] ? dd : '0'+dd[0]);
         }
+        
+        function makeParticipantList(userList) {
+            var $pTag = $("<p></p>"),
+                $imgTag = $("<img class='ui avatar image' >"),,
+                  existingdiv1 = document.getElementById( "foo" );
+            for(i=0; i<userList.length; i++) {
+                $("#present_condition").append($('p')).append
+                
+                }));
+
+            }
+        }
+        
+        
+                        <div class="ui segment">
+                    <div class="image" id="present_condition"> * 신청현황보기 
+                        <% for (var i = 0; i < userList.length; i++) { %>
+                            <p>
+                                <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
+                                <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span>
+                            </p>
+                        <% } %>
+                    </div>
+                </div>
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
