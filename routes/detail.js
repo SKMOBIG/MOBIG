@@ -90,22 +90,53 @@ module.exports = function(app, connectionPool) {
         });
     });
     
+    app.get('/checkpoint/:user_id', function(req, res, next) {
+       connectionPool.getConnection(function(err, connection) {
+           connection.query('select happy_point, mileage' +
+                            '  from user' +
+                            ' where id = ?', req.params.user_id, function(error, rows) {
+                                
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(rows.length > 0) {
+                        res.json({success : "Successfully", status : 200, happy_point : rows[0].happy_point, mileage : rows[0].mileage});
+                        connection.release();
+                    }else {
+                        connection.release();
+                        res.redirect('/');
+                    }    
+                }
+                                });
+       }) 
+    });
+    
     app.post('/applyhappyday', function(req, res, next){
         
         connectionPool.getConnection(function(err, connection) {
             connection.query('select * from happyday_user_hst where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows){
                 console.log("req.session.user_id : " + req.session.user_id);
-                console.log("rows[0] : " + rows);
                 if(rows.length == 0){
                     connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) values(?, ?, date_format(sysdate(), "%Y%m%d%H%i"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows1){
                 
-                        console.log("req.session.user_id : " + req.session.user_id);
                         if(error) {
                             connection.release();
                             throw error;
                         }else {
-                            res.redirect('/detail/'+ req.body.happyday_id);
-                            connection.release();
+                            connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id'+
+                                             '  from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
+                                             ' where t1.id = t2.user_id;', req.body.happyday_id, function(error, rows1){
+                                if(error) {
+                                    connection.release();
+                                    throw error;
+                                }else {
+                                    //console.log("user list : " + rows1);
+                                    
+                                    res.json({success : "Successfully", status : 200, userList : rows1});
+                                    connection.release();
+                                }
+                            });
                         }
                     });
                 }else {

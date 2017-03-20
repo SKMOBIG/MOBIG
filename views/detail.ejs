@@ -25,18 +25,9 @@
 
     <script type="text/javascript">
         
-        $(document).ready(function() {
-            
-
-            // $('#point_rsn').html(pointRsn.replace(/\r\n/g, "<p>"));
-          
-            
+        $(document)
+            .ready(function() {
             $('.ui.accordion').accordion();
-            
-            
-            // $("#point_rsn").html("aaaa"); 
-            
-          
             
                 /* 본인이면 수정 및 삭제버튼 표시
                 타인이면 신청 및 신청 취소버튼 표시*/
@@ -144,23 +135,49 @@
 
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
-             
-             $.ajax({
-                 type: "post",
-                 url: "/applyhappyday",
-                 data: {
-                    happyday_id : happyday_id,
-                    req_point : req_point
-                 },
-                 success: function(data) {
-                    window.location.reload();
-                   // $("present_condition").load();
-
-                 },
-                 error: function(e) {
-                     alert(e.responseText);
-                 }
-             });
+            var user_id = <%=session.user_id%>;
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/checkpoint/'+user_id,
+                success: function(result) {
+                  console.log(result);
+                  if(result.status == 200){
+                      if(result.happy_point >= req_point) {
+                          applyToAjax(happyday_id, req_point);
+                      }else {
+                          alert("현재 포인트가 참여 포인트보다 적어 참가 신청할 수 없습니다.");
+                      }
+                  }else {
+                      alert("문제가 생겨 조회할 수 없습니다.");
+                  }
+                }
+            });
+        }
+        
+        function applyToAjax(happyday_id, req_point) {
+            var data = {};
+            data.happyday_id = happyday_id;
+            data.req_point = req_point;
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/applyhappyday',
+                success: function(result) {
+                  if(result.status == 200){
+                    alert("참가신청이 되었습니다.");
+                    //TODO : 화면에서 참가 리스트 갱신
+                    //console.log(result.userList);
+                    
+                  }else {
+                    alert("참가신청이 실패하였습니다.");
+                  }
+                }
+            });
         }
         
         // 해피데이 취소하기
@@ -293,8 +310,7 @@
                                             상세내역보기
                                         </div>
                                         <div class="content">
-                                            <!--<p class="transition hidden" id = "point_rsn">  </p>-->
-                                            <pre class="KJB" style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; margin-left: 20px; " > <p style="margin-top:-20px"><%=data.point_rsn%></p> </pre>
+                                            <p class="transition hidden"> 1. 티켓 : 1,500P <p></p> 2. 회식 : 1,000P </p>
                                         </div>
                                     </div>
                                     
