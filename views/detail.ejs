@@ -299,20 +299,20 @@
                     <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
                 </div>
                 
-                <div class="ui segment">
-                    <div class="ui labeled button" tabindex="0">
-                        <div class="ui yellow button">
-                            <i class="heart icon"></i> Like
-                        </div>
-                        <a class="ui basic red left pointing label">1,048</a>
-                    </div>
-                    <div class="ui labeled button" tabindex="0">
-                        <div class="ui gray button">
-                            <i class="feed icon"></i> Feed
-                        </div>
-                        <a class="ui basic red left pointing label">10</a>
-                    </div>
-                </div>
+                <!--<div class="ui segment">-->
+                <!--    <div class="ui labeled button" tabindex="0">-->
+                <!--        <div class="ui yellow button">-->
+                <!--            <i class="heart icon"></i> Like-->
+                <!--        </div>-->
+                <!--        <a class="ui basic red left pointing label">1,048</a>-->
+                <!--    </div>-->
+                <!--    <div class="ui labeled button" tabindex="0">-->
+                <!--        <div class="ui gray button">-->
+                <!--            <i class="feed icon"></i> Feed-->
+                <!--        </div>-->
+                <!--        <a class="ui basic red left pointing label">10</a>-->
+                <!--    </div>-->
+                <!--</div>-->
                 
                 <div class="ui segment">
                     <table class="ui definition table">
@@ -366,6 +366,7 @@
                             };
                         
                         var map = new daum.maps.Map(mapContainer, mapOption); //지도 생성
+                        
                         var markerPosition = new daum.maps.LatLng(<%=data.place_latitude%>,<%=data.place_longitude%>);    //마커 표시좌표
                         var marker = new daum.maps.Marker({    //마커 생성
                              position : markerPosition
@@ -382,12 +383,15 @@
                         
                         var zoomControl = new daum.maps.ZoomControl();    // 지도 줌 컨트롤 생성
                         map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+ 
+                        map.setDraggable(false);
+                        map.setZoomable(false); 
                         
                     </script>
                 </div>
                 
                 <div class="ui segment">
-                    <div class="image" id="present_condition"> * 신청현황보기 
+                    <div class="image" id="present_condition"> * 신청현황 (<%=userList.length%>/<%=data.num_participants%>)
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
                             <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span></p>
