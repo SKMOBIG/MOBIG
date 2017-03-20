@@ -48,19 +48,24 @@
                 $('#delete_button').hide();
                 
                 var reg_state = "<%= reg_state %>";
-                if(reg_state == "N"){
-                    // alert("내가 신청자가 아닐 때,");
-                    $('#apply_button').show();
-                    $('#cancel_button').hide();
-                }
-                else{
-                    // alert("내가 신청자일  때,");
-                    $('#apply_button').hide();
-                    $('#cancel_button').show();
-                }
+                
+                initApplyCancel(reg_state);
             }
-        
+            
         });
+        
+        function initApplyCancel(reg_state) {
+            if(reg_state == "N"){
+                // 사용자가 신청 목록에 없을 때
+                $('#apply_button').show();
+                $('#cancel_button').hide();
+            }
+            else{
+                // 사용자가 신청 목록에 있을 때
+                $('#apply_button').hide();
+                $('#cancel_button').show();
+            }
+        }
         
         function goDetail(id) {
             location.href = '../detail/' + id;
@@ -140,17 +145,33 @@
                         if(result.checkpoint == "N") {
                             alert("현재 남아았는 포인트가 참가 포인트보다 적어 참가 신청할 수 없습니다.");
                         }else {
-                            alert("참가신청이 되었습니다.");
                             //TODO : 화면에서 참가 리스트 갱신
-                            console.log(JSON.stringify(result.userList));
-                            
                             makeParticipantList(result.userList);
+                            initApplyCancel(result.reg_state);
+                            
+                            alert("참가신청이 되었습니다.");
                         }
                     }else {
                         alert("시스템 문제로 조회할 수 없습니다.");
                     }
                 }
             });
+        }
+        
+        function makeParticipantList(userList) {
+            $("#present_condition").empty();
+            var $applyTag = $("<p>신청현황 ("+userList.length+"/"+<%=data.num_participants%>+")</p>"),
+                $divTag = $("<div class='image' id='participants'></div>");
+            $("#present_condition").append($applyTag, $divTag).trigger("create");
+            
+            for(i=0; i<userList.length; i++) {
+                console.log(userList[i]);
+                var $pTag = $("<p></p>"),
+                    $imgTag = $("<img class='ui avatar image' src='"+userList[i].user_img+"' onClick='infoUser("+userList[i].user_id+")' >"),
+                    $spanTag = $("<span>"+userList[i].user_name+" ("+userList[i].sm_name+")</span>");
+                    
+                $("#participants").append($pTag, [$imgTag, $spanTag]).trigger("create");
+            }
         }
         
         function availableApply() {
@@ -187,30 +208,6 @@
         
             return yyyy + (mm[1] ? mm : '0'+mm[0]) + (dd[1] ? dd : '0'+dd[0]);
         }
-        
-        function makeParticipantList(userList) {
-            var $pTag = $("<p></p>"),
-                $imgTag = $("<img class='ui avatar image' >"),,
-                  existingdiv1 = document.getElementById( "foo" );
-            for(i=0; i<userList.length; i++) {
-                $("#present_condition").append($('p')).append
-                
-                }));
-
-            }
-        }
-        
-        
-                        <div class="ui segment">
-                    <div class="image" id="present_condition"> * 신청현황보기 
-                        <% for (var i = 0; i < userList.length; i++) { %>
-                            <p>
-                                <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
-                                <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span>
-                            </p>
-                        <% } %>
-                    </div>
-                </div>
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
@@ -390,11 +387,12 @@
                     </script>
                 </div>
                 
-                <div class="ui segment">
-                    <div class="image" id="present_condition"> * 신청현황 (<%=userList.length%>/<%=data.num_participants%>)
+                <div class="ui segment" id="present_condition">
+                    <p>신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
+                    <div class="image">
                         <% for (var i = 0; i < userList.length; i++) { %>
-                            <p><img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
-                            <span> <%=userList[i].user_name%> (<%=userList[i].sm_id%>) </span></p>
+                            <p><img class="ui avatar image" src="<%=userList[i].user_img%>" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
+                            <span> <%=userList[i].user_name%> (<%=userList[i].sm_name%>) </span></p>
                         <% } %>
                     </div>
                 </div>
