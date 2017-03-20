@@ -17,64 +17,72 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
-
-   function showMap(){
-                var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
-                var popupX = (window.screen.width / 2) - (1200 / 2);
-                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-                var popupY= (window.screen.height /2) - (700 / 2);
-                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-                window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-               
-        }
-    function setLocationValue(title, point){
-          // alert('주소 정상 호출 확인 '+title+' '+point);
-          //경도 longitude
-          //위도 latitude
-          var global_point = point;
-          //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
-          global_point += "";
-          var locationArray= global_point.split(',');
-          var latitude = locationArray[0].substring(1,locationArray[0].length);
-          var longitude = locationArray[1].substring(0,locationArray[1].length-1);
-          $("#place_name").val(title);   //지역 명
-          $("#latitude").val(latitude);  // 위도
-          $("#longitude").val(longitude);  //경도
-        }
-function Happdaygetdata() {
+  //차감 포인트 컨트롤
+  function pointControl(point){
+    var val = $("#req_point_show").val();
+    val *= 1; //string to int
+    point *=1; // string to int
+    if(val+point <= 8000 && val+point >=500){
+      $("#req_point_show").val(val+point);  
+    }
+  }
+  function showMap(){
+    var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
+    var popupX = (window.screen.width / 2) - (1200 / 2);
+    // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+    var popupY= (window.screen.height /2) - (700 / 2);
+    // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+    window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+   
+  }
+  function setLocationValue(title, point){
+    // alert('주소 정상 호출 확인 '+title+' '+point);
+    //경도 longitude
+    //위도 latitude
+    var global_point = point;
+    //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
+    global_point += "";
+    var locationArray= global_point.split(',');
+    var latitude = locationArray[0].substring(1,locationArray[0].length);
+    var longitude = locationArray[1].substring(0,locationArray[1].length-1);
+    $("#place_name").val(title);   //지역 명
+    $("#latitude").val(latitude);  // 위도
+    $("#longitude").val(longitude);  //경도
+  }
+  function Happdaygetdata() {
     var happyday_id = 208;
     $.ajax({
-	     type: "post",
-	     url : "/Happdaygetdata_KJY",
-	     data: 
-	     {
-         happyID : happyday_id
-       },
-        success:function(data){   
-          // alert(data.datas.num_participants);
-          var start_date = data.datas.happyday_dt.substring(0,8);
-          var start_hour = data.datas.happyday_dt.substring(8,10);
-          var start_minute = data.datas.happyday_dt.substring(10,12);
-          var start_time = start_hour+':'+start_minute;
-          
-        	$("#happyday_name_show").val(data.datas.happyday_name);
-        	$("#happyday_category_show").val(data.datas.category_code).change();   
-          $("#img_url_show").val(data.datas.img_url);
-          $("#place_name_show").val(data.datas.place_name);
-          $("#startdate_show").val(start_date);
-          $("#starttime_show").val(start_time);
-          $("[name='num_participants']").val(data.datas.num_participants).change();
-          $("#dday_dt_show").val(data.datas.dday_dt);
-          $("#req_point_show").val(data.datas.req_point);
-          $("#happyday_contents_show").val(data.datas.happyday_contents);
-          $("#point_rsn_show").val(data.datas.point_rsn);
+      type: "post",
+      url : "/Happdaygetdata_KJY",
+      data: 
+      {
+        happyID : happyday_id
+      },
+      success:function(data){   
+        // alert(data.datas.num_participants);
+        var start_date = data.datas.happyday_dt.substring(0,8);
+        var start_hour = data.datas.happyday_dt.substring(8,10);
+        var start_minute = data.datas.happyday_dt.substring(10,12);
+        var start_time = start_hour+':'+start_minute;
         
-          },
-        error:function(e){  
-            alert(e.responseText);  
-        }  
-     	});   
-    }        
+      	$("#happyday_name_show").val(data.datas.happyday_name);
+      	$("#happyday_category_show").val(data.datas.category_code).change();   
+        $("#img_url_show").val(data.datas.img_url);
+        $("#place_name_show").val(data.datas.place_name);
+        $("#startdate_show").val(start_date);
+        $("#starttime_show").val(start_time);
+        $("[name='num_participants']").val(data.datas.num_participants).change();
+        $("#dday_dt_show").val(data.datas.dday_dt);
+        $("#req_point_show").val(data.datas.req_point);
+        $("#happyday_contents_show").val(data.datas.happyday_contents);
+        $("#point_rsn_show").val(data.datas.point_rsn);
+      
+      },
+      error:function(e){  
+        alert(e.responseText);  
+      }  
+    });   
+  }        
 $(document).ready(function() {
   Happdaygetdata();
   //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
@@ -90,9 +98,12 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn_show").val()
     var happyday_contents = $("#happyday_contents_show").val()
     //추가
-    var ddaydate = $("#ddaydate_show").val()
-    var startdate = $("#startdate_show").val()
-    var starttime = $("#starttime_show").val()
+    //var ddaydate = $("#ddaydate_show").val()
+    //var startdate = $("#startdate_show").val()
+    //var starttime = $("#starttime_show").val()
+    ddaydate = $("#ddaydate_show").val()
+    startdate = $("#startdate_show").val()
+    starttime = $("#starttime_show").val()
     $('#starthappyday_update').val(startdate+starttime);
     
     //var flag = 1;
@@ -224,7 +235,7 @@ $(document).ready(function() {
     }
     
     
-    if(flag <= 9){
+    if(flag == 9){
       // 입력 내용이 완벽하면 true
       return true;
     }
@@ -237,10 +248,11 @@ $(document).ready(function() {
 
   
   //카테고리 드롭다운(등록,수정)
-   $('.ui.dropdown').dropdown({
-       maxSelections: 1
+   $('#multipleSelect').dropdown({ 
+       maxSelections: 2
    });
-  
+    $('#select').dropdown();
+   
   // 출발 날짜(등록,수정)
   $("[name=example2]").calendar({
     type: 'date',
@@ -253,7 +265,7 @@ $(document).ready(function() {
         var day = date.getDate().toString();
         day = day.length > 1 ? day : '0' + day;
         var fullDate = year + month + day;
-        var fullDateShow = year+'년 ' + month+'월 ' + day+'일 ';
+        var fullDateShow = year+'/ ' + month+'/' + day;
         startdate = fullDate;
         return fullDateShow;
       }
@@ -289,8 +301,9 @@ $(document).ready(function() {
         var day = date.getDate().toString();
         day = day.length > 1 ? day : '0' + day;
         var fullDate = year + month + day;
-        var ddaydate = year + month + day;
-        return fullDate;
+        var fullDateShow = year+'/'+month+'/'+ day;
+        ddaydate  = fullDate;
+        return fullDateShow;
         }
       }
   });
@@ -321,12 +334,19 @@ $(document).ready(function() {
 	.ui.sub.header {
     	color:white;
 	}
-    /*마우스 올리면 손모양으로*/
-    /*.ui.label*/
-    /*{cursor: pointer;}*/
+  /*포인트 아이콘 손모양*/
+	.large.toggle{
+	  cursor: pointer;
+	  color:#A5673F;
+	}
 </style>
 </head>
 <body>
+
+<!-- Navigation -->
+<% include ./partials/navigation.ejs %>
+<div class="ui container">
+
 <form id="happydayupdate" class="ui segment form" action="/happyday_update" method="post">
 	<h3 class="ui left floated header" style="color:white">HappyDay를 수정해 주세요</h3>
 	<div class="ui clearing divider">
@@ -349,11 +369,11 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *카테고리
 				</div>
-				<div class="ui multiple selection dropdown" style=" width: 100%;">
+				<div class="ui multiple selection dropdown" id="multipleSelect" style=" width: 100%;">
 					<input id="happyday_category_show" name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
-						 Select
+						 전체
 					</div>
 					<div class="menu">
 						<div class="item" data-value="스포츠관람">
@@ -381,10 +401,11 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 *모집 정원
 				</div>
-				<div class="ui selection dropdown" style=" width: 100%;">
+				<div class="ui selection dropdown" id="select" style=" width: 100%;">
 					<input type="hidden" id="num_participants" name="num_participants" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
+					전체
 					</div>
 					<div class="menu">
 						<div class="item" data-value="5">
@@ -496,11 +517,18 @@ $(document).ready(function() {
 			<div class="ui sub header">
 				 *차감포인트
 			</div>
-			<div class="ui left icon input" style=" width: 100%;">
-				<input type="text" id="req_point_show" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
-				<i class="won icon"></i>
+			<div class="ui right icon input" style=" width: 100%;">
+        <input type="text" id="req_point_show" placeholder="포인를 입력 해 주세요" style=" width: 100%;" name="req_point">
+        <div style="height:37.67px;">
+          <div>
+            <i class="large toggle up icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(500)></i>
+          </div>
+          <div>
+            <i class="large toggle down icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(-500)></i>
+          </div>
+				</div>
 			</div>
-			<!-- point -->
+			<i class="won icon"></i>
 			<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
 			</p>
 		</div>

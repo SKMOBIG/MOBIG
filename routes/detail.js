@@ -94,7 +94,7 @@ module.exports = function(app, connectionPool) {
        connectionPool.getConnection(function(err, connection) {
            connection.query('select happy_point, mileage' +
                             '  from user' +
-                            ' where id = ?', req.params.user_id, function(error, rows) {
+                            ' where id = ?', req.body.user_id, function(error, rows) {
                                 
                 if(error) {
                     connection.release();
@@ -114,47 +114,60 @@ module.exports = function(app, connectionPool) {
     
     app.post('/applyhappyday', function(req, res, next){
         
+        
         connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from happyday_user_hst where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows){
-                console.log("req.session.user_id : " + req.session.user_id);
-                if(rows.length == 0){
-                    connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) values(?, ?, date_format(sysdate(), "%Y%m%d%H%i"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows1){
-                
-                        if(error) {
-                            connection.release();
-                            throw error;
-                        }else {
-                            connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id'+
-                                             '  from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
-                                             ' where t1.id = t2.user_id;', req.body.happyday_id, function(error, rows1){
-                                if(error) {
-                                    connection.release();
-                                    throw error;
-                                }else {
-                                    //console.log("user list : " + rows1);
+            // 1. 잔여 포인트 체크
+            connection.query('select happy_point, mileage' +
+                                '  from user' +
+                                ' where id = ?', req.session.user_id, function(error, rows) {
                                     
-                                    res.json({success : "Successfully", status : 200, userList : rows1});
-                                    connection.release();
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(rows.length > 0) {
+                        if(rows[0].happy_point < req.body.req_point) {
+                            //잔영포인트 부족
+                            res.json({success : "Successfully", status : 200, userList : rows1, checkpoint : "N"});
+                            // res.redirect('/detail/'+ req.body.happyday_id);
+                            connection.release();
+                        }else {
+                            /* 참가 작업 진행 
+                                1. 해피데이 참가 신청 이력 확인
+                                    1-1. 이력이 없으면 happyday_user_hst INSERT
+                                    1-2. 이력이 있으면 UPDATE state = 'y'
+                                2. User의 포인트 차감
+                                3. 해피데이 이력에서 참가자들 정보를 조회하여 리턴
+                            */
+                            // 1. 해피데이 참가 신청 이력 확인
+                            connection.query('select * from happyday_user_hst where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows){
+                                if(rows.length == 0){
+                                    //1-1. 이력이 없으면 INSERT
+                                    connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) ' + 
+                                              'values(?, ?, date_format(sysdate(), "%Y%m%d%H%i"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows1){
+                                                  
+                                              });
+                                              
+                                }else {
+                                    //1-2. 이력이 있으면 UPDATE
+                                    connection.query('update happyday_user_hst' + 
+                                                     ' set state = "y", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
+                                                     ' where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows2){
+                                                         
+                                                     });
                                 }
+                                
                             });
                         }
-                    });
-                }else {
-                    connection.query('update happyday_user_hst set state = "y", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i") where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows2){
-                
-                        console.log("req.session.user_id : " + req.session.user_id);
-                        if(error) {
-                            connection.release();
-                            throw error;
-                        }else {
-                            res.redirect('/detail/'+ req.body.happyday_id);
-                            connection.release();
-                        }
-                    });
+                    }else {
+                        connection.release();
+                        res.redirect('/');
+                    }
                 }
             });
         });
-    });
+    }); // end app.post
+
 
     app.post('/cancelhappyday', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {

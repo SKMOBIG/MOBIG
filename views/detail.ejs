@@ -24,6 +24,7 @@
    
 
     <script type="text/javascript">
+        var cur_num_users = <%= userList.length %>
         
         $(document)
             .ready(function() {
@@ -93,23 +94,7 @@
         
         //등록 파트에서 수정
         function modifyHappyday(happyday_id) {
-            alert("수정");
-            //  $.ajax({
-            //      type: "post",
-            //      url: "/applyhappyday",
-            //      data: {
-            //         happyday_id : happyday_id,
-            //         req_point : req_point
-            //      },
-            //      success: function(data) {
-            //         window.location.reload();
-            //       // $("present_condition").load();
-
-            //      },
-            //      error: function(e) {
-            //          alert(e.responseText);
-            //      }
-            //  });
+            location.href = '../detail/' + happyday_id + '/hduppopup';
         }
         
         //happyday_master 테이블 내 삭제 여부 표현 이슈
@@ -135,31 +120,13 @@
 
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
-            var user_id = <%=session.user_id%>;
-            $.ajax({
-                type: 'GET',
-                contentType: 'application/json',
-                datatype: "json", // expecting JSON to be returned
-                url: '/checkpoint/'+user_id,
-                success: function(result) {
-                  console.log(result);
-                  if(result.status == 200){
-                      if(result.happy_point >= req_point) {
-                          applyToAjax(happyday_id, req_point);
-                      }else {
-                          alert("현재 포인트가 참여 포인트보다 적어 참가 신청할 수 없습니다.");
-                      }
-                  }else {
-                      alert("문제가 생겨 조회할 수 없습니다.");
-                  }
-                }
-            });
-        }
-        
-        function applyToAjax(happyday_id, req_point) {
+            
+            if(!availableApply()) break;
+            
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
+            data.user_id = <%=session.user_id%>; 
             
             $.ajax({
                 type: 'POST',
@@ -168,16 +135,55 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/applyhappyday',
                 success: function(result) {
-                  if(result.status == 200){
-                    alert("참가신청이 되었습니다.");
-                    //TODO : 화면에서 참가 리스트 갱신
-                    //console.log(result.userList);
-                    
-                  }else {
-                    alert("참가신청이 실패하였습니다.");
-                  }
+                    if(result.status == 200){
+                        // 1. 포인트 체크
+                        if(result.checkpoint == "N") {
+                            alert("현재 남아았는 포인트가 참가 포인트보다 적어 참가 신청할 수 없습니다.");
+                        }else {
+                            alert("참가신청이 되었습니다.");
+                            //TODO : 화면에서 참가 리스트 갱신
+                            //console.log(result.userList);
+                        }
+                    }else {
+                        alert("시스템 문제로 조회할 수 없습니다.");
+                    }
                 }
             });
+        }
+        
+        function availableApply() {
+            /* 신청 가능한 상황
+                1. 현재 참가인원이 모집인원보다 적음.
+                2. 신청하는 일자가 마감일자 전임.
+                3. 신청자의 잔여포인트가 참가포인트보다 많음
+            */
+            var num_participants = <%= data.num_participants %>;
+            var dday = <%= data.dday_dt %>;
+            
+            if(cur_num_users < num_participants) {
+                if((new Date()).yyyymmdd() <= dday) {
+                    
+                    // 1. 포인트 체크는 서버사이드에서 구현
+                    return true;
+                    
+                }else {
+                    alert("마감 일자가 지나서 신청할 수 없습니다.");
+                    return false;    
+                }
+                
+            }else {
+                alert("현재 참가한 인원이 정원을 채워 신청할 수 없습니다.");
+                return false;
+            }
+        }
+        
+        Date.prototype.yyyymmdd = function()
+        {
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth() + 1).toString();
+            var dd = this.getDate().toString();
+        
+            return yyyy + (mm[1] ? mm : '0'+mm[0]) + (dd[1] ? dd : '0'+dd[0]);
         }
         
         // 해피데이 취소하기
@@ -296,7 +302,7 @@
                             <tr style = 'max-height:50px'>
                                 <td style = "margin-top: -15px;">모집인원</td>
                                 <td><%= data.num_participants %>명</td>
-                            </tr>
+                            </tr><%= data.dday_dt %>
                             <tr style = 'max-height:50px'>
                                 <td style = "margin-top: -15px;">모집기간</td>
                                 <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>

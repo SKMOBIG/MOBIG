@@ -27,7 +27,6 @@
       $("#req_point").val(val+point);  
     }
   }
-
   function showMap(){
               var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
               var popupX = (window.screen.width / 2) - (1200 / 2);
@@ -53,7 +52,6 @@
   function goMain(){
       location.href = '../hdmain';
   }
-
 $(document).ready(function() {
   
   function refreshParent() {
@@ -278,7 +276,6 @@ $(document).ready(function() {
 });
 </script>
 <style type="text/css">
-
     /*카테고리 최소 너비*/
     .ui.multiple.selection.dropdown {
       
@@ -317,7 +314,6 @@ $(document).ready(function() {
 	.ui.sub.header {
     	color:white;
 	}
-
   /*포인트 아이콘 손모양*/
 	.large.toggle{
 	  cursor: pointer;
@@ -335,7 +331,8 @@ $(document).ready(function() {
 <% include ./partials/navigation.ejs %>
   
 <div class="ui container">
-<form id="hdregForm" class="ui segment form" action="/happyday_regist" method="post" style="margin-left: 100px; margin-right: 100px;">
+<!--<form id="hdregForm" class="ui segment form" action="/happyday_regist" method="post" style="margin-left: 100px; margin-right: 100px;">-->
+<form id="hdregForm" class="ui segment form" action="/happyday_regist" method="post">
 	<h3 class="ui left floated header" style="color:white"><%=data.user_name %>님 HappyDay를 등록 해 주세요</h3>
 	<div class="ui clearing divider">
 	</div>
@@ -563,5 +560,3 @@ $(document).ready(function() {
 	</div>
 	</body>
 	</html>
-
-

@@ -50,7 +50,7 @@ module.exports = function(app, connectionPool) {
   
     });
     
-    
+
     app.post('/postregist_KJB', function(req, res, next) {
        connectionPool.getConnection(function(err, connection) {
         //   console.log("aa"+req.body.happyID);
