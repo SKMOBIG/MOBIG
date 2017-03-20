@@ -32,7 +32,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2 where t1.id = t2.user_id;', req.params.id, function(error, rows1){
+                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id , rec_reg_dtm from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2 where t1.id = t2.user_id order by rec_reg_dtm;', req.params.id, function(error, rows1){
                             // console.log("haha :" + rows1[0].user_name);
                             if(error){
                                 connection.release();
