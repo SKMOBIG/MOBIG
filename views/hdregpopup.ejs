@@ -57,14 +57,9 @@ $(document).ready(function() {
   function refreshParent() {
       window.opener.location.reload();
   }  
-<<<<<<< HEAD
-    // 등록 모달에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
-  $('#hdregmodal').submit(function() {
-=======
 
     // 등록 에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregForm').submit(function() {
->>>>>>> 442503328309e7ab95429beb278dbfb9c6488191
     $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
     var happyday_name = $("#happyday_name").val(); //해피데이 네임
     var category_code = $("#category_code").val();
@@ -203,16 +198,10 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
-<<<<<<< HEAD
-    if(flag == 9){
-    // if(flag <= 9){
-      return true;
-=======
 
     // if(flag == 10){
     if(flag <= 10){
      return true;
->>>>>>> 442503328309e7ab95429beb278dbfb9c6488191
     }
     else{
       //입력 내용이 완벽하지 않으면 false
