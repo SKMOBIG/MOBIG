@@ -15,7 +15,7 @@
     function modalClose(){
      // alert("aa");
     $('.ui.modal').modal('hide');
-    window.location.reload();
+    // window.location.reload();
    }
         function goDetail(id) {
             location.href = '../../detail/' + id;
@@ -40,7 +40,8 @@
          var minute = data.datas.modify_dtm.substring(10,12);
          var dtm = year + "." + month + "." + date + "  " + hour +":"+minute
          var post_content = data.datas.post_content;
-         // alert(post_content);
+        //  alert(typeof(post_content));
+        //  alert(post_content);
       if("<%=session.user_name %>" == data.datas.user_name )
          {
           $('#happyday_post_update').show()
@@ -54,6 +55,7 @@
          $("#postselect_title").html(data.datas.post_title);
          $("#postselect_writer").html(data.datas.user_name+'('+data.datas.sm_id+')');
          $("#postselect_time").html(dtm);
+         
          $("#postselect_content").html(post_content.replace(/\r\n/gi, "<BR/>"));
          $("#postselect_postid").val(data.datas.post_id);
          $("#postselect_happydayid").val(data.datas.happyday_id);
@@ -186,7 +188,7 @@
         }
      .ui.segment.jun {cursor: pointer;}
      .ui.form.segment{
-       background:orange;
+       background:#FBBD08;
      }
 </style>
 </head>
@@ -204,10 +206,8 @@
                     <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
                 </div>
         </div>
-     		
-    
-    		<div class="ui segment">
-    			<img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">
+     	<div class="ui segment">
+    			<!--<img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">-->
     			<div class="yellow two ui buttons">
     				<button class="ui button" onclick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
     				<!--<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>-->
@@ -238,9 +238,9 @@
 <!--등록 모달 Start-->
 <div class="ui modal Reg">
 	<form class="ui form segment" action="/postregist_KJB" method="post">
-		<div class="header">
-			<h1 style="color:white">후기 등록</h1>
-		</div>
+		<!--<div class="header">-->
+		<!--	<h1 style="color:white">후기 등록</h1>-->
+		<!--</div>-->
 		<div class="content">
 			<div class="field">
 				<div class="ui sub header" style="margin: 10px; margin-bottom: 7px; font-size: 17px; color:white">
@@ -269,8 +269,8 @@
 		<div class="ui error message">
 		</div>
 		<div class="actions">
-			<button class="ui button" style="background:#A5673F; color:white"> 등록 </button>
-			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
+			<button class="ui button" style="background:#A5673F; color:white;  margin-left: 650px;"> 등록 </button>
+			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white;">
 				 취소
 			</div>
 		</div>
@@ -281,13 +281,13 @@
 <!--조회모달 start-->
 <form action="/postdel_KJB" method="post">
 	<div class="ui modal Select">
-		<div class="header">
+		<div class="header" style="background:#FBBD08; color:white;">
 			<h2 id='postselect_title'></h2>
 			<input id='postselect_postid' type="hidden" value="">
 			<input id='postselect_happydayid' type="hidden" value="">
 		</div>
 		<!-- modal header -->
-		<div class="content">
+		<div class="content" style="background:beige;">
 			<div class="ui items">
 				<div class="item">
 					<div class="image">
@@ -307,12 +307,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="actions">
-			<button class="ui primary button" id="happyday_post_update" onclick=javascript:PostUpdate()> Update </button>
-			<button class="negative ui button" id="happyday_post_delete" onclick=javascript:postDel()> Delete </button>
+		<div class="actions" style="background:#FBBD08; color:white;">
+			<button class="ui primary button" id="happyday_post_update" onclick=javascript:PostUpdate() style="background:#A5673F"> 수정 </button>
+			<button class="negative ui button" id="happyday_post_delete" onclick=javascript:postDel()> 삭제 </button>
 			<!--<button class="ui yellow submit approve button" id="submit" name="submit">regist</button>-->
-			<div class="ui button" onclick=javascript:modalClose()>
-				 Cancel
+			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
+				 취소
 			</div>
 		</div>
 	</div>
@@ -324,12 +324,12 @@
 <div class="ui modal Update">
 	<form class="ui form segment" name="postupdatemodal" action="/postupdate_KJB" method="post">
 		<input id="selectPostId" name="postid" type="hidden" val="">
-		<div class="header">
-			<h1>후기 수정</h1>
-		</div>
+		<!--<div class="header">-->
+		<!--	<h1 style="color:white">후기 수정</h1>-->
+		<!--</div>-->
 		<div class="content">
 			<div class="column">
-				<h3> 후기 title </h3>
+				<h3 style="color:white"> 후기 title </h3>
 				<div class="ui left icon input" style=" width: 100%;">
 					<input type="text" id="postupdate_title" name="post_title" style="width: 100%" maxlength="20">
 					<i class="user icon"></i>
@@ -338,7 +338,7 @@
 					*후기 제목을 입력해 주세요
 				</p>
 			</div>
-			<h3>후기 내용</h3>
+			<h3 style="color:white">후기 내용</h3>
 			<textarea id="postupdate_content" name="post_content" style="width:100% ;height: 200px;" maxlength="700"></textarea>
 			<p id="postupdate_content_alert" style="color:red; visibility:hidden;">
 				*후기 내용을 입력해 주세요
@@ -347,8 +347,8 @@
 		<div class="ui clearing divider">
 		</div>
 		<div class="actions">
-			<button class="ui button"> 수정 </button>
-			<div class="ui button" onclick=javascript:modalClose()>
+			<button class="ui button" style="background:#A5673F; color:white; margin-left: 650px;"> 수정 </button>
+			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
 				 취소
 			</div>
 		</div>

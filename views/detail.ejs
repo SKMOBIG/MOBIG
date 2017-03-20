@@ -25,14 +25,18 @@
 
     <script type="text/javascript">
         
-        $(document)
-            .ready(function() {
+        $(document).ready(function() {
             
-            var pointRsn = <%=data.point_rsn%>
-         //   $("#point_rsn").html(pointRsn.replace(/\r\n/g, "<p>"));
-         //   $("#point_rsn").val("aaaa"); 
+
+            // $('#point_rsn').html(pointRsn.replace(/\r\n/g, "<p>"));
+          
             
             $('.ui.accordion').accordion();
+            
+            
+            // $("#point_rsn").html("aaaa"); 
+            
+          
             
                 /* 본인이면 수정 및 삭제버튼 표시
                 타인이면 신청 및 신청 취소버튼 표시*/
@@ -140,6 +144,7 @@
 
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
+             
              $.ajax({
                  type: "post",
                  url: "/applyhappyday",
@@ -288,7 +293,8 @@
                                             상세내역보기
                                         </div>
                                         <div class="content">
-                                            <p class="transition hidden" id = "point_rsn"> </p>
+                                            <!--<p class="transition hidden" id = "point_rsn">  </p>-->
+                                            <pre class="KJB" style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; margin-left: 20px; " > <p style="margin-top:-20px"><%=data.point_rsn%></p> </pre>
                                         </div>
                                     </div>
                                     

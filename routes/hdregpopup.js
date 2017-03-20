@@ -38,7 +38,7 @@ module.exports = function(app, connectionPool) {
                     
                     //happyday-user 테이블 insert
                    
-                   connection.query('insert into happyday_user_hst(user_id, happyday_id, reg_dtm, use_point,state) select reg_user_id, happyday_id, date_format(sysdate(),"%Y%m%d") as reg_dtm , req_point , "y" as state from happyday_master where happyday_id = (select max(happyday_id) from happyday_master);', req.body.postid, function(error, rows1) {
+                   connection.query('insert into happyday_user_hst(user_id, happyday_id, reg_dtm, use_point,state) select reg_user_id, happyday_id, date_format(sysdate(),"%Y%m%d%H%i%s") as reg_dtm , req_point , "y" as state from happyday_master where happyday_id = (select max(happyday_id) from happyday_master);', req.body.postid, function(error, rows1) {
                             if(error){
                                 connection.release();
                                 throw error;

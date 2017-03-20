@@ -2,21 +2,11 @@
     $(document).ready(function() {
         $('.right.menu.open').on("click", function(e) {
             e.preventDefault();
-$('.ui.labeled.icon.sidebar')
-  .sidebar('toggle')
-;
-       
-       
+        $('.ui.labeled.icon.sidebar').sidebar('toggle');
         });
-
-
-
-
-        $('.ui.dropdown').dropdown();
+        // $('.ui.dropdown').dropdown();
     });
 </script>
-
-
 <style type="text/css">
     /*공통*/
             @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -24,7 +14,6 @@ $('.ui.labeled.icon.sidebar')
             font-family: 'Jeju Gothic', serif !important;
             background-color: #e2e2e2;
         }
-        
 @media only screen and (min-width: 1200px){
 .ui.container {
     width: 900px;
@@ -32,28 +21,22 @@ $('.ui.labeled.icon.sidebar')
     margin-right: auto!important;
 }
 }
-        
     .ui.grid.main {
         margin-top: 70px;
     }
-    
     .mobile.row {
         padding-top: 0px !important;
         margin-top: 0px !important;
     }
-    
     .mobile.row .ui.inverted.menu {
         border-radius: 0px !important;
     }
-    
     .padding-reset {
         padding: 0px !important;
     }
-    
     .ui.message {
         padding: 40px !important;
     }
-    
     @media (max-width: 767px) {
         .ui.grid.main {
             margin-top: 70px;
@@ -65,63 +48,48 @@ $('.ui.labeled.icon.sidebar')
             margin-top: 0px !important;
         }
     }
-    
     .ui.vertical.menu {
         width: 100%;
         display: none;
     }
-    
     .ui.inverted.menu {
     font-family: 'Jeju Gothic', serif !important;
     background: #FBBD08;
         font-size: 1rem;
 }
-
-
-    
 </style>
-
-
-
 <div class="ui grid" style="margin-bottom:50px">
-    <div class="computer tablet only row">
-        <div class="ui inverted fixed menu navbar page grid">
-            <a href="" class="brand item" style="font-size:1.2rem">HappyApp</a>
-            <a href="/hdmain" class="active item">메인</a>
-            <a href="/user" class="item">마이페이지</a>
-            <!--<a href="/detail/1" class="item">상세보기</a>-->
-            <!--<a href="/hdregist" class="item">해피데이등록</a>-->
-            <a href="/hdupdate" class="item">해피데이수정</a>
-            <a href="/detail/1/postlist" class="item">후기등록</a>
-            
-            <!--ㅋㅋㅋㅋ;; TODO-->
-            <a href="../" class="item">로그아웃</a>
-        </div>
-    </div>
-    <div class="mobile only row"  style="margin-bottom:50px">
-        <div class="ui fixed inverted navbar menu">
-            <a href="" class="brand item" style="font-size:1.2rem">HappyApp</a>
-            <div class="right menu open">
-                <a href="" class="menu item">
-                    <i class="content icon"></i>
-                </a>
-            </div>
-        </div>
-        
-        
- <div class="ui left demo vertical inverted sidebar labeled icon menu">
-            <a href="/hdmain" class="active item">메인</a>
-            <a href="/user" class="item">마이페이지</a>
-            <!--<a href="/detail/1" class="item">상세보기</a>-->
-            <!--<a href="/hdregist" class="item">해피데이등록</a>-->
-            <a href="/hdupdate" class="item">해피데이수정</a>
-            <a href="/detail/1/postlist" class="item">후기등록</a>
-            
-            <!--ㅋㅋㅋㅋ;; TODO-->
-            <a href="../" class="item">로그아웃</a>
+	<div class="computer tablet only row">
+		<div class="ui inverted fixed menu navbar page grid">
+			<a href="" class="brand item" style="font-size:1.2rem">HappyApp</a>
+			<a href="/hdmain" class="active item">메인</a>
+			<a href="/user" class="item">마이페이지</a>
+			<!--<a href="/detail/1" class="item">상세보기</a>-->
+			<!--<a href="/hdregist" class="item">해피데이등록</a>-->
+			<a href="/hdupdate" class="item">해피데이수정</a>
+			<a href="/detail/1/postlist" class="item">후기등록</a>
+			<!--ㅋㅋㅋㅋ;; TODO-->
+			<a href="../" class="item">로그아웃</a>
+		</div>
+	</div>
+	<div class="mobile only row" style="margin-bottom:50px">
+		<div class="ui fixed inverted navbar menu">
+			<a href="" class="brand item" style="font-size:1.2rem">HappyApp</a>
+			<div class="right menu open">
+				<a href="" class="menu item">
+				<i class="content icon"></i>
+				</a>
+			</div>
+		</div>
+		<div class="ui left demo vertical inverted sidebar labeled icon menu">
+			<a href="/hdmain" class="active item">메인</a>
+			<a href="/user" class="item">마이페이지</a>
+			<!--<a href="/detail/1" class="item">상세보기</a>-->
+			<!--<a href="/hdregist" class="item">해피데이등록</a>-->
+			<a href="/hdupdate" class="item">해피데이수정</a>
+			<a href="/detail/1/postlist" class="item">후기등록</a>
+			<!--ㅋㅋㅋㅋ;; TODO-->
+			<a href="../" class="item">로그아웃</a>
+		</div>
+	</div>
 </div>
-        
-        
-    </div>
-</div>
-
