@@ -128,23 +128,32 @@
 
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
-             
-             $.ajax({
-                 type: "post",
-                 url: "/applyhappyday",
-                 data: {
-                    happyday_id : happyday_id,
-                    req_point : req_point
-                 },
-                 success: function(data) {
-                    window.location.reload();
-                   // $("present_condition").load();
-
-                 },
-                 error: function(e) {
-                     alert(e.responseText);
-                 }
-             });
+        
+            var a = 1;
+            var b = 2;
+            
+            if(a>b){
+                $.ajax({
+                     type: "post",
+                     url: "/applyhappyday",
+                     data: {
+                        happyday_id : happyday_id,
+                        req_point : req_point
+                     },
+                     success: function(data) {
+                        window.location.reload();
+                       // $("present_condition").load();
+    
+                     },
+                     error: function(e) {
+                         alert(e.responseText);
+                     }
+                 });
+            }
+            else{
+                alert("마감날짜, 인원, 보유 포이트 체크");
+                return false;
+            }
         }
         
         // 해피데이 취소하기
