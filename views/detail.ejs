@@ -296,6 +296,7 @@
                     <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
                 </div>
                 
+                <!-- 좋아요, 댓글 부분 -->
                 <!--<div class="ui segment">-->
                 <!--    <div class="ui labeled button" tabindex="0">-->
                 <!--        <div class="ui yellow button">-->
@@ -315,7 +316,7 @@
                     <table class="ui definition table">
                         <tbody>
                             <tr style = 'max-height:50px'>
-                                <td class="two wide column" style = "margin-top: -15px;">일 시</td>
+                                <td class="two wide column" style = "margin-top: -15px;">출발일시</td>
                                 <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
                             </tr>
                             <tr style = 'max-height:50px'>
@@ -323,7 +324,7 @@
                                 <td><%= data.place_name %></td>
                             </tr>
                             <tr style = 'max-height:50px'>
-                                <td style = "margin-top: -15px;">모집인원</td>
+                                <td style = "margin-top: -15px;">모집정원</td>
                                 <td><%= data.num_participants %>명</td>
                             </tr><%= data.dday_dt %>
                             <tr style = 'max-height:50px'>
@@ -331,7 +332,7 @@
                                 <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td style = "margin-top: -15px;">참가포인트</td>
+                                <td style = "margin-top: -15px;">차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
@@ -346,7 +347,7 @@
                                 </td>
                             </tr>  
                             <tr>
-                                <td style = "margin-top: -15px;">내 용</td>
+                                <td style = "margin-top: -15px;">활동내용</td>
                                 <td><%= data.happyday_contents %></td>
                             </tr>
                         </tbody>
