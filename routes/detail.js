@@ -32,7 +32,9 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id , rec_reg_dtm from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2 where t1.id = t2.user_id order by rec_reg_dtm;', req.params.id, function(error, rows1){
+                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, (select org_nm from com_org where org_id = t1.sm_id) AS sm_name, t1.user_img, rec_reg_dtm' + 
+                                         '  from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
+                                         ' where t1.id = t2.user_id order by rec_reg_dtm;', req.params.id, function(error, rows1){
                             // console.log("haha :" + rows1[0].user_name);
                             if(error){
                                 connection.release();
@@ -150,18 +152,17 @@ module.exports = function(app, connectionPool) {
                                         }else {
                                             //2. User의 포인트 차감
                                             var new_point = (parseInt(userInfo[0].happy_point) - parseInt(req.body.req_point));
-                                            
                                             connection.query('update user' +
                                                              '   set happy_point = ? ' +
-                                                             ' where id = ?', [new_point, req.sesstion.user_id], function(error, rows2){
+                                                             ' where id = ?', [new_point, req.session.user_id], function(error, rows2){
                                                 if(error) {
                                                     connection.release();
                                                     throw error;
                                                 }else {
                                                     //3.참가자 목록 반환
-                                                    connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id' + 
-                                                                     '  from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2' + 
-                                                                     ' where t1.id = t2.user_id;', req.body.happyday_id, function(error, rows3){
+                                                    connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, (select org_nm from com_org where org_id = t1.sm_id) AS sm_name, t1.user_img, rec_reg_dtm' + 
+                                                                     '  from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
+                                                                     ' where t1.id = t2.user_id order by rec_reg_dtm;', req.body.happyday_id, function(error, rows3){
                                                         // console.log("haha :" + rows1[0].user_name);
                                                         if(error){
                                                             connection.release();
@@ -183,8 +184,6 @@ module.exports = function(app, connectionPool) {
                                     });
                                               
                                 }else {
-                                    console.log("Exist hst and Update");
-                                    
                                     //1-2. 이력이 있으면 UPDATE
                                     connection.query('update happyday_user_hst' + 
                                                      ' set state = "y", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
@@ -193,10 +192,8 @@ module.exports = function(app, connectionPool) {
                                             connection.release();
                                             throw error;
                                         }else {
-                                            console.log("Use point");
                                             //2. User의 포인트 차감
                                             var new_point = (parseInt(userInfo[0].happy_point) - parseInt(req.body.req_point));
-                                            
                                             connection.query('update user' +
                                                              '   set happy_point = ? ' +
                                                              ' where id = ?;', [new_point, req.session.user_id], function(error, rows2){
@@ -204,17 +201,14 @@ module.exports = function(app, connectionPool) {
                                                     connection.release();
                                                     throw error;
                                                 }else {
-                                                    console.log("Select userList");
                                                     //3.참가자 목록 반환
-                                                    connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id' + 
-                                                                     '  from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2' + 
-                                                                     ' where t1.id = t2.user_id;', req.body.happyday_id, function(error, rows3){
-                                                        // console.log("haha :" + rows1[0].user_name);
+                                                    connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, (select org_nm from com_org where org_id = t1.sm_id) AS sm_name, t1.user_img, rec_reg_dtm' + 
+                                                                     '  from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
+                                                                     ' where t1.id = t2.user_id order by rec_reg_dtm;', req.body.happyday_id, function(error, rows3){
                                                         if(error){
                                                             connection.release();
                                                             throw error;
                                                         }else {
-                                                            console.log("userList : " + rows3);
                                                             if(rows3.length > 0){
                                                                 res.json({success : "Successfully", status : 200, userList : rows3, reg_state : "Y", checkpoint : "Y"});
                                                                 connection.release();
