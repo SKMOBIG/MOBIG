@@ -121,7 +121,7 @@
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
             
-            if(!availableApply()) break;
+            if(!availableApply()) return;
             
             var data = {};
             data.happyday_id = happyday_id;

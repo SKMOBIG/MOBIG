@@ -114,21 +114,20 @@ module.exports = function(app, connectionPool) {
     
     app.post('/applyhappyday', function(req, res, next){
         
-        
         connectionPool.getConnection(function(err, connection) {
             // 1. 잔여 포인트 체크
             connection.query('select happy_point, mileage' +
                                 '  from user' +
-                                ' where id = ?', req.session.user_id, function(error, rows) {
+                                ' where id = ?', req.session.user_id, function(error, userInfo) {
                                     
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
-                    if(rows.length > 0) {
-                        if(rows[0].happy_point < req.body.req_point) {
+                    if(userInfo.length > 0) {
+                        if(userInfo[0].happy_point < req.body.req_point) {
                             //잔영포인트 부족
-                            res.json({success : "Successfully", status : 200, userList : rows1, checkpoint : "N"});
+                            res.json({success : "Successfully", status : 200, checkpoint : "N"});
                             // res.redirect('/detail/'+ req.body.happyday_id);
                             connection.release();
                         }else {
@@ -144,17 +143,91 @@ module.exports = function(app, connectionPool) {
                                 if(rows.length == 0){
                                     //1-1. 이력이 없으면 INSERT
                                     connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) ' + 
-                                              'values(?, ?, date_format(sysdate(), "%Y%m%d%H%i"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows1){
-                                                  
-                                              });
+                                                     'values(?, ?, date_format(sysdate(), "%Y%m%d%H%i"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows1){
+                                        if(error) {
+                                            connection.release();
+                                            throw error;
+                                        }else {
+                                            //2. User의 포인트 차감
+                                            var new_point = (parseInt(userInfo[0].happy_point) - parseInt(req.body.req_point));
+                                            
+                                            connection.query('update user' +
+                                                             '   set happy_point = ? ' +
+                                                             ' where id = ?', [new_point, req.sesstion.user_id], function(error, rows2){
+                                                if(error) {
+                                                    connection.release();
+                                                    throw error;
+                                                }else {
+                                                    //3.참가자 목록 반환
+                                                    connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id' + 
+                                                                     '  from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2' + 
+                                                                     ' where t1.id = t2.user_id;', req.body.happyday_id, function(error, rows3){
+                                                        // console.log("haha :" + rows1[0].user_name);
+                                                        if(error){
+                                                            connection.release();
+                                                            throw error;
+                                                        }else {
+                                                            if(rows3.length > 0){
+                                                                res.json({success : "Successfully", status : 200, userList : rows3, reg_state : "Y", checkpoint : "Y"});
+                                                                connection.release();
+                                                            }else {
+                                                                res.redirect('/');
+                                                                connection.release(); 
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        
+                                    });
                                               
                                 }else {
+                                    console.log("Exist hst and Update");
+                                    
                                     //1-2. 이력이 있으면 UPDATE
                                     connection.query('update happyday_user_hst' + 
                                                      ' set state = "y", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
-                                                     ' where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows2){
-                                                         
-                                                     });
+                                                     ' where user_id = ? and happyday_id = ? and state = "n";', [req.session.user_id, req.body.happyday_id], function(error, rows1){
+                                        if(error) {
+                                            connection.release();
+                                            throw error;
+                                        }else {
+                                            console.log("Use point");
+                                            //2. User의 포인트 차감
+                                            var new_point = (parseInt(userInfo[0].happy_point) - parseInt(req.body.req_point));
+                                            
+                                            connection.query('update user' +
+                                                             '   set happy_point = ? ' +
+                                                             ' where id = ?;', [new_point, req.session.user_id], function(error, rows2){
+                                                if(error) {
+                                                    connection.release();
+                                                    throw error;
+                                                }else {
+                                                    console.log("Select userList");
+                                                    //3.참가자 목록 반환
+                                                    connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, t1.sm_id' + 
+                                                                     '  from user t1, (select b.happyday_id, b.user_id from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2' + 
+                                                                     ' where t1.id = t2.user_id;', req.body.happyday_id, function(error, rows3){
+                                                        // console.log("haha :" + rows1[0].user_name);
+                                                        if(error){
+                                                            connection.release();
+                                                            throw error;
+                                                        }else {
+                                                            console.log("userList : " + rows3);
+                                                            if(rows3.length > 0){
+                                                                res.json({success : "Successfully", status : 200, userList : rows3, reg_state : "Y", checkpoint : "Y"});
+                                                                connection.release();
+                                                            }else {
+                                                                res.redirect('/');
+                                                                connection.release(); 
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }                 
+                                    });
                                 }
                                 
                             });
