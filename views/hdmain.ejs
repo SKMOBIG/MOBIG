@@ -35,8 +35,7 @@
                 },
                 success: function(data) {
                     //KJB
-                    // alert(data.peoplelist)
-                    $('#cards').html(data.peoplelist);
+                    $('#partylistdiv').html(data.peoplelist);
                     $('#partymodal').modal('show');
                 },
                 error: function(e) {
@@ -136,10 +135,12 @@
 			</div>
 			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="extra content"> <span>
 				<i class="user icon"></i>
-				모집인원 <%=data[i].num_participants%>명(<%=data[i].vacancy%>자리남음) </span>
+				모집인원 <%=data[i].num_participants%>명</span>
 			</div>
-			<div class="extra content">
-				<span onclick="javascript:showParticipants('<%=data[i].happyday_id%>')"><i class="user icon"></i>현재 참가자 (<%=data[i].num_participants-data[i].vacancy%>명 클릭해서 확인)</span>
+			<div  class="extra content">
+				<% if (data[i].num_participants-data[i].vacancy>0) {  %>
+				<span><i class="user icon"></i>현재 참가자 <%=data[i].num_participants-data[i].vacancy%>명<a onclick="javascript:showParticipants('<%=data[i].happyday_id%>')" class="ui label right floated">참가자확인</a></span>
+				<% }%>
 			</div>
 			<div class="extra content">
 				<span>
@@ -162,7 +163,7 @@
 		 현재 참가자
 	</div>
 	<div class="content">
-		<div id="cards" class="ui eight doubling cards">
+		<div id="partylistdiv" class="ui four cards">
 			<!--카드들..-->
 		</div>
 	</div>

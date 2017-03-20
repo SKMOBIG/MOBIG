@@ -38,7 +38,7 @@ module.exports = function(app, connectionPool) {
 
     app.post('/showparticipants', function(req, res, next) {
          connectionPool.getConnection(function(err, connection) {
-            connection.query(' select u.user_name, u.user_img from happyday_user_hst hp, user u where u.id = hp.user_id and hp.happyday_id=?;  ', [req.body.happyday_id], function(error, rows) {
+            connection.query(' select u.user_name, u.user_img,  (select org_nm from com_org where org_id = u.sm_id) as sm_name from happyday_user_hst hp, user u where u.id = hp.user_id and hp.happyday_id=?;  ', [req.body.happyday_id], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;
@@ -46,7 +46,7 @@ module.exports = function(app, connectionPool) {
                     if(rows.length > 0) {
                         var peoplelist='';  
                         for(var i=0; i<rows.length; i++){
-                            peoplelist+="<h5 class='ui icon header' style='text-align:center;'><img class='ui small circular image' src='"+rows[i].user_img+"' style=''><div class='content' style='margin-top:10px;'>"+rows[i].user_name+"</div></h5>";
+                            peoplelist+="<div class='item'><img class='ui small circular image' src='"+rows[i].user_img+"' style=''><div class='content' style='margin-top:10px;'><div class='ui header'>"+rows[i].user_name+"</div>("+rows[i].sm_name+")</div></div>";
                         }
  
                         res.send({peoplelist : peoplelist, session : req.session});
