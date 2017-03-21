@@ -116,6 +116,8 @@ module.exports = function(app, connectionPool) {
     
     app.post('/applyhappyday', function(req, res, next){
         
+        console.log("apply : " + JSON.stringify(req.body));
+        
         connectionPool.getConnection(function(err, connection) {
             // 1. 잔여 포인트 체크
             connection.query('select happy_point, mileage' +
@@ -249,38 +251,55 @@ module.exports = function(app, connectionPool) {
                              '   set state = "n", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
                              ' where user_id = ? and happyday_id = ? and state = "y";', [req.session.user_id, req.body.happyday_id], function(error, rows){
             
-                console.log("req.session.user_id : " + req.session.user_id);
+                console.log("cancel : " + JSON.stringify(req.body));
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
-                    //2. User의 포인트 변경
-                    connection.query('update user' +
-                                     '   set happy_point = (happy_point+?)' +
-                                     ' where id = ?;', [parseInt(req.body.req_point), req.session.user_id], function(error, rows1){
+                    connection.query('select happy_point, mileage' +
+                                '  from user' +
+                                ' where id = ?', req.session.user_id, function(error, userInfo) {
                         if(error) {
                             connection.release();
                             throw error;
                         }else {
-                            //3.참가자 목록 반환
-                            connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, (select org_nm from com_org where org_id = t1.sm_id) AS sm_name, t1.user_img, rec_reg_dtm' + 
-                                             '  from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
-                                             ' where t1.id = t2.user_id order by rec_reg_dtm;', req.body.happyday_id, function(error, rows2){
-                                if(error){
-                                    connection.release();
-                                    throw error;
-                                }else {
-                                    if(rows2.length > 0){
-                                        res.json({success : "Successfully", status : 200, userList : rows2, reg_state : "N"});
+                            if(userInfo.length > 0) {
+                                var new_point = (parseInt(userInfo[0].happy_point) + parseInt(req.body.req_point)); 
+                                //2. User의 포인트 변경
+                                connection.query('update user' +
+                                                 '   set happy_point = ?' +
+                                                 ' where id = ?;', [new_point, req.session.user_id], function(error, rows1){
+                                    if(error) {
                                         connection.release();
+                                        throw error;
                                     }else {
-                                        res.redirect('/');
-                                        connection.release(); 
+                                        //3.참가자 목록 반환
+                                        connection.query('select t1.id AS user_id, t1.user_name, t1.phone_number, (select org_nm from com_org where org_id = t1.sm_id) AS sm_name, t1.user_img, rec_reg_dtm' + 
+                                                         '  from user t1, (select b.happyday_id, b.user_id, case when b.modify_dtm is null then b.reg_dtm else b.modify_dtm end AS rec_reg_dtm from happyday_master a, happyday_user_hst b where a.happyday_id = b.happyday_id and b.happyday_id = ? and b.state = "y") t2'+ 
+                                                         ' where t1.id = t2.user_id order by rec_reg_dtm;', req.body.happyday_id, function(error, rows2){
+                                            if(error){
+                                                connection.release();
+                                                throw error;
+                                            }else {
+                                                if(rows2.length > 0){
+                                                    res.json({success : "Successfully", status : 200, userList : rows2, reg_state : "N"});
+                                                    connection.release();
+                                                }else {
+                                                    res.redirect('/');
+                                                    connection.release(); 
+                                                }
+                                            }
+                                        });
                                     }
-                                }
-                            });
+                                });
+                            }else {
+                                res.redirect('/');
+                                connection.release(); 
+                            }
+                            
                         }
                     });
+                    
                 }
             });
         });
