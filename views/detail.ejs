@@ -289,7 +289,7 @@
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
         }
-
+        
     </style>
 
 </head>
@@ -301,8 +301,8 @@
     <div class="ui container">
         <div class="content">
             <div class="ui segments">
-                <div class="ui segment">
-                    <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
+                <div class="ui segment" style="background-color:#ffB914;">
+                    <div class="header" href="#" style="margin-left:20px; margin-top:6px"><span style="font-family: 'Jeju Gothic'; font-size:1.9em; color:#FFFFFF"><%= data.happyday_name %></span></div>
                 </div>
                 <div class="ui segment">
                     <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
@@ -329,7 +329,8 @@
                     </div>
                 </div>
                 <div class="ui segment">
-                    <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
+                    <span style="color:#ffB914">
+                        #<%=data.category_code%> #<%=data.category_code2%> #<%=data.category_code3%></span>
                 </div>
                 
                 <!-- 좋아요, 댓글 부분 -->
