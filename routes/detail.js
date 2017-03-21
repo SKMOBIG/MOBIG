@@ -116,6 +116,8 @@ module.exports = function(app, connectionPool) {
     
     app.post('/applyhappyday', function(req, res, next){
         
+        console.log("apply : " + JSON.stringify(req.body));
+        
         connectionPool.getConnection(function(err, connection) {
             // 1. 잔여 포인트 체크
             connection.query('select happy_point, mileage' +
@@ -249,15 +251,15 @@ module.exports = function(app, connectionPool) {
                              '   set state = "n", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
                              ' where user_id = ? and happyday_id = ? and state = "y";', [req.session.user_id, req.body.happyday_id], function(error, rows){
             
-                console.log("req.session.user_id : " + req.session.user_id);
+                console.log("cancel : " + JSON.stringify(req.body));
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
                     //2. User의 포인트 변경
                     connection.query('update user' +
-                                     '   set happy_point = (happy_point+?)' +
-                                     ' where id = ?;', [parseInt(req.body.req_point), req.session.user_id], function(error, rows1){
+                                     '   set happy_point = happy_point + ?' +
+                                     ' where id = ?;', [req.body.req_point, req.session.user_id], function(error, rows1){
                         if(error) {
                             connection.release();
                             throw error;
@@ -286,25 +288,11 @@ module.exports = function(app, connectionPool) {
         });
     });
 
-    
-    // app.post('/applyhappyday', function(req, res, next){
-    //     console.log("들어온다");
-    //     connectionPool.getConnection(function(err, connection) {
-    //         connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) values(?, ?, date_format(sysdate(), "%Y%m%d"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows){
+    app.get('/deletehappyday/:happyday_id', function(req, res, next){
         
-    //             console.log("req.session.user_id : " + req.session.user_id);
-    //             if(error) {
-    //                 connection.release();
-    //                 throw error;
-    //             }else {
-    //                 res.redirect('/detail/'+ req.body.happyday_id);
-    //                 connection.release();
-    //             }
-    //         });
-    //     });
-    // });
-    
-
-
-    
+        console.log("delete : " + req.params.happyday_id);
+        
+        res.redirect('/hdmain');
+        
+    });
 }
