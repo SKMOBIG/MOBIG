@@ -131,7 +131,6 @@
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
-            data.user_id = <%=session.user_id%>; 
             
             $.ajax({
                 type: 'POST',
@@ -213,20 +212,32 @@
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
-             $.ajax({
-                 type: "post",
-                 url: "/cancelhappyday",
-                 data: {
-                    happyday_id : happyday_id
-                 },
-                 success: function(data) {
-                    window.location.reload();
-
-                 },
-                 error: function(e) {
-                     alert(e.responseText);
-                 }
-             });
+            
+            var data = {};
+            data.happyday_id = happyday_id;
+            data.req_point = req_point;
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/cancelhappyday',
+                success: function(result) {
+                    if(result.status == 200){
+                        //TODO : 화면에서 참가 리스트 갱신
+                        makeParticipantList(result.userList);
+                        initApplyCancel(result.reg_state);
+                        
+                        cur_num_users = result.userList.length;
+                        
+                        alert("참가 취소 되었습니다.");
+                        
+                    }else {
+                        alert("시스템 문제로 조회할 수 없습니다.");
+                    }
+                }
+            });
         }
         
         
