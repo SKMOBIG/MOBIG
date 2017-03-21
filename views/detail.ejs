@@ -97,7 +97,7 @@
         }
         
         
-        //등록 파트에서 수정
+        //등록 파트에서 수정  
         function modifyHappyday(happyday_id) {
             location.href = '../detail/' + happyday_id + '/hduppopup';
         }
@@ -326,7 +326,7 @@
                             <tr style = 'max-height:50px'>
                                 <td style = "margin-top: -15px;">모집정원</td>
                                 <td><%= data.num_participants %>명</td>
-                            </tr><%= data.dday_dt %>
+                            </tr>
                             <tr style = 'max-height:50px'>
                                 <td style = "margin-top: -15px;">모집기간</td>
                                 <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
