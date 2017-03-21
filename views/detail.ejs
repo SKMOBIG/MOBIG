@@ -105,7 +105,11 @@
         
         //happyday_master 테이블 내 삭제 여부 표현 이슈
         function deleteHappyday(happyday_id) {
-            alert("삭제");
+            if(confirm("등록한 해피데이 및 참가신청 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?")) {
+                location.href = '../deletehappyday/' + happyday_id;
+            }else {
+                
+            }
             //  $.ajax({
             //      type: "post",
             //      url: "/applyhappyday",
@@ -132,7 +136,6 @@
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
-            data.user_id = <%=session.user_id%>; 
             
             $.ajax({
                 type: 'POST',
@@ -230,20 +233,32 @@
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
-             $.ajax({
-                 type: "post",
-                 url: "/cancelhappyday",
-                 data: {
-                    happyday_id : happyday_id
-                 },
-                 success: function(data) {
-                    window.location.reload();
-
-                 },
-                 error: function(e) {
-                     alert(e.responseText);
-                 }
-             });
+            
+            var data = {};
+            data.happyday_id = happyday_id;
+            data.req_point = req_point;
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/cancelhappyday',
+                success: function(result) {
+                    if(result.status == 200){
+                        //TODO : 화면에서 참가 리스트 갱신
+                        makeParticipantList(result.userList);
+                        initApplyCancel(result.reg_state);
+                        
+                        cur_num_users = result.userList.length;
+                        
+                        alert("참가 취소 되었습니다.");
+                        
+                    }else {
+                        alert("시스템 문제로 조회할 수 없습니다.");
+                    }
+                }
+            });
         }
         
         
@@ -333,8 +348,7 @@
                 <!--    </div>-->
                 <!--</div>-->
                 
-                <div class="ui segment">
-                    <table class="ui definition table">
+                <div class="ui segment"><table class="ui definition table">
                         <tbody>
                             <tr style = 'max-height:50px'>
                                 <td class="two wide column" style = "margin-top: -15px;">출발일시</td>
@@ -423,7 +437,7 @@
                     <button class="ui primary button" id="modify_button" onClick="javascript:modifyHappyday('<%=data.happyday_id%>')">수정</button>
                     <button class="ui button" id="delete_button" onClick="javascript:deleteHappyday('<%=data.happyday_id%>')">삭제</button>
                     <button class="ui primary button" id="apply_button" onClick="javascript:applyHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청하기</button>
-                    <button class="ui button" id="cancel_button" onClick="javascript:cancelHappyday('<%=data.happyday_id%>')">신청취소</button>                        
+                    <button class="ui button" id="cancel_button" onClick="javascript:cancelHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청취소</button>                        
                 </div>
                 
             </div>
