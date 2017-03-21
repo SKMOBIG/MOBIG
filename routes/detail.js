@@ -72,7 +72,7 @@ module.exports = function(app, connectionPool) {
     
     app.post('/infouser', function(req, res, next) {
          connectionPool.getConnection(function(err, connection) {
-            connection.query('select user_name, phone_number, sm_id from user where id = ?;', req.body.user_id, function(error, rows) {
+            connection.query('select user_name, phone_number, sm_id, user_img from user where id = ?;', req.body.user_id, function(error, rows) {
                 
                 console.log("req.params.user_id : " + req.body.user_id);
 
@@ -136,7 +136,7 @@ module.exports = function(app, connectionPool) {
                             /* 참가 작업 진행 
                                 1. 해피데이 참가 신청 이력 확인
                                     1-1. 이력이 없으면 happyday_user_hst INSERT
-                                    1-2. 이력이 있으면 UPDATE state = 'y'
+                                    1-2. 이력이 있으면 UPDATE state = 'y'infoUser
                                 2. User의 포인트 차감
                                 3. 해피데이 이력에서 참가자들 정보를 조회하여 리턴
                             */

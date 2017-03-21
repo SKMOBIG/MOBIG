@@ -84,6 +84,7 @@
                 },
                 success: function(data) {
                     // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
+                    $('#modal_user_img').html("" + data.user.user_img);
                     $('#modal_user_name').html("이름 : " + data.user.user_name);
                     $('#modal_user_sm_id').html("소속 : " + data.user.sm_id);
                     $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
@@ -160,7 +161,6 @@
             });
         }
         
-<<<<<<< HEAD
         function makeParticipantList(userList) {
             $("#present_condition").empty();
             var $applyTag = $("<p>* 신청현황 ("+userList.length+"/"+<%=data.num_participants%>+")</p>"),
@@ -177,8 +177,6 @@
             }
         }
         
-=======
->>>>>>> fc2edbf2755a431595baf9e05b02fa22c8f44c76
         function availableApply() {
             /* 신청 가능한 상황
                 1. 현재 참가인원이 모집인원보다 적음.
@@ -215,7 +213,7 @@
         
         function makeParticipantList(userList) {
             $("#present_condition").empty();
-            var $applyTag = $("<p>신청현황 ("+userList.length+"/"+<%=data.num_participants%>+")</p>"),
+            var $applyTag = $("<p>* 신청현황 ("+userList.length+"/"+<%=data.num_participants%>+")</p>"),
                 $divTag = $("<div class='image' id='participants'></div>");
             $("#present_condition").append($applyTag, $divTag).trigger("create");
             
@@ -273,8 +271,10 @@
             margin-top: .4em;
         }
         
-        #mapArea{margin-bottom:20px;width:100%;height:300px;clear:both;}
-        
+        #mapArea{
+            margin-bottom:20px;width:100%;height:300px;clear:both;
+        }
+
     </style>
 
 </head>
@@ -295,12 +295,12 @@
             </div>
             
             <div class="ui segments">
-                <div class="ui segment">
-                    <div class="yellow two ui buttons">
-                        <button class="ui button" onClick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
-                        <button class="ui button" onClick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
-                    </div>
+                <!--<div class="ui segment" style="background-color:#FFF000">-->
+                <div class="two ui buttons">
+                    <button class="yellow ui button" id="detailBtn" onClick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
+                    <button class="ui button" id="postBtn" onClick="javascript:goPostList('<%=data.happyday_id%>')"><span style="color:000000">후기보기</span></button>
                 </div>
+
                 <div class="ui horizontal segments" style="background-color:#FFFFFF">
                     <div class="ui segment">
                         <div class="image">
@@ -461,34 +461,35 @@
         </div>
     </div>
     
+    <!---->
+    <div class="ui modal" >
+        <i class="close icon"></i>
+        <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
+            <div class="ui medium image" >
+                <img src="<%=userList[0].user_img%>">
+            </div>
+            <div class="description">
+                <div class="ui header" id="usermodal">
+                    <span id="modal_user_name"> </span> <p></p>
+                    <span id="modal_user_sm_id"> </span> <p></p>
+                    <span id="modal_user_phone_number"> </span>
+                    
+                </div>
+                <p>우왕 good!</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui positive right labeled icon button">
+                확인
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+<!---->  
     
     
 </body>
 
-<!---->
-<div class="ui modal" >
-    <i class="close icon"></i>
-    <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
-        <div class="ui medium image" >
-            <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
-        </div>
-        <div class="description">
-            <div class="ui header" id="usermodal">
-                <span id="modal_user_name"> </span> <p></p>
-                <span id="modal_user_sm_id"> </span> <p></p>
-                <span id="modal_user_phone_number"> </span>
-                
-            </div>
-            <p>우왕 good!</p>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="ui positive right labeled icon button">
-            확인
-            <i class="checkmark icon"></i>
-        </div>
-    </div>
-</div>
-<!---->  
+
 
 </html>
