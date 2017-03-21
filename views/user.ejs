@@ -39,8 +39,9 @@
               userData.user_id = page_user_id;
               userData.phone_number = $("#phone_number").val();
               userData.birthday = $("#birthday").val();
-              userData.blood_type = $("#blood_type").val();
-              userData.address = $("#address").val();
+              //userData.blood_type = $("#blood_type").val();
+              //userData.address = $("#address").val();
+              userData.user_img = $("#user_img").val();
               userData.home_town = $("#home_town").val();
               
               console.log(JSON.stringify(userData));
@@ -55,6 +56,7 @@
                   console.log(result);
                   if(result.status == 200){
                       alert("수정되었습니다");
+                      $(".bordered.image").attr("src", result.user_img).trigger("create");
                   }
                 }
               });
@@ -77,8 +79,8 @@
     <style type="text/css">
       .ui[class*="left icon"].input>input {
         padding-left: 3.67142857em!important;
-      }
-      .ui[class*="two column"].grid>.column:not(.row),.ui[class*="two column"].grid>.row>.column{width:350px};
+      };
+      .ui[class*="two column"].grid>.column:not(.row),.ui[class*="two column"].grid>.row>.column{width:400px};
     </style>
     
   </head>
@@ -108,7 +110,7 @@
                       </div>
                     </div>
                   </div>
-                   <div class="event">
+                  <div class="event">
                     <div class="content">
                       <div class="summary">
                          <div class="ui left icon input">
@@ -132,27 +134,7 @@
                 <!-- 부가 정보 - 혈액형,주소,고향(사용자가 공개, 비공개 설정 가능)-->
                 <h4 class="ui sub header">추가 정보</h4>
                 <div class="ui small feed">
-                  <div class="event">
-                    <div class="content">
-                      <div class="summary">
-                        <div class="ui form">
-                          <div class="field">
-                            <div class="ui floating dropdown labeled icon basic button">
-                              <i class="large theme icon"></i>
-                              <span class="text" id="blood_type"><%=data.blood_type%></span>
-                              <div class="menu">
-                                <div class="item" value="A">A형</div>
-                                <div class="item" value="B">B형</div>
-                                <div class="item" value="O">O형</div>
-                                <div class="item" value="AB">AB형</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="event">
+                  <!--div class="event">
                     <div class="content">
                       <div class="summary">
                         <div class="ui selection dropdown">
@@ -166,8 +148,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="event">
+                  </div-->
+                  <!--div class="event">
                     <div class="content">
                       <div class="summary">
                         <div class="ui left icon input">
@@ -176,17 +158,36 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="event">
+                  </div-->
+                  <!--div class="event">
                     <div class="content">
                       <div class="summary">
                         <div class="ui left icon input">
-                           <input type="text" id="home_town" value=<%=data.home_town%>>
+                           <input type="text" placeholder="고향" id="home_town" value=<%=data.home_town%>>
                            <i class="large home icon"></i>
                         </div>
                       </div>
                     </div>
+                  </div-->
+                  <div class="event">
+                    <div class="content">
+                      <div class="summary">
+                        <div class="ui labeled input"><!--#A5673F-->
+                  				<div class="ui label" style="background:ORANGE; color:white">
+                  					 <i class="image icon"> URL</i>
+                  				</div>
+                  				<input type="text" placeholder="IMAGE URL" id="user_img" maxlength="150" value=<%=data.user_img%>>
+                  			</div>
+                  		</div>
+                  	</div>
                   </div>
+                  <div class="event">
+                    <div class="content">
+                      <div class="extra images">
+        			  	      <img class="ui medium bordered image" src="<%=data.user_img%>" height="6em">
+                      </div>
+                		</div>
+            			</div>
                 </div> <!-- end of add info --> 
               </div>
               
@@ -228,6 +229,7 @@
             </div>  
           </div>
         </div> <!-- end div of grid -->
+        </div>
       </div>
     </div> <!-- end div of container -->    
       
