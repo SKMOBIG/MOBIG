@@ -107,25 +107,7 @@
         function deleteHappyday(happyday_id) {
             if(confirm("등록한 해피데이 및 참가신청 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?")) {
                 location.href = '../deletehappyday/' + happyday_id;
-            }else {
-                
             }
-            //  $.ajax({
-            //      type: "post",
-            //      url: "/applyhappyday",
-            //      data: {
-            //         happyday_id : happyday_id,
-            //         req_point : req_point
-            //      },
-            //      success: function(data) {
-            //         window.location.reload();
-            //       // $("present_condition").load();
-
-            //      },
-            //      error: function(e) {
-            //          alert(e.responseText);
-            //      }
-            //  });
         }
 
         // 해피데이 신청하기
