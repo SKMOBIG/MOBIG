@@ -72,7 +72,7 @@ module.exports = function(app, connectionPool) {
     
     app.post('/infouser', function(req, res, next) {
          connectionPool.getConnection(function(err, connection) {
-            connection.query('select user_name, phone_number, sm_id from user where id = ?;', req.body.user_id, function(error, rows) {
+            connection.query('select user_name, phone_number, sm_id, user_img from user where id = ?;', req.body.user_id, function(error, rows) {
                 
                 console.log("req.params.user_id : " + req.body.user_id);
 
@@ -116,6 +116,8 @@ module.exports = function(app, connectionPool) {
     
     app.post('/applyhappyday', function(req, res, next){
         
+        console.log("apply : " + JSON.stringify(req.body));
+        
         connectionPool.getConnection(function(err, connection) {
             // 1. 잔여 포인트 체크
             connection.query('select happy_point, mileage' +
@@ -136,7 +138,7 @@ module.exports = function(app, connectionPool) {
                             /* 참가 작업 진행 
                                 1. 해피데이 참가 신청 이력 확인
                                     1-1. 이력이 없으면 happyday_user_hst INSERT
-                                    1-2. 이력이 있으면 UPDATE state = 'y'
+                                    1-2. 이력이 있으면 UPDATE state = 'y'infoUser
                                 2. User의 포인트 차감
                                 3. 해피데이 이력에서 참가자들 정보를 조회하여 리턴
                             */
@@ -249,15 +251,15 @@ module.exports = function(app, connectionPool) {
                              '   set state = "n", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
                              ' where user_id = ? and happyday_id = ? and state = "y";', [req.session.user_id, req.body.happyday_id], function(error, rows){
             
-                console.log("req.session.user_id : " + req.session.user_id);
+                console.log("cancel : " + JSON.stringify(req.body));
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
                     //2. User의 포인트 변경
                     connection.query('update user' +
-                                     '   set happy_point = (happy_point+?)' +
-                                     ' where id = ?;', [parseInt(req.body.req_point), req.session.user_id], function(error, rows1){
+                                     '   set happy_point = happy_point + ?' +
+                                     ' where id = ?;', [req.body.req_point, req.session.user_id], function(error, rows1){
                         if(error) {
                             connection.release();
                             throw error;
@@ -286,25 +288,11 @@ module.exports = function(app, connectionPool) {
         });
     });
 
-    
-    // app.post('/applyhappyday', function(req, res, next){
-    //     console.log("들어온다");
-    //     connectionPool.getConnection(function(err, connection) {
-    //         connection.query('insert into happyday_user_hst (user_id, happyday_id, reg_dtm, modify_dtm, use_point, state) values(?, ?, date_format(sysdate(), "%Y%m%d"), null, ?, "y");', [req.session.user_id, req.body.happyday_id, req.body.req_point], function(error, rows){
+    app.get('/deletehappyday/:happyday_id', function(req, res, next){
         
-    //             console.log("req.session.user_id : " + req.session.user_id);
-    //             if(error) {
-    //                 connection.release();
-    //                 throw error;
-    //             }else {
-    //                 res.redirect('/detail/'+ req.body.happyday_id);
-    //                 connection.release();
-    //             }
-    //         });
-    //     });
-    // });
-    
-
-
-    
+        console.log("delete : " + req.params.happyday_id);
+        
+        res.redirect('/hdmain');
+        
+    });
 }
