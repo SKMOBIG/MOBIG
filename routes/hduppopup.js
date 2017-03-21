@@ -13,7 +13,7 @@ module.exports = function(app, connectionPool) {
             //등록자인 경우만 
              
             connection.query('select * from happyday_master a, user b where a.reg_user_id = b.id and a.happyday_id = ?;', req.params.id, function(error, rows) {    
-               console.log("팝업");
+            //   console.log("팝업");
                 if(error) {
                     connection.release();
                     throw error;
@@ -56,16 +56,16 @@ module.exports = function(app, connectionPool) {
     app.post('/happyday_update', function(req, res, next) {
         
         connectionPool.getConnection(function(err, connection) {
-        
+        console.log(req.body.dday_goto_DB);
             connection.query('update happyday_master set happyday_name = ?, happyday_contents = ?, category_code=?, dday_dt = ?, happyday_dt = ?, req_point =?, num_participants =?, place_name = ?, img_url =?, point_rsn = ?, update_dtm = date_format(sysdate(), "%Y%m%d%H%i%s") where happyday_id = ?;'                       
-            , [req.body.happyday_name, req.body.happyday_contents, req.body.category_code, req.body.dday_dt, req.body.starthappyday, req.body.req_point, req.body.num_participants, req.body.place_name,  req.body.img_url, req.body.point_rsn, req.body.happyID], function(error, rows) {
+            , [req.body.happyday_name, req.body.happyday_contents, req.body.category_code, req.body.dday_goto_DB, req.body.starthappyday, req.body.req_point, req.body.num_participants, req.body.place_name,  req.body.img_url, req.body.point_rsn, req.body.happyID], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;
                 }else {
                     
                     res.redirect('/detail/'+ req.body.happyID);
-                    console.log("리다이렉후 ");
+                    // console.log("리다이렉후 ");
                     connection.release();
                     //res.redirect('/closepopup');
                 }    
