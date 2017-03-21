@@ -29,7 +29,8 @@
     var val = $("#req_point").val();
     val *= 1; //string to int
     point *=1; // string to int
-    if(val+point <= 8000 && val+point >=500){
+    // if(val+point <= 8000 && val+point >=500){
+    if(val+point <= 8000 && val+point >= 0){
       $("#req_point").val(val+point);  
     }
   }
@@ -203,8 +204,8 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
-    // if(flag == 10){
-    if(flag <= 10){
+    if(flag == 10){
+    // if(flag <= 10){
      return true;
     }
     else{
@@ -485,6 +486,7 @@ $(document).ready(function() {
 		</div>
 		<br>
 		<div class="ui two column grid">
+
 			<div class="column">
 				<div class="ui sub header">
 					 *마감일
@@ -492,14 +494,16 @@ $(document).ready(function() {
 				<div class="ui calendar" name="example4">
 					<div class="ui input left icon" style=" width: 100%;">
 						<i class="calendar icon"></i>
-						<input type="text" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
-						<input type="hidden" placeholder="Date" style=" width: 100%;" id="HappyDDay" name="HappyDDay" readonly="true">
+						<input type="text" placeholder="마감일 선택" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true">
+						
 					</div>
+				</div>
 					<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
 						 텍스트는 자바스크립트로 설정
 					</p>
-				</div>
+					<input type="hidden" id="HappyDDay" name="HappyDDay" >
 			</div>
+			
 			<div class="column">
 				<div class="ui sub header">
 					 *차감포인트
@@ -525,7 +529,7 @@ $(document).ready(function() {
 			<br>
 			<!--<div class="ui two column grid" >-->
 				<div class="field">
-					<div class="ui sub header">
+					<div class="ui sub header" style="margin-top: 0px;">
 						 *참가 포인트 상세 내역
 					</div>
 					<div class="ui input" style=" width: 100%;">
