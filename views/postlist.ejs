@@ -59,7 +59,7 @@
          $("#postselect_content").html(post_content.replace(/\r\n/gi, "<BR/>"));
          $("#postselect_postid").val(data.datas.post_id);
          $("#postselect_happydayid").val(data.datas.happyday_id);
-            $('.ui.modal.Select').modal('show');
+         $('.ui.modal.Select').modal('show');
         },
         error:function(e){  
             alert(e.responseText);  
@@ -227,7 +227,7 @@
     				<%=postdata[i].post_title %>
     				<input type="hidden" value=<%=postdata[i].post_id %>> </h3>
     				<p>
-    					<img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg">
+    					<img class="ui avatar image" src=<%=postdata[i].user_img%>>
     					<%=postdata[i].user_name %> (<%=postdata[i].org_nm %>)&nbsp;&nbsp;&nbsp;&nbsp; <%=postdata[i].date %>&nbsp;&nbsp;&nbsp;&nbsp; <i class="unhide icon"></i>
     					<%=postdata[i].post_count %>
     				</p>

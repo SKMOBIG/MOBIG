@@ -29,8 +29,8 @@ module.exports = function(app, connectionPool) {
         connectionPool.getConnection(function(err, connection) {
             console.log(req.body);
             //해피데이 마스터 테이블 insert
-            connection.query('insert into happyday_master (happyday_name, happyday_contents, reg_user_id, category_code, reg_dtm, dday_dt, happyday_dt, req_point, state, num_participants, place_name, place_latitude, img_url,point_rsn, update_dtm, place_longitude) values(?,?,?,?,date_format(sysdate(), "%Y%m%d%H%i%s"),?,?,?,"Y",?,?,?,?,?,date_format(sysdate(), "%Y%m%d%H%i%s"),?);'
-                        , [req.body.happyday_name, req.body.happyday_contents, req.session.user_id, req.body.category_code,req.body.HappyDDay, req.body.starthappyday, req.body.req_point,req.body.num_participants, req.body.place_name, req.body.place_latitude, req.body.img_url, req.body.point_rsn, req.body.place_longitude], function(error, rows) {
+            connection.query('insert into happyday_master (happyday_name, happyday_contents, reg_user_id, category_code, reg_dtm, dday_dt, happyday_dt, req_point, state, num_participants, place_name, place_latitude, img_url,point_rsn, update_dtm, place_longitude, category_code2, category_code3) values(?,?,?,?,date_format(sysdate(), "%Y%m%d%H%i%s"),?,?,?,"Y",?,?,?,?,?,date_format(sysdate(), "%Y%m%d%H%i%s"),?,?,?);'
+                        , [req.body.happyday_name, req.body.happyday_contents, req.session.user_id, req.body.category_code,req.body.HappyDDay, req.body.starthappyday, req.body.req_point,req.body.num_participants, req.body.place_name, req.body.place_latitude, req.body.img_url, req.body.point_rsn, req.body.place_longitude, req.body.category_code2, req.body.category_code3], function(error, rows) {
                 if(error) {
                     connection.release();
                     throw error;

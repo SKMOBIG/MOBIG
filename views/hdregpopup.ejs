@@ -15,11 +15,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 
-
-
-
-
-
 <script type="text/javascript">
   var startdate = '';
   var starttime = '';
@@ -70,6 +65,7 @@ $(document).ready(function() {
     var happyday_name = $("#happyday_name").val(); //해피데이 네임
     var category_code = $("#category_code").val();
     var num_participants = $("#num_participants").val();
+    var img_url = $("#img_url").val();
     var place_name = $("#place_name").val();
     var req_point = $("#req_point").val();     //해피데이 등록에 필요한 포인트
     var my_point = <%=session.happy_point %>   //보유한 해피데이 포인트
@@ -80,7 +76,19 @@ $(document).ready(function() {
     var year = today_date_ojbect.getFullYear().toString();
     var month;
     var date; 
+    
+    
+    var Category_Array= category_code.split(',');
+    alert(Category_Array[0]);
+    alert(Category_Array[1]);
+    alert(Category_Array[2]);
   
+    $("#category_code").val(Category_Array[0]);
+    $("#category_code2").val(Category_Array[1]);
+    $("#category_code3").val(Category_Array[2]);
+    
+    
+    
     // 입력할 때 너무 보기가 안좋아 원석이형 꺼에서 바꾸는게 나을듯 싶다._KJB
     // $("#point_rsn").val(point_rsn.replace(/\n/g, "\"));
     
@@ -126,7 +134,25 @@ $(document).ready(function() {
       $('#num_participants_alert').css("visibility","hidden");
       flag = flag+1;
     } 
-     // 장소 check  
+    
+    if(img_url == ''){
+      if(Category_Array[0]=='스포츠관람'){
+         $("#img_url").val("http://cfile23.uf.tistory.com/image/1942B9234C784E85333568");
+      }
+      else if(Category_Array[0]=='야외활동'){
+         $("#img_url").val("http://www.garakcm.org/data/file/bgroup6_2/32063017_X7aRLK5B_IMG_7772.JPG");
+      }
+      else if(Category_Array[0]=='실내활동'){
+         $("#img_url").val("https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTpyodbkogHcj53I7T5CcAWTW4-R1xTYoKtgurnWBTtl6_L95eD");
+      }
+      else if(Category_Array[0]=='영화연극'){
+         $("#img_url").val("http://tour.busan.go.kr/images/sub/movie_1.jpg");
+      }
+      else if(Category_Array[0]=='문화체험'){
+         $("#img_url").val("http://www.m-i.kr/news/photo/201401/107574_56130_3629.jpg");
+      }
+    }
+   // 장소 check  
     if(place_name == ''){
       $('#place_name_alert').css("visibility","visible");
       // flag = 0;
@@ -218,8 +244,8 @@ $(document).ready(function() {
   
   //카테고리 드롭다운(등록,수정)
   // ui multiple selection dropdown
-  $('#MultipleSelection_KJB').dropdown({
-       maxSelections: 1
+  $('#MultipleSelection').dropdown({
+       maxSelections: 3
    });
    
     //모집 정원 제이쿼리
@@ -348,7 +374,7 @@ $(document).ready(function() {
 			<div class="ui sub header">
 				 *해피데이 이름
 			</div>
-			<input type="text" placeholder="해피데이 이름을 입력해주세요" id="happyday_name" name="happyday_name">
+			<input type="text" placeholder="해피데이 이름을 입력해주세요" id="happyday_name" name="happyday_name" maxlength="20">
 			<p class="p validation" id="happyday_name_alert" style="color:red; visibility:hidden;">
 				 *해피데이 이름을 입력해 주세요
 			</p>
@@ -361,8 +387,10 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 **카테고리
 				</div>
-				<div id="MultipleSelection_KJB" class="ui multiple selection dropdown"  style=" width: 100%;">
-					<input id="category_code" name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
+				<div id="MultipleSelection" class="ui multiple selection dropdown"  style=" width: 100%;">
+					<input id="category_code" name="category_code" type="hidden" value="">
+					<!--<input id="category_code" name="category_code" type="hidden">-->
+					
 					<i class="dropdown icon"></i>
 					<div class="default text">
 						 카테고리 선택
@@ -377,8 +405,8 @@ $(document).ready(function() {
 						<div class="item" data-value="실내활동">
 							 실내활동
 						</div>
-						<div class="item" data-value="영화,연극">
-							 영화,연극
+						<div class="item" data-value="영화연극">
+							 영화연극
 						</div>
 						<div class="item" data-value="문화체험">
 							 문화체험
@@ -388,6 +416,8 @@ $(document).ready(function() {
 				<p class="p validation" id="category_code_alert" style="color:red; visibility:hidden;">
 					 *카테고리를 선택해 주세요
 				</p>
+				<input id="category_code2" name="category_code2" type="hidden" >
+				<input id="category_code3" name="category_code3" type="hidden" >
 			</div>
 			<div class="column">
 				<div class="ui sub header">
@@ -434,7 +464,7 @@ $(document).ready(function() {
 				<div class="ui label" style="background:#A5673F; color:white">
 					 http://
 				</div>
-				<input type="text" placeholder="mysite.com" name="img_url" id>
+				<input type="text" placeholder="이미지url" id="img_url" name="img_url" maxlength="150">
 			</div>
 		</div>
 		<div class="field">
@@ -513,7 +543,7 @@ $(document).ready(function() {
   					<input type="hidden" id="req_point" name="req_point" style=" width: 100%;">
   					<i class="dropdown icon"></i>
   					<div class="default text">
-  						 차감포인트 선택
+  						 포인트 선택
   					</div>
   					<div class="menu">
   						<div class="item" data-value="500">
@@ -619,7 +649,7 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 **활동 내용
 				</div>
-				<textarea id="happyday_contents" placeholder="해피데이 내용을 입력 해 주세요" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700"></textarea>
+				<textarea id="happyday_contents" placeholder="해피데이 내용을 입력 해 주세요" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="500"></textarea>
 				<p class="p validation" id="happyday_contents_alert" style="color:red; visibility:hidden;">
 					 *활동 내용을 작성해 주세요
 				</p>
