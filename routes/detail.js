@@ -321,7 +321,7 @@ module.exports = function(app, connectionPool) {
                             // 3. 참가자의 user 포인트 반환             
                             connection.query('update user' + 
                                              '   set happy_point = happy_point + ?' + 
-                                             ' where user_id = ?;', [userList[i].use_point, userList[i].user_id], function(error, rows){
+                                             ' where id = ?;', [userList[i].use_point, userList[i].user_id], function(error, rows){
                                 if(error){
                                     connection.release();
                                     throw error;
