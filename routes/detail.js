@@ -72,7 +72,7 @@ module.exports = function(app, connectionPool) {
     
     app.post('/infouser', function(req, res, next) {
          connectionPool.getConnection(function(err, connection) {
-            connection.query('select user_name, phone_number, sm_id, user_img from user where id = ?;', req.body.user_id, function(error, rows) {
+            connection.query('select user_name, phone_number, sm_id, user_img, (select org_nm from com_org where org_id = t1.sm_id) AS sm_name from user t1 where id = ?;', req.body.user_id, function(error, rows) {
                 
                 console.log("req.params.user_id : " + req.body.user_id);
 

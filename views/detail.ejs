@@ -84,9 +84,9 @@
                 },
                 success: function(data) {
                     // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
-                    $('#modal_user_img').html("" + data.user.user_img);
+                    $('#modal_user_img').val(data.user.user_img);
                     $('#modal_user_name').html("이름 : " + data.user.user_name);
-                    $('#modal_user_sm_id').html("소속 : " + data.user.sm_id);
+                    $('#modal_user_sm_name').html("소속 : " + data.user.sm_name);
                     $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
                     $('.ui.modal').modal('show');
 
@@ -305,7 +305,7 @@
                     <div class="header" href="#" style="margin-left:20px; margin-top:6px"><span style="font-family: 'Jeju Gothic'; font-size:1.9em; color:#FFFFFF"><%= data.happyday_name %></span></div>
                 </div>
                 <div class="ui segment">
-                    <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
+                    <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:600px; max-width:800px" >
                 </div>
             </div>
             
@@ -319,7 +319,7 @@
                 <div class="ui horizontal segments" style="background-color:#FFFFFF">
                     <div class="ui segment">
                         <div class="image">
-                            <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/large/elliot.jpg" onclick="javascript:infoUser('<%=data.reg_user_id%>')"> 
+                            <img class="ui avatar image" src="<%=data.user_img%>" onclick="javascript:infoUser('<%=data.reg_user_id%>')"> 
                             <span> 작성자 : <%= data.user_name %> </span>
                         </div>
 
@@ -330,7 +330,7 @@
                 </div>
                 <div class="ui segment">
                     <span style="color:#ffB914">
-                        #<%=data.category_code%> #<%=data.category_code2%> #<%=data.category_code3%></span>
+                        #<%=data.category_code%>  <%=data.category_code2%>  <%=data.category_code3%></span>
                 </div>
                 
                 <!-- 좋아요, 댓글 부분 -->
@@ -446,17 +446,19 @@
 
         </div> <!-- content -->
 
-    <!----사용자 프로필 Modal>
+    <!--사용자 프로필 Modal -->
     <div class="ui modal" >
         <i class="close icon"></i>
         <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
             <div class="ui medium image" >
-                <img src="<%=userList[0].user_img%>">
+                <!--<img src="<%=userList[0].user_img%>">-->
+                <!--<img id="modal_user_img", src="modal_user_img">-->
+                
             </div>
             <div class="description">
                 <div class="ui header" id="usermodal">
                     <span id="modal_user_name"> </span> <p></p>
-                    <span id="modal_user_sm_id"> </span> <p></p>
+                    <span id="modal_user_sm_name"> </span> <p></p>
                     <span id="modal_user_phone_number"> </span>
                     
                 </div>
@@ -469,7 +471,7 @@
             </div>
         </div>
     </div>
-<!---->  
+
     
     
     <!--    <div class="header">===이전 관련 활동보기===</div>-->
