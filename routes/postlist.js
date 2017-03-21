@@ -22,7 +22,6 @@ module.exports = function(app, connectionPool) {
                     if(rows.length > 0) {
                         // console.log(req.params.id);
                         connection.query('select hp.*, hm.*, us.*, concat(left(hp.modify_dtm,4) ,".",substring(hp.modify_dtm,5,2),".",substring(hp.modify_dtm,7,2)) as date, co.org_nm  from happyday_post hp, happyday_master hm, user us, com_org co where hp.happyday_id = ? and hp.happyday_id = hm.happyday_id and hp.user_id = us.id and co.org_id = us.sm_id order by post_id desc;', req.params.id, function(error, rows1) {
-                            
                             if(error){
                                 connection.release();
                                 throw error;

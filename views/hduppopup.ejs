@@ -68,15 +68,14 @@
         //$("#point_rsn_show").val(data.point_rsn);
 
 }        
- function goDetail(){
-      location.href = '../';
+ function goDetail(id){
+    location.href = '../../detail/' + id;
   }  
 $(document).ready(function() {
   //Happdaygetdata();
 
   //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
   $('#happydayupdate').submit(function() {
-    
     var happyday_name = $("#happyday_name_show").val(); //해피데이 네임
     var category_code = $("#category_code_show").val();
     var num_participants = $("#num_participants_show").val();
@@ -224,7 +223,7 @@ $(document).ready(function() {
     }
     
     
-    if(flag == 9){
+    if(flag <= 10){
       // 입력 내용이 완벽하면 true
       return true;
     }
@@ -237,11 +236,12 @@ $(document).ready(function() {
 
   
   //카테고리 드롭다운(등록,수정)
-   $('#multipleSelect').dropdown({ 
-       maxSelections: 2
+  $('#multipleSelect').dropdown({ 
+      maxSelections: 2
    });
-    $('#select').dropdown();
-   
+  $('#select').dropdown();
+  $('#selectPoint').dropdown();  
+  
   // 출발 날짜(등록,수정)
   $("[name=example2]").calendar({
     type: 'date',
@@ -356,7 +356,7 @@ $(document).ready(function() {
 		<div class="ui two column grid">
 			<div class="column">
 				<div class="ui sub header">
-					 *카테고리
+					 **카테고리
 				</div>
 				<div class="ui multiple selection dropdown" id="multipleSelect" style=" width: 100%;">
 					<input id="happyday_category_show" name="category_code" type="hidden" value="<%=data.category_code%>" style=" width: 100%;" readonly="true">
@@ -425,7 +425,7 @@ $(document).ready(function() {
 		<br>
 		<div class="field">
 			<div class="ui sub header">
-				 이미지 링크
+				 URL
 			</div>
 			<div class="ui labeled input">
 				<div class="ui label" style="background:#A5673F; color:white">
@@ -436,7 +436,7 @@ $(document).ready(function() {
 		</div>
 		<div class="field">
 			<div class="ui sub header">
-				 *장소
+				 **장소
 			</div>
 			<div class="ui right labeled left icon action input">
 				<i class="marker icon"></i>
@@ -454,12 +454,12 @@ $(document).ready(function() {
 		<div class="ui two column grid" style="margin-top: -30px">
 				<div class="column">
 					<div class="ui sub header">
-						 *출발 날짜
+						 **출발 날짜
 					</div>
 					<div class="ui calendar" name="example2">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="calendar icon"></i>
-							<input type="text" id="startdate_show" placeholder="" style=" width: 100%;" name="happyday_dt" readonly="true" value="22">
+							<input type="text" id="startdate_show" placeholder="" style=" width: 100%;" name="happyday_dt" readonly="true" value="<%= data.happyday_dt.toString().substring(0,4)%>/<%= data.happyday_dt.toString().substring(4,6)%>/<%= data.happyday_dt.toString().substring(6,8)%>">
 						</div>
 					</div>
 					<!-- calendar -->
@@ -470,12 +470,12 @@ $(document).ready(function() {
 				<!-- column -->
 				<div class="column">
 					<div class="ui sub header">
-						 *출발 시각
+						 **출발 시각
 					</div>
 					<div class="ui calendar" name="example3">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="time icon"></i>
-    					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="<%="data.happyday_dt.substring(8,9)"%>/<%="data.happyday_dt.substring(10,11)"%>" >
+    					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="<%=data.happyday_dt.toString().substring(8,10)%>/<%=data.happyday_dt.toString().substring(10,12)%>" >
 						</div>
 					</div>
 					<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
@@ -488,35 +488,80 @@ $(document).ready(function() {
 	<div class="ui two column grid" style="margin-top: -30px">
 		<div class="column">
 			<div class="ui sub header">
-				 *마감일
+				 **마감일
 			</div>
 			<div class="ui calendar" name="example4">
 				<div class="ui input left icon" style=" width: 100%;">
 					<i class="calendar icon"></i>
-					<input type="text" id="dday_dt_show" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true" value="<%= data.dday_dt.substring(0,8)%>">
-					<input type="hidden" placeholder="Date" style=" width: 100%;" id="HappyDDay" name="HappyDDay" readonly="true">
-					
+					<input type="text" id="dday_dt_show" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true" value="<%= data.dday_dt.toString().substring(0,4)%>/<%= data.dday_dt.toString().substring(4,6)%>/<%= data.dday_dt.toString().substring(6,8)%>">					
 				</div>
 				<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
-				  *edddd
+				  텍스트는 자바스크립트로 설정
 				</p>
 			</div>
 		</div>
 		<div class="column">
 			<div class="ui sub header">
-				 *차감포인트
+				 **차감포인트
 			</div>
-			<div class="ui right icon input" style=" width: 100%;">
-        <input type="text" id="req_point_show" placeholder="" style=" width: 100%;" name="req_point" value="<%=data.req_point %> ">
-        <div style="height:37.67px;">
-          <div>
-            <i class="large toggle up icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(500)></i>
-          </div>
-          <div>
-            <i class="large toggle down icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(-500)></i>
-          </div>
+			
+      <div class="ui selection dropdown" id="selectPoint" style=" width: 100%;">
+				<input type="hidden" id="req_point_show" name="req_point" style=" width: 100%;" value="<%=data.req_point %>" readonly="true">
+				<i class="dropdown icon"></i>
+				<div class="default text">
+					 
 				</div>
-			</div>
+				<div class="menu">
+					<div class="item" data-value="500">
+						 500P
+					</div>
+					<div class="item" data-value="1000">
+						 1000P
+					</div>
+					<div class="item" data-value="1500">
+						 1500P
+					</div>
+					<div class="item" data-value="2000">
+						 2000P
+					</div>
+					<div class="item" data-value="2500">
+						 2500P
+					</div>
+					<div class="item" data-value="3000">
+						 3000P
+					</div>
+					<div class="item" data-value="3500">
+						 3500P
+					</div>
+					<div class="item" data-value="4000">
+						 4000P
+					</div>
+					<div class="item" data-value="4500">
+						 4500P
+					</div>
+					<div class="item" data-value="5000">
+						 5000P
+					</div>
+					<div class="item" data-value="5500">
+						 5500P
+					</div>
+					<div class="item" data-value="6000">
+						 6000P
+					</div>
+					<div class="item" data-value="6500">
+						 6500P
+					</div>
+					<div class="item" data-value="7000">
+						 7000P
+					</div>
+					<div class="item" data-value="7500">
+						 7500P
+					</div>
+					<div class="item" data-value="8000">
+						 8000P
+					</div>
+				</div>
+			</div>	
 			<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
 			</p>
 		</div>
@@ -524,10 +569,11 @@ $(document).ready(function() {
 	<br>
 	<div class="field">
 		<div class="ui sub header">
-			 *참가 포인트 사용 내역
+			 **참가 포인트 사용 내역
 		</div>
 		<div class="ui input" style=" width: 100%;">
-			<input type="text" id="point_rsn_show" name="point_rsn" placeholder="" style=" width: 100%;" value="<%=data.point_rsn %>">
+			<!--<input type="text" id="point_rsn_show" name="point_rsn" placeholder="" style=" width: 100%;" value="<%=data.point_rsn %>">-->
+	    <textarea id="point_rsn_show" wrap="hard" placeholder="" style="width:100% ;height: 100px; resize:none" name="point_rsn" maxlength="150"><%=data.point_rsn %></textarea>
 		</div>
 		<p class="p validation" id="point_rsn_alert" style="color:red; visibility:hidden;">
 			 *상세 내역을 작성해 주세요
@@ -536,7 +582,7 @@ $(document).ready(function() {
 		
 		<div class="field">
 			<div class="ui sub header">
-				 *활동 내용
+				 **활동 내용
 			</div>
 			<textarea id="happyday_contents_show" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700" ><%=data.happyday_contents%></textarea>
 			<p class="p validation" id="happyday_contents_alert" style="color:red; visibility:hidden;">
@@ -546,16 +592,16 @@ $(document).ready(function() {
 		<!--<div class="ui error message"></div>-->
 		<div class="ui clearing divider">
 		</div>
-		<div class="actions">
-			<!--<div class="ui button" style="color:white; background:dimgrey" onclick=onclick="javascript:window.close()">-->
-			<div class="ui button" style="color:white; background:dimgrey" onclick=onclick="javascript:goDetail()">
+		<div class="actions">			
+			<div class="ui button" style="color:white; background:dimgrey" onclick="javascript:goDetail('<%=data.happyday_id%>')">
 				 취소
 			</div>
-			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">등록</button>
+			<button class="ui submit button" id="submit" name="submit" style="background:#A5673F; color:white">수정</button>
 		</div>
 		<!-- actions -->
 	</div>
 	<!-- content -->
+	<input type="hidden" name="happyID" value=<%=data.happyday_id %>>
 </form>
 </body>
 </html>
