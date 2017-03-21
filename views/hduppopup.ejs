@@ -50,30 +50,31 @@
     $("#longitude").val(longitude);  //경도
   }
   function Happdaygetdata() {
-        //var start_date = data.happyday_dt.substring(0,8);
-        //var start_hour = data.happyday_dt.substring(8,10);
-        //var start_minute = data.happyday_dt.substring(10,12);
-        //var start_time = start_hour+':'+start_minute;
-        
-      	//$("#happyday_name_show").val(data.happyday_name);
-      	//$("#happyday_category_show").val(data.category_code).change();   
-        //$("#img_url_show").val(data.img_url);
-        //$("#place_name_show").val(data.place_name);
-        //$("#startdate_show").val(start_date);
-        //$("#starttime_show").val(start_time);
-        //$("[name='num_participants']").val(data.num_participants).change();
-        //$("#dday_dt_show").val(data.dday_dt);
-        //$("#req_point_show").val(data.req_point);
-        //$("#happyday_contents_show").val(data.happyday_contents);
-        //$("#point_rsn_show").val(data.point_rsn);
-
-}        
+    
+    if(ddaydate=''){
+      var aa_from_db = <%=data.dday_dt%>
+        //넘버로 찍히니까 string으로 변환
+           aa_from_db += "";
+       var aa_year = aa_from_db.substring(0,4);
+       var aa_month = aa_from_db.substring(4,6);
+       var aa_date = aa_from_db.substring(6,8);
+    
+       var aa_show = aa_year+'/'+aa_month+'/'+aa_date;
+       var aa_goto_DB = aa_year+aa_month+aa_date;
+       // alert(aa_goto_DB);
+   
+    
+       $("#dday_dt_show").val(aa_show);  //화면에 보여주는거
+       $("#dday_goto_DB").val(aa_goto_DB);  //디비에 들어갈것
+       }
+  }        
+  
  function goDetail(id){
     location.href = '../../detail/' + id;
   }  
+  
 $(document).ready(function() {
-  //Happdaygetdata();
-
+  Happdaygetdata();
   //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
   $('#happydayupdate').submit(function() {
     var happyday_name = $("#happyday_name_show").val(); //해피데이 네임
@@ -96,6 +97,14 @@ $(document).ready(function() {
     
     //var flag = 1;
      var flag = 0; 
+     
+     if(ddaydate!=''){
+       $("#dday_goto_DB").val(ddaydate);   
+     }
+     
+     
+     
+     
      
     // 해피데이 이름 check
     if(happyday_name == ''){
@@ -209,8 +218,7 @@ $(document).ready(function() {
       //flag = 1;
        flag = flag+1;
     }
-    
-    
+        
     // 내용 check 
     if(happyday_contents == ''){
       $('#happyday_contents_alert').css("visibility","visible");
@@ -233,7 +241,6 @@ $(document).ready(function() {
       return false;
     }
   });
-
   
   //카테고리 드롭다운(등록,수정)
   $('#multipleSelect').dropdown({ 
@@ -279,7 +286,7 @@ $(document).ready(function() {
   });
   
   // 마감일(등록,수정)
-  $("[name=dday_dt]").calendar({
+  $("[name=example4]").calendar({
     type: 'date',
     formatter: {
       date: function (date, settings) {
@@ -459,13 +466,17 @@ $(document).ready(function() {
 					<div class="ui calendar" name="example2">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="calendar icon"></i>
-							<input type="text" id="startdate_show" placeholder="" style=" width: 100%;" name="happyday_dt" readonly="true" value="<%= data.happyday_dt.toString().substring(0,4)%>/<%= data.happyday_dt.toString().substring(4,6)%>/<%= data.happyday_dt.toString().substring(6,8)%>">
+							<input type="text" id="startdate_show" style=" width: 100%;" name="happyday_dt" readonly="true">
 						</div>
 					</div>
 					<!-- calendar -->
 					<p class="p validation" id="startday_alert" style="color:red; visibility:hidden;">
 						 *출발날짜를 선택해 주세요
 					</p>
+					
+					<input type="hidden" id="startdate_goto_DB" style=" width: 100%;" name="startdate_goto_DB">
+					
+					
 				</div>
 				<!-- column -->
 				<div class="column">
@@ -475,12 +486,15 @@ $(document).ready(function() {
 					<div class="ui calendar" name="example3">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="time icon"></i>
-    					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="<%=data.happyday_dt.toString().substring(8,10)%>/<%=data.happyday_dt.toString().substring(10,12)%>" >
+    					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="" >
+    					
 						</div>
+						
 					</div>
 					<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
 						 *출발시간를 선택해 주세요
 					</p>
+					<input type="text" id="starttime_DB"  style=" width: 100%;" name="happyday_DB" readonly="true" value="">
 				</div>
 			
 		</div>
@@ -493,12 +507,15 @@ $(document).ready(function() {
 			<div class="ui calendar" name="example4">
 				<div class="ui input left icon" style=" width: 100%;">
 					<i class="calendar icon"></i>
-					<input type="text" id="dday_dt_show" placeholder="Date" style=" width: 100%;" id="dday_dt" name="dday_dt" readonly="true" value="<%= data.dday_dt.toString().substring(0,4)%>/<%= data.dday_dt.toString().substring(4,6)%>/<%= data.dday_dt.toString().substring(6,8)%>">					
+					<input type="text" id="dday_dt_show"  style=" width: 100%;" readonly="true">
+				
 				</div>
 				<p class="p validation" id="dday_dt_alert" style="color:red; visibility:hidden;">
 				  텍스트는 자바스크립트로 설정
 				</p>
+					
 			</div>
+			<input type="text" id="dday_goto_DB" name="dday_goto_DB">
 		</div>
 		<div class="column">
 			<div class="ui sub header">
