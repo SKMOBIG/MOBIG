@@ -216,12 +216,13 @@
     			<p>
     			</p>
     			<!--post Reg Div default-->
-    			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')"> <i class="huge yellow add circle icon"></i>
+    			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')" style="background: blanchedalmond;"> 
+    			<i class="huge yellow add circle icon" ></i>
     				<font size="4"> 후기 등록을 해주세요 </font>
     			</div>
     			<!--show post list-->
     			<% for (var i=0; i < postdata.length; i++) { %>
-    			<div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
+    			<div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>") style="background: burlywood;">
     				<h3>
     				<%=postdata[i].post_title %>
     				<input type="hidden" value=<%=postdata[i].post_id %>> </h3>

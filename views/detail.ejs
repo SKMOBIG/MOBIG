@@ -26,8 +26,17 @@
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
         
+<<<<<<< HEAD
+        $(document).ready(function() {
+            
+
+            // $('#point_rsn').html(pointRsn.replace(/\r\n/g, "<p>"));
+          console.log("xpasdasd");
+            
+=======
         $(document)
             .ready(function() {
+>>>>>>> a4117eef51eb62322b42cf838c3d5d91f278ef58
             $('.ui.accordion').accordion();
             
                 /* 본인이면 수정 및 삭제버튼 표시
@@ -98,8 +107,8 @@
         
         
         //등록 파트에서 수정
-        function modifyHappyday(happyday_id) {
-            location.href = '../detail/' + happyday_id + '/hduppopup';
+        function modifyHappyday(id) {
+            location.href = '../detail/' + id + '/hduppopup';
         }
         
         //happyday_master 테이블 내 삭제 여부 표현 이슈
@@ -295,6 +304,7 @@
                     <span style="color:#FFCC00">#스포츠 #야구 #관람</span>
                 </div>
                 
+                <!-- 좋아요, 댓글 부분 -->
                 <!--<div class="ui segment">-->
                 <!--    <div class="ui labeled button" tabindex="0">-->
                 <!--        <div class="ui yellow button">-->
@@ -314,7 +324,7 @@
                     <table class="ui definition table">
                         <tbody>
                             <tr style = 'max-height:50px'>
-                                <td class="two wide column" style = "margin-top: -15px;">일 시</td>
+                                <td class="two wide column" style = "margin-top: -15px;">출발일시</td>
                                 <td><%= data.happyday_date %> (<%= data.happyday_week%>) <%= data.happyday_time %></td>
                             </tr>
                             <tr style = 'max-height:50px'>
@@ -322,30 +332,30 @@
                                 <td><%= data.place_name %></td>
                             </tr>
                             <tr style = 'max-height:50px'>
-                                <td style = "margin-top: -15px;">모집인원</td>
+                                <td style = "margin-top: -15px;">모집정원</td>
                                 <td><%= data.num_participants %>명</td>
                             </tr><%= data.dday_dt %>
                             <tr style = 'max-height:50px'>
                                 <td style = "margin-top: -15px;">모집기간</td>
-                                <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
+                                <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td style = "margin-top: -15px;">참가포인트</td>
+                                <td style = "margin-top: -15px;">차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
-                                            <i class="dropdown icon" width=25></i>
-                                            상세내역보기
+                                            <i class="dropdown icon" width=25 style = "color:#222fff"></i>
+                                            <span style = "color:#222fff">상세내역보기</span>
                                         </div>
                                         <div class="content">
-                                            <p class="transition hidden"> 1. 티켓 : 1,500P <p></p> 2. 회식 : 1,000P </p>
+                                            <pre class="KJB" style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; margin-left: 20px; " > <p style="margin-top:-20px"><%=data.point_rsn%></p> </pre>
                                         </div>
                                     </div>
                                     
                                 </td>
                             </tr>  
                             <tr>
-                                <td style = "margin-top: -15px;">내 용</td>
+                                <td style = "margin-top: -15px;">활동내용</td>
                                 <td><%= data.happyday_contents %></td>
                             </tr>
                         </tbody>
@@ -387,7 +397,7 @@
                 </div>
                 
                 <div class="ui segment" id="present_condition">
-                    <p>신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
+                    <p>* 신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
                     <div class="image">
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="<%=userList[i].user_img%>" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
@@ -409,7 +419,7 @@
         </div> <!-- content -->
 
 
-        <div class="header">====이전 관련 활동보기====</div>
+        <div class="header">===이전 관련 활동보기===</div>
         
         <div class="ui link cards">
             <div class="card">
