@@ -162,7 +162,7 @@
         
         function makeParticipantList(userList) {
             $("#present_condition").empty();
-            var $applyTag = $("<p>신청현황 ("+userList.length+"/"+<%=data.num_participants%>+")</p>"),
+            var $applyTag = $("<p>* 신청현황 ("+userList.length+"/"+<%=data.num_participants%>+")</p>"),
                 $divTag = $("<div class='image' id='participants'></div>");
             $("#present_condition").append($applyTag, $divTag).trigger("create");
             
@@ -337,11 +337,11 @@
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
-                                            <i class="dropdown icon" width=25 style = "color:#222fff"></i>
-                                            <span style = "color:#222fff">상세내역보기</span>
+                                            <i class="dropdown icon" width=25 style = "color:#222fff; margin-left: -5px";></i>
+                                            <span style="white-space: pre-wrap; font-size:1.1em; font-family:'Jeju Gothic', serif !important; color:#222fff; margin-left: -5px">상세내역보기</span>
                                         </div>
                                         <div class="content">
-                                            <pre class="KJB" style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; margin-left: 20px; " > <p style="margin-top:-20px"><%=data.point_rsn%></p> </pre>
+                                            <pre class="KJB" style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; margin-left: 15px; " > <p style="margin-top:-20px"><%=data.point_rsn%></p> </pre>
                                         </div>
                                     </div>
                                     
@@ -349,7 +349,7 @@
                             </tr>  
                             <tr>
                                 <td style = "margin-top: -15px;">활동내용</td>
-                                <td><%= data.happyday_contents %></td>
+                                <td><pre style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; " ><%= data.happyday_contents %></pre></td>
                             </tr>
                         </tbody>
                     </table>
