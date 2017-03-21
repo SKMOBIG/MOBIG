@@ -110,9 +110,9 @@
 								
 									
 									<% if (data[i].dday>-1) {  %>
-									<div class="ui orange label">신청 마감 D-<%=data[i].dday%></div>
+									<div class="ui orange label">모집중 D-<%=data[i].dday%></div>
 									<% }else { %>
-									<div class="ui gray label">마감</div>
+									<div class="ui gray label">신청마감</div>
 									<% } %>
 					
 				</div>
@@ -135,7 +135,7 @@
 			</div>
 			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="extra content"> <span>
 				<i class="user icon"></i>
-				모집인원 <%=data[i].num_participants%>명</span>
+				모집정원 <%=data[i].num_participants%>명</span>
 			</div>
 			<div  class="extra content">
 				<% if (data[i].num_participants-data[i].vacancy>0) {  %>
@@ -163,7 +163,7 @@
 		 현재 참가자
 	</div>
 	<div class="content">
-		<div id="partylistdiv" class="ui four cards">
+		<div id="partylistdiv" class="ui grid">
 			<!--카드들..-->
 		</div>
 	</div>
