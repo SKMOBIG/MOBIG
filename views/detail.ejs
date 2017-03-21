@@ -329,15 +329,15 @@
                             </tr><%= data.dday_dt %>
                             <tr style = 'max-height:50px'>
                                 <td style = "margin-top: -15px;">모집기간</td>
-                                <td><%= data.reg_dtm %> (<%= data.reg_week%>) ~ <%= data.dday_dt %> (<%= data.dday_week%>)</td>
+                                <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
                                 <td style = "margin-top: -15px;">차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
-                                            <i class="dropdown icon" width=25></i>
-                                            상세내역보기
+                                            <i class="dropdown icon" width=25 style = "color:#222fff"></i>
+                                            <span style = "color:#222fff">상세내역보기</span>
                                         </div>
                                         <div class="content">
                                             <pre class="KJB" style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; margin-left: 20px; " > <p style="margin-top:-20px"><%=data.point_rsn%></p> </pre>
@@ -389,7 +389,7 @@
                 </div>
                 
                 <div class="ui segment" id="present_condition">
-                    <p>신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
+                    <p>* 신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
                     <div class="image">
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="<%=userList[i].user_img%>" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
