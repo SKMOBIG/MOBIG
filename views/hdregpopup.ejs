@@ -5,7 +5,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
 <script src="/dist/semantic.min.js"></script>
-<link rel='stylesheet' href='/stylesheets/style.css'/>
+<!--<link rel='stylesheet' href='/stylesheets/style.css'/>-->
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css"/>
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
@@ -13,6 +13,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+
+
+
+
+
 
 <script type="text/javascript">
   var startdate = '';
@@ -57,7 +63,6 @@ $(document).ready(function() {
   function refreshParent() {
       window.opener.location.reload();
   }  
-
     // 등록 에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
   $('#hdregForm').submit(function() {
     $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
@@ -198,7 +203,6 @@ $(document).ready(function() {
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
-
     // if(flag == 10){
     if(flag <= 10){
      return true;
