@@ -216,12 +216,13 @@
     			<p>
     			</p>
     			<!--post Reg Div default-->
-    			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')"> <i class="huge yellow add circle icon"></i>
+    			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')" style="background: blanchedalmond;"> 
+    			<i class="huge yellow add circle icon" ></i>
     				<font size="4"> 후기 등록을 해주세요 </font>
     			</div>
     			<!--show post list-->
     			<% for (var i=0; i < postdata.length; i++) { %>
-    			<div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>")>
+    			<div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>") style="background: burlywood;">
     				<h3>
     				<%=postdata[i].post_title %>
     				<input type="hidden" value=<%=postdata[i].post_id %>> </h3>
@@ -269,7 +270,7 @@
 		<div class="ui error message">
 		</div>
 		<div class="actions">
-			<button class="ui button" style="background:#A5673F; color:white;  margin-left: 650px;"> 등록 </button>
+			<button class="ui button" style="background:#A5673F; color:white;  "> 등록 </button>
 			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white;">
 				 취소
 			</div>
@@ -347,7 +348,7 @@
 		<div class="ui clearing divider">
 		</div>
 		<div class="actions">
-			<button class="ui button" style="background:#A5673F; color:white; margin-left: 650px;"> 수정 </button>
+			<button class="ui button" style="background:#A5673F; color:white;"> 수정 </button>
 			<div class="ui button" onclick=javascript:modalClose() style="background:dimgrey; color:white">
 				 취소
 			</div>

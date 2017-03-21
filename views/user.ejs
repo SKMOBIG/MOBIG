@@ -12,9 +12,9 @@
     <script src="../javascripts/jquery.min.js"></script>
     <!-- Semantic ui js -->
     <script src="/dist/semantic.min.js"></script>
-    <script src="/dist/components/visibility.js"></script>
+    <!--script src="/dist/components/visibility.js"></script>
     <script src="/dist/components/sidebar.js"></script>
-    <script src="/dist/components/transition.js"></script>
+    <script src="/dist/components/transition.js"></script-->
     
     <!-- Semantic ui CSS -->
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css" />
@@ -139,7 +139,7 @@
                           <div class="field">
                             <div class="ui floating dropdown labeled icon basic button">
                               <i class="large theme icon"></i>
-                              <span class="text"><%=data.blood_type%>형</span>
+                              <span class="text" id="blood_type"><%=data.blood_type%></span>
                               <div class="menu">
                                 <div class="item" value="A">A형</div>
                                 <div class="item" value="B">B형</div>
@@ -155,9 +155,14 @@
                   <div class="event">
                     <div class="content">
                       <div class="summary">
-                        <div class="ui left icon input">
-                           <input type="text" id="blood_type" value=<%=data.blood_type%>>
-                           <i class="large theme icon"></i>
+                        <div class="ui selection dropdown">
+                          <input name="gender" type="hidden">
+                          <i class="dropdown icon"></i>
+                          <div class="default text">혈액형</div>
+                          <div class="menu">
+                            <div class="item" data-value="A">A형</div>
+                            <div class="item" data-value="0">Female</div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -193,7 +198,7 @@
           <div class="column">
             <div class="ui card">
               <div class="content">
-                <i class="right floated like icon"></i>
+                <!--i class="right floated like icon"></i-->
                 <div class="header">TEAM ACTIVITY</div> 
               </div>
               <div class="content">
