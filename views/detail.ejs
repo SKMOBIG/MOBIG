@@ -97,9 +97,9 @@
         }
         
         
-        //등록 파트에서 수정  
-        function modifyHappyday(happyday_id) {
-            location.href = '../detail/' + happyday_id + '/hduppopup';
+        //등록 파트에서 수정
+        function modifyHappyday(id) {
+            location.href = '../detail/' + id + '/hduppopup';
         }
         
         //happyday_master 테이블 내 삭제 여부 표현 이슈
@@ -149,6 +149,8 @@
                             makeParticipantList(result.userList);
                             initApplyCancel(result.reg_state);
                             
+                            cur_num_users = result.userList.length;
+                            
                             alert("참가신청이 되었습니다.");
                         }
                     }else {
@@ -193,7 +195,6 @@
                     alert("마감 일자가 지나서 신청할 수 없습니다.");
                     return false;    
                 }
-                
             }else {
                 alert("현재 참가한 인원이 정원을 채워 신청할 수 없습니다.");
                 return false;
