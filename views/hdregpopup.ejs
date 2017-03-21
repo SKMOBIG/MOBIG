@@ -30,7 +30,7 @@
     val *= 1; //string to int
     point *=1; // string to int
     // if(val+point <= 8000 && val+point >=500){
-    if(val+point <= 8000 && val+point >= 0){
+    if(val+point <= 8000 && val+point >=500 ){
       $("#req_point").val(val+point);  
     }
   }
@@ -160,10 +160,12 @@ $(document).ready(function() {
     else{
         if(startdate < ddaydate){
           $('#dday_dt_alert').css("visibility","visible").text("*출발일이 마감일 보다 빠릅니다");
-          // flag = 0;
+          // return false;
+          
         }
         else if(ddaydate < today_date){
           $('#dday_dt_alert').css("visibility","visible").text("*마감일이 오늘 보다 빠릅니다");
+          // return false;
         }
         else{
           $('#HappyDDay').val(ddaydate);
@@ -222,7 +224,7 @@ $(document).ready(function() {
    
     //모집 정원 제이쿼리
   $('#SelectionDropdown').dropdown();
-  
+  $('#SelectionDropdown2').dropdown();
    
   
   // 출발 날짜(등록,수정)
@@ -357,13 +359,13 @@ $(document).ready(function() {
 		<div class="ui two column grid">
 			<div class="column">
 				<div class="ui sub header">
-					 *카테고리
+					 **카테고리
 				</div>
 				<div id="MultipleSelection_KJB" class="ui multiple selection dropdown"  style=" width: 100%;">
 					<input id="category_code" name="category_code" type="hidden" value="" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
-						 전체
+						 카테고리 선택
 					</div>
 					<div class="menu">
 						<div class="item" data-value="스포츠관람">
@@ -389,13 +391,13 @@ $(document).ready(function() {
 			</div>
 			<div class="column">
 				<div class="ui sub header">
-					 *모집 정원
+					 **모집 정원
 				</div>
-				<div class="ui selection dropdown" id="SelectionDropdown" style=" width: 100%;">
+				<div class="ui selection dropdown" id="SelectionDropdown2" style=" width: 100%;">
 					<input type="hidden" id="num_participants" name="num_participants" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
-						 전체
+						 모집 정원 선택
 					</div>
 					<div class="menu">
 						<div class="item" data-value="5">
@@ -426,7 +428,7 @@ $(document).ready(function() {
 		<br>
 		<div class="field">
 			<div class="ui sub header">
-				 이미지 링크
+				 URL
 			</div>
 			<div class="ui labeled input">
 				<div class="ui label" style="background:#A5673F; color:white">
@@ -437,7 +439,7 @@ $(document).ready(function() {
 		</div>
 		<div class="field">
 			<div class="ui sub header">
-				 *장소
+				 **장소
 			</div>
 			<div class="ui right labeled left icon action input">
 				<i class="marker icon"></i>
@@ -455,7 +457,7 @@ $(document).ready(function() {
 		<div class="ui two column grid" style="margin-top: -30px">
 			<div class="column">
 				<div class="ui sub header">
-					 *출발 날짜
+					 **출발 날짜
 				</div>
 				<div class="ui calendar" name="example2">
 					<div class="ui input left icon" style=" width: 100%;">
@@ -471,7 +473,7 @@ $(document).ready(function() {
 			<!-- column -->
 			<div class="column">
 				<div class="ui sub header">
-					 *출발 시각
+					 **출발 시각
 				</div>
 				<div class="ui calendar" name="example3">
 					<div class="ui input left icon" style=" width: 100%;">
@@ -489,7 +491,7 @@ $(document).ready(function() {
 
 			<div class="column">
 				<div class="ui sub header">
-					 *마감일
+					 **마감일
 				</div>
 				<div class="ui calendar" name="example4">
 					<div class="ui input left icon" style=" width: 100%;">
@@ -503,34 +505,105 @@ $(document).ready(function() {
 					</p>
 					<input type="hidden" id="HappyDDay" name="HappyDDay" >
 			</div>
-			
 			<div class="column">
 				<div class="ui sub header">
-					 *차감포인트
+					 **차감 포인트
 				</div>
-				<div class="ui left icon input" style=" width: 100%;">
-					<input type="text" id="req_point" placeholder="Input Point" value="0" readonly="true" style="width:100%" name="req_point">
-					<i class="won icon"></i>
-					<div style="height:37.67px;">
-					   <div>
-						    <i class="large toggle up icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(500)></i>
-					   </div>
-					   <div>
-							  <i class="large toggle down icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(-500)></i>
-						  </div>
-					</div>
-					</div>	  
-					<!-- point -->
-					<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
-					</p>
+  				<div class="ui selection dropdown" id="SelectionDropdown" style=" width: 100%;">
+  					<input type="hidden" id="req_point" name="req_point" style=" width: 100%;">
+  					<i class="dropdown icon"></i>
+  					<div class="default text">
+  						 차감포인트 선택
+  					</div>
+  					<div class="menu">
+  						<div class="item" data-value="500">
+  							 500P
+  						</div>
+  						<div class="item" data-value="1000">
+  							 1000P
+  						</div>
+  						<div class="item" data-value="1500">
+  							 1500P
+  						</div>
+  						<div class="item" data-value="2000">
+  							 2000P
+  						</div>
+  						<div class="item" data-value="2500">
+  							 2500P
+  						</div>
+  						<div class="item" data-value="3000">
+  							 3000P
+  						</div>
+  						<div class="item" data-value="3500">
+  							 3500P
+  						</div>
+  						<div class="item" data-value="4000">
+  							 4000P
+  						</div>
+  						<div class="item" data-value="4500">
+  							 4500P
+  						</div>
+  						<div class="item" data-value="5000">
+  							 5000P
+  						</div>
+  						<div class="item" data-value="5500">
+  							 5500P
+  						</div>
+  						<div class="item" data-value="6000">
+  							 6000P
+  						</div>
+  						<div class="item" data-value="6500">
+  							 6500P
+  						</div>
+  						<div class="item" data-value="7000">
+  							 7000P
+  						</div>
+  						<div class="item" data-value="7500">
+  							 7500P
+  						</div>
+  						<div class="item" data-value="8000">
+  							 8000P
+  						</div>
+  						
+  						
+  						
+  						
+  					</div>
+  				</div>
+  				<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
+  					 *차감 포인트를 설정 해 주세요
+  				</p>
+  			</div>
 			
-			</div>
+			
+			
+  			<!--<div class="column">-->
+  			<!--	<div class="ui sub header">-->
+  			<!--		 *차감포인트-->
+  			<!--	</div>-->
+  			<!--	<div class="ui left icon input" style=" width: 100%;">-->
+  			<!--		<input type="text" id="req_point" placeholder="Input Point" value="0" readonly="true" style="width:100%" name="req_point">-->
+  			<!--		<i class="won icon"></i>-->
+  			<!--		<div style="height:37.67px;">-->
+  			<!--		   <div>-->
+  			<!--			    <i class="large toggle up icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(500)></i>-->
+  			<!--		   </div>-->
+  			<!--		   <div>-->
+  			<!--				  <i class="large toggle down icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(-500)></i>-->
+  			<!--			  </div>-->
+  			<!--		</div>-->
+  			<!--		</div>	  -->
+  					<!-- point -->
+  			<!--		<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">-->
+  			<!--		</p>-->
+  			
+  			<!--</div>-->
 			</div>
 			<br>
 			<!--<div class="ui two column grid" >-->
 				<div class="field">
 					<div class="ui sub header" style="margin-top: 0px;">
-						 *참가 포인트 상세 내역
+						 **참가 포인트 상세 내역
 					</div>
 					<div class="ui input" style=" width: 100%;">
 						<!--<input type="text" id="point_rsn" name="point_rsn" placeholder="사유를입력해주세요..." style=" width: 100%;">-->
@@ -544,7 +617,7 @@ $(document).ready(function() {
 	
 			<div class="field">
 				<div class="ui sub header">
-					 *활동 내용
+					 **활동 내용
 				</div>
 				<textarea id="happyday_contents" placeholder="해피데이 내용을 입력 해 주세요" style="width:100% ;height: 200px; resize:none" name="happyday_contents" maxlength="700"></textarea>
 				<p class="p validation" id="happyday_contents_alert" style="color:red; visibility:hidden;">
