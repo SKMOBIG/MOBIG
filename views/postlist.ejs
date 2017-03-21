@@ -198,30 +198,32 @@
 <!-- Page Content -->
 <div class="ui container">
 	<div class="content">
-    		 <div class="ui segments">
-                <div class="ui segment">
-                    <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
-                </div>
-                <div class="ui segment">
-                    <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
-                </div>
+    	<div class="ui segments">
+            <div class="ui segment">
+                <div class="header" href="#"><h1><%= data.happyday_name %></h1></div>
+            </div>
+            <div class="ui segment">
+                <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:480px; max-width:700px" >
+            </div>
         </div>
-     	<div class="ui segment">
-    			<!--<img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">-->
-    			<div class="yellow two ui buttons">
-    				<button class="ui button" onclick="javascript:goDetail('<%=data.happyday_id%>')">상세보기</button>
-    				<!--<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>-->
-    				<button class="ui button" onclick="javascript:goPostList('<%=data.happyday_id%>')">후기보기</button>
-    			</div>
-    			<p>
-    			</p>
-    			<!--post Reg Div default-->
-    			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')" style="background: blanchedalmond;"> 
-    			<i class="huge yellow add circle icon" ></i>
-    				<font size="4"> 후기 등록을 해주세요 </font>
-    			</div>
-    			<!--show post list-->
-    			<% for (var i=0; i < postdata.length; i++) { %>
+        
+       	<div class="ui segments">
+            <div class="two ui buttons">
+        		<button class="ui button" onclick="javascript:goDetail('<%=data.happyday_id%>')"><span style="color:fff000">상세보기</span></button>
+        		<!--<button class="ui button" onclick="javascript:PostReg('<%=data.happyday_id%>')">후기작성</button>-->
+                <button class="yellow ui button" onclick="javascript:goPostList('<%=data.happyday_id%>'")>후기보기</button>
+            </div>
+
+        			<!--<img class="ui centered fluid image" src=<%=data.img_url%> style="width:200px; height:200px">-->
+
+
+			<!--post Reg Div default-->
+			<div class="ui segment jun" onclick="javascript:PostReg('<%=data.happyday_id%>')" style="background: blanchedalmond;"> 
+			<i class="huge yellow add circle icon" ></i>
+				<font size="4"> 후기 등록을 해주세요 </font>
+			</div>
+			<!--show post list-->
+			<% for (var i=0; i < postdata.length; i++) { %>
     			<div class="ui segment jun" onclick=javascript:showContent("<%=postdata[i].post_id %>","<%=data.happyday_id %>") style="background: burlywood;">
     				<h3>
     				<%=postdata[i].post_title %>
@@ -232,8 +234,8 @@
     					<%=postdata[i].post_count %>
     				</p>
     			</div>
-    			<% } %>
-    		</div>
+    		<% } %>
+        </div>
 	</div>
 </div>
 <!--등록 모달 Start-->
