@@ -42,9 +42,9 @@ module.exports = function(app, connectionPool) {
                 
                 console.log(req.body);
                 
-                var params = [req.body.phone_number, req.body.birthday, req.body.blood_type, req.body.address, req.body.home_town, req.session.user_id];
+                var params = [req.body.phone_number, req.body.birthday, req.body.user_img, req.body.home_town, req.session.user_id];
                 var queries = connection.query('update user '+
-                                 'set phone_number = ?, birthday = ?, blood_type = ?, address = ?, home_town = ? '+
+                                 'set phone_number = ?, birthday = ?, user_img = ?, home_town = ? '+
                                  'where id = ?;', params, function(error, result) {
                     
                     if(error) {
@@ -52,7 +52,7 @@ module.exports = function(app, connectionPool) {
                         throw error;
                     }else {
                         connection.release();
-                        res.json({success : "Updated Successfully", status : 200}); // express 사용 시
+                        res.json({success : "Updated Successfully", status : 200, user_img : req.body.user_img}); // express 사용 시
                         /*
                         var response = {
                             status  : 200,
