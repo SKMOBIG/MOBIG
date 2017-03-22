@@ -63,7 +63,7 @@ $(document).ready(function() {
   $('#happydayupdate').submit(function() {
    
     var happyday_name = $("#happyday_name_show").val(); //해피데이 네임
-    var category_code = $("#category_code_show").val();
+    var category_code = $("#category_code").val();
     var num_participants = $("#num_participants_show").val();    
     var place_name = $("#place_name_show").val();
     var req_point = $("#req_point_show").val();     //해피데이 등록에 필요한 포인트
@@ -71,6 +71,19 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn_show").val()
     var happyday_contents = $("#happyday_contents_show").val()
     var flag = 0; 
+    
+    
+    var Category_Array= category_code
+    
+   
+     Category_Array= category_code.split(',');
+ 
+   
+  // alert(Category_Array[0]);
+  // alert(Category_Array[1]);
+  // alert(Category_Array[2]);
+    
+    
     
     // 해피데이 이름 check
     if(happyday_name == ''){
@@ -184,7 +197,12 @@ $(document).ready(function() {
     if(flag == 9){
     // if(flag <= 10){
       $('#starthappydaydatetime').val(startdate+starttime+'00');
+      
+      $("#category_code").val(Category_Array[0]);
+      $("#category_code2").val(Category_Array[1]);
+      $("#category_code3").val(Category_Array[2]);
       return true;
+      // return false;
     }
     else{
       //입력 내용이 완벽하지 않으면 false
@@ -317,8 +335,9 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 **카테고리
 				</div>
+				
 				<div class="ui multiple selection dropdown" id="multipleSelect" style=" width: 100%;">
-					<input id="happyday_category_show" name="category_code" type="hidden" value="<%=data.totalCategory%>" style=" width: 100%;" readonly="true">
+					<input id="category_code" name="category_code" type="hidden" value="<%=data.totalCategory%>" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
 						 
@@ -333,8 +352,8 @@ $(document).ready(function() {
 						<div class="item" data-value="실내활동">
 							 실내활동
 						</div>
-						<div class="item" data-value="영화,연극">
-							 영화,연극
+						<div class="item" data-value="영화연극">
+							 영화연극
 						</div>
 						<div class="item" data-value="문화체험">
 							 문화체험
@@ -344,6 +363,8 @@ $(document).ready(function() {
 				<p class="p validation" id="category_code_alert" style="color:red; visibility:hidden;">
 					 *카테고리를 선택해 주세요
 				</p>
+				<input id="category_code2" name="category_code2" type="hidden" >
+				<input id="category_code3" name="category_code3" type="hidden" >
 			</div>
 			<div class="column">
 				<div class="ui sub header">
