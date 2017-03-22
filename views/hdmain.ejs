@@ -82,8 +82,8 @@
 			color: rgba(0, 0, 0, .85);
 		}
 		
-		.ui link cards {
-			margin-top: 30px;
+		.ui.link.cards {
+			margin-top : 20px;
 		}
 		
 		.ui.image.label {
@@ -114,7 +114,7 @@
 		<!-- Page Content -->
 		<div class="ui container">
 			<div class="ui link cards">
-				<div class="ui centered card" id="addcard" onclick="javascript:showHdReg()" style="padding:.5em;">
+				<div class="ui card" id="addcard" onclick="javascript:showHdReg()" style="padding:.5em;">
 					<div class="content" id="addcardcont">
 						<h2 class="ui icon header" style=" vertical-align: top; vertical-align: middle;">
 							<i class="massive yellow add circle icon"></i> 새 해피데이 등록
@@ -126,7 +126,7 @@
 					</div>
 				</div>
 				<% for (var i=0; i < data.length; i++) { %>
-					<div class="ui centered card">
+					<div class="ui card">
 						<div class="content" onclick="javascript:goDetail('<%=data[i].happyday_id%>')" style="background-color:#ee5252; max-height:56px">
 							<img class="ui avatar image" src="<%=data[i].user_img%>"> <span style="color:#fff; font-size:0.9em"><%=data[i].user_name%> (<%=data[i].sm_name%>)</span>
 							<div class="right floated meta" style=" font-size:0.8em">
