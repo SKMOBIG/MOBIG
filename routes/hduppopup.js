@@ -13,7 +13,7 @@ module.exports = function(app, connectionPool) {
             //등록자인 경우만 
              
             connection.query('select * from happyday_master a, user b where a.reg_user_id = b.id and a.happyday_id = ?;', req.params.id, function(error, rows) {    
-            //   console.log("팝업");
+            
                 if(error) {
                     connection.release();
                     throw error;
@@ -65,7 +65,7 @@ module.exports = function(app, connectionPool) {
                 }else {
                     
                     res.redirect('/detail/'+ req.body.happyID);
-                    // console.log("리다이렉후 ");
+                    
                     connection.release();
                     //res.redirect('/closepopup');
                 }    
