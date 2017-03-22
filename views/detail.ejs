@@ -44,7 +44,7 @@
                 
                 //출발일이 지나면 완료, 미완료 버튼을 표시
                 var departure_dt = <%= data.departure_dt %>;
-                if(new Date()).yyyymmdd() > departure_dt) {
+                if(new Date().yyyymmdd() > departure_dt) {
                     $('#complete_button').show();
                     $('#incomplete_button').show();
                     $('#modify_button').hide();
@@ -337,7 +337,7 @@
         <div class="content">
             <div class="ui segments">
                 <div class="ui segment" style="background-color:#ffB914;">
-                    <div class="header" href="#" style="margin-left:20px; margin-top:6px"><span style="font-family: 'Jeju Gothic'; font-size:1.9em; color:#FFFFFF"><%= data.happyday_name %></span></div>
+                    <div class="header" href="#"><span style="font-family: 'Jeju Gothic'; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; line-height: 1.2; font-size:1.5em; letter-spacing:-1.3px; width:100%; color:#FFFFFF"><%= data.happyday_name %></span></div>
                 </div>
                 <div class="ui segment">
                     <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:600px; max-width:800px" >
@@ -352,22 +352,26 @@
                 </div>
 
                 <div class="ui horizontal segments" style="background-color:#FFFFFF">
-                    <div class="ui segment">
+                    <div class="ui segment" style="width:50%">
                         <div class="image">
                             <img class="ui avatar image" src="<%=data.user_img%>" onclick="javascript:infoUser('<%=data.reg_user_id%>')"> 
                             <span> 작성자 : <%= data.user_name %> </span>
                         </div>
 
                     </div>    
-                    <div class="ui segment">
-                            <span> 등록 : <%= data.reg_dtm %> </span>
+                    <div class="ui segment" style="width:50%">
+                            <p style="margin-top:7px"> 등록 : <%= data.reg_dtm %> </p>
                     </div>
                 </div>
                 <div class="ui segment">
-                    <span style="color:#ffB914">
-                        <button class='ui red button' id='category'>#<%=data.category_code%></button>
-                        <button class='ui red button' id='category2'>#<%=data.category_code2%></button>
-                        <button class='ui red button' id='category3'>#<%=data.category_code3%></button>
+                    <span style="color:#ee5252">
+                        <span id='category'>#<%=data.category_code%> </span>
+                        <span id='category2'>#<%=data.category_code2%> </span>
+                        <span id='category3'>#<%=data.category_code3%></span>
+                        
+                        <!--<button class='ui red button' id='category'>#<%=data.category_code%></button>-->
+                        <!--<button class='ui red button' id='category2'>#<%=data.category_code2%></button>-->
+                        <!--<button class='ui red button' id='category3'>#<%=data.category_code3%></button>-->
 
                 </div>
                 
@@ -406,7 +410,7 @@
                                 <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td style = "margin-top: -15px;">차감포인트</td>
+                                <td style = "margin-top: -15px; letter-spacing:-2px" >차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
