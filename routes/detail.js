@@ -372,5 +372,67 @@ module.exports = function(app, connectionPool) {
         }); 
     });
     
+    app.get('/incompletehappyday/:happyday_id', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            /* 미완료 작업 진행 
+                1. 해피데이 참가자 조회
+                2. 참가자의 hst state='N' update
+                3. 참가자의 user 포인트 반환
+                4. 해피데이 master state='I' update
+            */
+            console.log("delete : " + req.params.happyday_id);
+            
+            // 1. 해피데이 참가자 조회
+            connection.query('select user_id, use_point' +
+                             '  from happyday_user_hst' +
+                             ' where happyday_id = ? and state = "y"', req.params.happyday_id, function(error, userList) {
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(userList.length > 0) {
+                        
+                        for(var i=0; i<userList.length; i++) {
+                            // 2. 참가자의 hst state='N' update
+                            /*connection.query('update happyday_user_hst' + 
+                                             '   set state = "n", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
+                                             ' where user_id = ? and happyday_id = ? and state = "y";', [userList[i].user_id, req.params.happyday_id], function(error, rows){
+                                if(error){
+                                    connection.release();
+                                    throw error;
+                                }
+                            });*/
+                            // 3. 참가자의 user 포인트 반환             
+                            connection.query('update user' + 
+                                             '   set happy_point = happy_point + ?' + 
+                                             ' where id = ?;', [userList[i].use_point, userList[i].user_id], function(error, rows){
+                                if(error){
+                                    connection.release();
+                                    throw error;
+                                }
+                            });
+                        }
+                        
+                        // 4. 해피데이 master state='I' update           
+                        connection.query('update happyday_master' +
+                                         '   set state = "I", update_dtm = date_format(sysdate(), "%Y%m%d%H%i")' +
+                                         ' where happyday_id = ?', req.params.happyday_id, function(error, rows) {
+                            if(error){
+                                connection.release();
+                                throw error;
+                            }else {
+                                res.redirect('/hdmain');
+                                connection.release();
+                            }                     
+                        });
+                        
+                    }else {
+                        res.redirect('/');
+                        connection.release();
+                    }
+                }                 
+            });
+        });    
+    });
 }
 

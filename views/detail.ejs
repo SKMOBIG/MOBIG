@@ -30,12 +30,24 @@
             .ready(function() {
             $('.ui.accordion').accordion();
             
-                /* 본인이면 수정 및 삭제버튼 표시
-                타인이면 신청 및 신청 취소버튼 표시*/
+            /* 1. 미완료(I) 이면 모든 버튼 none -> 기본 none
+               2. 완료(C) 이면 완료버튼 표시
+               3. 진행중(Y) 이면
+                  3-1. 본인이면
+                        1) 출발일 전 - 수정 및 삭제버튼 표시
+                        2) 출발일 후 - 완료 및 미완료버튼 표시
+                  3-2. 타인이면 
+                       1) 참가 전 - 참가신청버튼 표시
+                       2) 참가 후 - 신청취소버튼 표시
+            */
+            var state = "<%=data.state%>";
             var regUserId = <%=data.reg_user_id %>;
             var sessionUserId = <%=session.user_id%>;
             
+            if(state == "C") {
+                $('#end_button').show();
 
+<<<<<<< HEAD
             
             if(regUserId == sessionUserId){
                 // alert("내가 작성자일 때,");
@@ -52,14 +64,29 @@
                 }else {
                     $('#modify_button').show();
                     $('#delete_button').show();
+=======
+            }else if(state == "Y") {
+                if(regUserId == sessionUserId){
+                    //출발일이 지나면 완료, 미완료 버튼을 표시
+                    var departure_dt = <%= data.departure_dt %>;
+                    if(new Date().yyyymmdd() > departure_dt) {
+                        $('#complete_button').show();
+                        $('#incomplete_button').show();
+                        $('#modify_button').hide();
+                        $('#delete_button').hide();
+                    }else {
+                        $('#modify_button').show();
+                        $('#delete_button').show();
+                    }
+                }else{
+                    // alert("내가 작성자가 아닐 때,");
+                    var reg_state = "<%= reg_state %>";
+                    initApplyCancel(reg_state);
+>>>>>>> d8eaebf07869a83a698766969d1a17aa012f7c15
                 }
-            }else{
-                // alert("내가 작성자가 아닐 때,");
-                var reg_state = "<%= reg_state %>";
-                initApplyCancel(reg_state);
             }
-
-
+            
+            // 카테고리 셋팅
             var categoryCode2 = "<%=data.category_code2%>";
             var categoryCode3 = "<%=data.category_code3%>";
 
@@ -77,9 +104,7 @@
                 $('#category3').hide();
             }
             $('#category').show();
-            
-            
-            
+        
         });
         
         function initApplyCancel(reg_state) {
@@ -131,10 +156,17 @@
             location.href = '../detail/' + id + '/hduppopup';
         }
         
-        //happyday_master 테이블 내 삭제 여부 표현 이슈
-        function deleteHappyday(happyday_id, req_point) {
+        // 해피데이 삭제하기
+        function deleteHappyday(happyday_id) {
             if(confirm("등록한 해피데이 및 참가신청 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?")) {
                 location.href = '../deletehappyday/' + happyday_id;
+            }
+        }
+        
+        // 해피데이 미완료 처리하기
+        function incompleteHappyday(happyday_id) {
+            if(confirm("활동하지 못한 해비데이를 미완료 처리합니다.\n미완료로 남기는 것을 진행하시겠습니까?")) {
+                location.href = '../incompletehappyday/' + happyday_id;
             }
         }
 
@@ -483,7 +515,7 @@
                     <button class="ui button" id="cancel_button" style="display: none" onClick="javascript:cancelHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청취소</button>                        
                     <button class="ui orange button" id="complete_button" style="display: none" onClick="javascript:completeHappyday('<%=data.happyday_id%>')">완료하기</button>                        
                     <button class="ui button" id="incomplete_button" style="display: none" onClick="javascript:incompleteHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">미완료</button>                        
-                    <button class="ui black button" id="end_button" style="display: none" onClick="">완료</button>                        
+                    <button class="ui black button" id="end_button" style="display: none" onClick="">활동 완료</button>                        
                 </div>
                 
             </div>
