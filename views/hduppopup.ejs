@@ -40,8 +40,8 @@ var hd_goto_DB;
     var popupY= (window.screen.height /2) - (700 / 2);
     // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
     window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-   
   }
+  
   function setLocationValue(title, point){
     // alert('주소 정상 호출 확인 '+title+' '+point);
     //경도 longitude
@@ -99,6 +99,7 @@ $(document).ready(function() {
        
   //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
   $('#happydayupdate').submit(function() {
+    alert("들어온다");
     var happyday_name = $("#happyday_name_show").val(); //해피데이 네임
     var category_code = $("#category_code_show").val();
     var num_participants = $("#num_participants_show").val();    
@@ -268,6 +269,7 @@ $(document).ready(function() {
     type: 'date',
     formatter: {
       date: function (date, settings) {
+        alert("example2");
         if (!date) return '';
         var year = date.getFullYear();
         var month = (date.getMonth() + 1).toString();
@@ -304,6 +306,7 @@ $(document).ready(function() {
     type: 'date',
     formatter: {
       date: function (date, settings) {
+        
         if (!date) return '';
         var year = date.getFullYear();
         var month = (date.getMonth() + 1).toString();
@@ -480,15 +483,14 @@ $(document).ready(function() {
 					<div class="ui calendar" name="example2">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="calendar icon"></i>
-							<input type="text" id="startdate_show" style=" width: 100%;" name="happyday_dt" readonly="true">
+							<input id="happday_dt" type="text" name="happday_dt" readonly="true" value="<%=data.happyday_dt %>">
 						</div>
 					</div>
 					<!-- calendar -->
 					<p class="p validation" id="startday_alert" style="color:red; visibility:hidden;">
 						 *출발날짜를 선택해 주세요
 					</p>
-					
-					<input type="hidden" id="startdate_goto_DB" style=" width: 100%;" name="startdate_goto_DB">
+					<input type="text" id="startdate_goto_DB" style=" width: 100%;" name="startdate_goto_DB" value="<%=data.happyday_dt %>">
 					
 					
 				</div>
@@ -501,8 +503,7 @@ $(document).ready(function() {
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="time icon"></i>
     					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="" >
-    					
-						</div>
+    				</div>
 						
 					</div>
 					<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
