@@ -1,177 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<title>B2B사업팀 HappyDay</title>
-<!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
-<script src="../javascripts/jquery.js"></script>
-<script src="../javascripts/jquery.min.js"></script>
-<!-- Bootstrap Core CSS -->
-<!--    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">-->
-<link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
-<script src="/dist/semantic.min.js"></script>
-<script src="/dist/components/visibility.js"></script>
-<script src="/dist/components/sidebar.js"></script>
-<script src="/dist/components/transition.js"></script>
-<!--    <script src="../javascripts/bootstrap.min.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>B2B사업팀 HappyDay</title>
+	<!--<link rel='stylesheet' href='/stylesheets/style.css' />-->
+	<script src="../javascripts/jquery.js"></script>
+	<script src="../javascripts/jquery.min.js"></script>
+	<!-- Bootstrap Core CSS -->
+	<!--    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">-->
+	<link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+	<script src="/dist/semantic.min.js"></script>
+	<script src="/dist/components/visibility.js"></script>
+	<script src="/dist/components/sidebar.js"></script>
+	<script src="/dist/components/transition.js"></script>
+	<!--    <script src="../javascripts/bootstrap.min.js"></script>
     <script src="../javascripts/bootstrap.js"></script>-->
-<script type="text/javascript">
-        function goDetail(id) {
-            location.href = '../detail/' + id;
-        }
-        function goRegist() {
-            location.href = '../hdregist';
-        }
-        function showParticipants(happy_id) {
-            $.ajax({
-                type: "post",
-                url: "/showparticipants",
-                data: {
-                    happyday_id: happy_id
-                },
-                success: function(data) {
-                    //KJB
-                    $('#partylistdiv').html(data.peoplelist);
-                    $('#partymodal').modal('show');
-                },
-                error: function(e) {
-                    alert(e.responseText);
-                }
-            });
-        }
-        function showMap(){
-                var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
-                var popupX = (window.screen.width / 2) - (1200 / 2);
-                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-                var popupY= (window.screen.height /2) - (700 / 2);
-                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-                window.open(popUrl, '', 'status=no, height=700, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-        }
-        
-        // 170314_KJB
-        function showHdReg(){
-                
-                /*var popUrl = "../hdregpopup";	//팝업창에 출력될 페이지 URL
-                var popupX = (window.screen.width / 2) - (1200 / 2);
-                // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-                var popupY= (window.screen.height /2) - (700 / 2);
-                // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+	<script type="text/javascript">
+		function goDetail(id) {
+			location.href = '../detail/' + id;
+		}
 
-                window.open(popUrl, '', 'status=no, height=700, width=445, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);*/
-                location.href = '../hdregpopup';
+		function goRegist() {
+			location.href = '../hdregist';
+		}
 
-        }
+		function showParticipants(happy_id) {
+			$.ajax({
+				type: "post",
+				url: "/showparticipants",
+				data: {
+					happyday_id: happy_id
+				},
+				success: function(data) {
+					//KJB
+					$('#partylistdiv').html(data.peoplelist);
+					$('#partymodal').modal('show');
+				},
+				error: function(e) {
+					alert(e.responseText);
+				}
+			});
+		}
 
-        function setLocationValue(title, point){
-          alert('주소 정상 호출 확인 '+title+' '+point);
-        }
-    </script>
-<style type="text/css">
-        .ui.card>.content>.header,
-        .ui.cards>.card>.content>.header {
-            display: block;
-            font-family: 'Jeju Gothic', serif;
-            color: rgba(0, 0, 0, .85);
-        }
-        .ui link cards {
-            margin-top: 30px;
-        }
-        .ui.image.label {
-            margin-top: .4em;
-        }
-</style>
+		function showMap() {
+			var popUrl = "../mappopup"; //팝업창에 출력될 페이지 URL
+			var popupX = (window.screen.width / 2) - (1200 / 2);
+			// 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+			var popupY = (window.screen.height / 2) - (700 / 2);
+			// 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+			window.open(popUrl, '', 'status=no, height=700, width=1200, left=' + popupX + ', top=' + popupY + ', screenX=' + popupX + ', screenY= ' + popupY);
+		}
+
+		// 170314_KJB
+		function showHdReg() {
+
+			/*var popUrl = "../hdregpopup";	//팝업창에 출력될 페이지 URL
+			var popupX = (window.screen.width / 2) - (1200 / 2);
+			// 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+			var popupY= (window.screen.height /2) - (700 / 2);
+			// 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+
+			window.open(popUrl, '', 'status=no, height=700, width=445, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);*/
+			location.href = '../hdregpopup';
+
+		}
+
+		function setLocationValue(title, point) {
+			alert('주소 정상 호출 확인 ' + title + ' ' + point);
+		}
+	</script>
+	<style type="text/css">
+		.ui.card>.content>.header,
+		.ui.cards>.card>.content>.header {
+			display: block;
+			font-family: 'Jeju Gothic', serif;
+			color: rgba(0, 0, 0, .85);
+		}
+		
+		.ui link cards {
+			margin-top: 30px;
+		}
+		
+		.ui.image.label {
+			margin-top: .4em;
+		}
+		
+		#addcard {
+			height: 488px;
+			display: table;
+		}
+		
+		#addcardcont {
+			display: table-cell;
+			vertical-align: middle;
+		}
+		
+		@media (max-width: 767px) {
+			#addcard {
+				height: 180px;
+			}
+		}
+	</style>
 </head>
+
 <body>
-<!-- Navigation -->
-<% include ./partials/navigation.ejs %>
-<!-- Page Content -->
-<div class="ui container">
-	<div class="ui link cards">
-		<div class="ui centered card" onclick="javascript:showHdReg()" style="padding:.5em;">
-			<h2 class="ui icon header" style=" vertical-align: top; vertical-align: middle;">
-			<i class="massive yellow add circle icon"></i>
-			<div class="content" style=" ">
-				 새 해피데이 등록
-				<div class="sub header" style="margin-top:.4em">
-					해피데이를 등록해주세요!
+	<!-- Navigation -->
+	<% include ./partials/navigation.ejs %>
+		<!-- Page Content -->
+		<div class="ui container">
+			<div class="ui link cards">
+				<div class="ui centered card" id="addcard" onclick="javascript:showHdReg()" style="padding:.5em;">
+					<div class="content" id="addcardcont">
+						<h2 class="ui icon header" style=" vertical-align: top; vertical-align: middle;">
+							<i class="massive yellow add circle icon"></i> 새 해피데이 등록
+							<div class="sub header" style="margin-top:.4em">
+								해피데이를 등록해주세요!
+							</div>
+
+						</h2>
+					</div>
 				</div>
-			</div>
-			</h2>
-		</div>
-		<% for (var i=0; i < data.length; i++) { %>
-		<div class="ui centered card">
-			<div class="content" onclick="javascript:goDetail('<%=data[i].happyday_id%>')" style="background-color:#ee5252; max-height:56px">
-				<img class="ui avatar image" src="<%=data[i].user_img%>"> <span style="color:#fff; font-size:0.9em"><%=data[i].user_name%> (<%=data[i].sm_name%>)</span>
-								<div class="right floated meta" style=" font-size:0.8em">
-								
-									
-									<% if (data[i].dday>-1) {  %>
-									<div class="ui orange label">모집중 D-<%=data[i].dday%></div>
+				<% for (var i=0; i < data.length; i++) { %>
+					<div class="ui centered card">
+						<div class="content" onclick="javascript:goDetail('<%=data[i].happyday_id%>')" style="background-color:#ee5252; max-height:56px">
+							<img class="ui avatar image" src="<%=data[i].user_img%>"> <span style="color:#fff; font-size:0.9em"><%=data[i].user_name%> (<%=data[i].sm_name%>)</span>
+							<div class="right floated meta" style=" font-size:0.8em">
+
+
+								<% if (data[i].dday>-1) {  %>
+									<div class="ui orange label">모집중 D-
+										<%=data[i].dday%>
+									</div>
 									<% }else { %>
-									<div class="ui gray label">신청마감</div>
-									<% } %>
-					
-				</div>
-			</div>
-			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="image"> <img src="<%=data[i].img_url%>" style="height: 200px;">
-			</div>
-			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>
+										<div class="ui gray label">신청마감</div>
+										<% } %>
+
+							</div>
+						</div>
+						<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="image"> <img src="<%=data[i].img_url%>" style="height: 200px;">
+						</div>
+						<div onclick="javascript:goDetail('<%=data[i].happyday_id%>
 				')" class="content">
-				<div class="header">
-					<%=data[i].happyday_name%>
-				</div>
-				<div class="description">
-					<p>
-						 모임일자 : <%=data[i].happyday_date%> (<%=data[i].week%>) <%=data[i].happy_time%>
-					</p>
-					<p>
-						 장소 : <%=data[i].place_name%>
-					</p>
-				</div>
-			</div>
-			<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="extra content"> <span>
+							<div class="header">
+								<%=data[i].happyday_name%>
+							</div>
+							<div class="description">
+								<p>
+									모임일자 :
+									<%=data[i].happyday_date%> (
+										<%=data[i].week%>)
+											<%=data[i].happy_time%>
+								</p>
+								<p>
+									장소 :
+									<%=data[i].place_name%>
+								</p>
+							</div>
+						</div>
+						<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="extra content"> <span>
 				<i class="user icon"></i>
 				모집정원 <%=data[i].num_participants%>명</span>
-			</div>
-			<div  class="extra content">
-				<% if (data[i].num_participants-data[i].vacancy>0) {  %>
-				<span><i class="user icon"></i>현재 참가자 <%=data[i].num_participants-data[i].vacancy%>명<a onclick="javascript:showParticipants('<%=data[i].happyday_id%>')" class="ui label right floated">참가자확인</a></span>
-				<% }%>
-			</div>
-			<div class="extra content">
-				<span>
+						</div>
+						<div class="extra content">
+							<% if (data[i].num_participants-data[i].vacancy>0) {  %>
+								<span><i class="user icon"></i>현재 참가자 <%=data[i].num_participants-data[i].vacancy%>명<a onclick="javascript:showParticipants('<%=data[i].happyday_id%>')" class="ui label right floated">참가자확인</a></span>
+								<% }%>
+						</div>
+						<div class="extra content">
+							<span>
 				<i class="diamond icon"></i>
 				필요포인트 </span>
-				<div class="right floated">
-					<%=data[i].req_point%> P
+							<div class="right floated">
+								<%=data[i].req_point%> P
+							</div>
+						</div>
+					</div>
+					<% } %>
+			</div>
+			<!--170314_KJB-->
+			<!--<button class="ui basic button" onclick="javascript:showMap()">-->
+			<!--<i class="icon map"></i>-->
+			<!--지도 팝업 아놔-->
+		</div>
+		<div class="ui small test modal" id='partymodal'>
+			<div class="header">
+				현재 참가자
+			</div>
+			<div class="content">
+				<div id="partylistdiv" class="ui grid">
+					<!--카드들..-->
+				</div>
+			</div>
+			<div class="actions">
+				<div class="ui positive button">
+					확인
 				</div>
 			</div>
 		</div>
-		<% } %>
-	</div>
-	<!--170314_KJB-->
-	<!--<button class="ui basic button" onclick="javascript:showMap()">-->
-	<!--<i class="icon map"></i>-->
-	<!--지도 팝업 아놔-->
-</div>
-<div class="ui small test modal" id='partymodal'>
-	<div class="header">
-		 현재 참가자
-	</div>
-	<div class="content">
-		<div id="partylistdiv" class="ui grid">
-			<!--카드들..-->
-		</div>
-	</div>
-	<div class="actions">
-		<div class="ui positive button">
-			 확인
-		</div>
-	</div>
-</div>
 </body>
+
 </html>
