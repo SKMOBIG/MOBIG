@@ -35,6 +35,8 @@
             var regUserId = <%=data.reg_user_id %>;
             var sessionUserId = <%=session.user_id%>;
             
+
+            
             if(regUserId == sessionUserId){
                 // alert("내가 작성자일 때,");
                 $('#modify_button').show();
@@ -51,6 +53,27 @@
                 
                 initApplyCancel(reg_state);
             }
+
+
+            var categoryCode2 = "<%=data.category_code2%>";
+            var categoryCode3 = "<%=data.category_code3%>";
+
+            if(categoryCode2 != ""){
+                if(categoryCode3 != ""){
+                    $('#category3').show();
+                }
+                else{
+                    $('#category3').hide(); 
+                }
+                $('#category2').show();
+            }
+            else{
+                $('#category2').hide();
+                $('#category3').hide();
+            }
+            $('#category').show();
+            
+            
             
         });
         
@@ -83,8 +106,8 @@
                     user_id : user_id
                 },
                 success: function(data) {
-                    // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
-                    $('#modal_user_img').val(data.user.user_img);
+                    
+                    $('#modal_user_img').html("<img src=" + data.user.user_img + " style='margin-top: 7px; font-size:0.9em; width:100%; max-height: 300px; border:#000000 solid 1px'>"); 
                     $('#modal_user_name').html("이름 : " + data.user.user_name);
                     $('#modal_user_sm_name').html("소속 : " + data.user.sm_name);
                     $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
@@ -312,7 +335,10 @@
                 </div>
                 <div class="ui segment">
                     <span style="color:#ffB914">
-                        #<%=data.category_code%>  <%=data.category_code2%>  <%=data.category_code3%></span>
+                        <button class='ui red button' id='category'>#<%=data.category_code%></button>
+                        <button class='ui red button' id='category2'>#<%=data.category_code2%></button>
+                        <button class='ui red button' id='category3'>#<%=data.category_code3%></button>
+
                 </div>
                 
                 <!-- 좋아요, 댓글 부분 -->
@@ -405,7 +431,7 @@
                         
                     </script>
                 </div>
-                
+                <% var i = 0 %>
                 <div class="ui segment" id="present_condition">
                     <p>* 신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
                     <div class="image">
@@ -430,12 +456,8 @@
 
     <!--사용자 프로필 Modal -->
     <div class="ui modal" >
-        <i class="close icon"></i>
-        <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
-            <div class="ui medium image" >
-                <!--<img src="<%=userList[0].user_img%>">-->
-                <!--<img id="modal_user_img", src="modal_user_img">-->
-                
+        <div class="image content">
+            <div class="ui medium image" id='modal_user_img' >
             </div>
             <div class="description">
                 <div class="ui header" id="usermodal">
