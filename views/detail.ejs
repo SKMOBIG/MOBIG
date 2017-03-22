@@ -46,8 +46,7 @@
             
             if(state == "C") {
                 $('#end_button').show();
-
-
+            }
             
             if(regUserId == sessionUserId){
                 // alert("내가 작성자일 때,");
@@ -64,7 +63,7 @@
                 }else {
                     $('#modify_button').show();
                     $('#delete_button').show();
-
+                }
             }else if(state == "Y") {
                 if(regUserId == sessionUserId){
                     //출발일이 지나면 완료, 미완료 버튼을 표시
@@ -369,7 +368,7 @@
         <div class="content">
             <div class="ui segments">
                 <div class="ui segment" style="background-color:#ffB914;">
-                    <div class="header" href="#"><span style="font-family: 'Jeju Gothic'; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; line-height: 1.2; font-size:1.5em; letter-spacing:-1.3px; width:100%; color:#FFFFFF"><%= data.happyday_name %></span></div>
+                    <div class="header" href="#"><span style="font-family: 'Jeju Gothic'; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; line-height: 1.2; font-size:1.5em; letter-spacing:-1.4px; width:100%; color:#FFFFFF"><%= data.happyday_name %></span></div>
                 </div>
                 <div class="ui segment">
                     <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:600px; max-width:800px" >
