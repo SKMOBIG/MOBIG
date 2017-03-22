@@ -47,7 +47,7 @@
             if(state == "C") {
                 $('#end_button').show();
 
-<<<<<<< HEAD
+
             
             if(regUserId == sessionUserId){
                 // alert("내가 작성자일 때,");
@@ -64,7 +64,7 @@
                 }else {
                     $('#modify_button').show();
                     $('#delete_button').show();
-=======
+
             }else if(state == "Y") {
                 if(regUserId == sessionUserId){
                     //출발일이 지나면 완료, 미완료 버튼을 표시
@@ -82,7 +82,7 @@
                     // alert("내가 작성자가 아닐 때,");
                     var reg_state = "<%= reg_state %>";
                     initApplyCancel(reg_state);
->>>>>>> d8eaebf07869a83a698766969d1a17aa012f7c15
+
                 }
             }
             
