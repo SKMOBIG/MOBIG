@@ -46,7 +46,7 @@ module.exports = function(app, connectionPool) {
                     if(rows.length > 0) {
                         var peoplelist='';  
                         for(var i=0; i<rows.length; i++){
-                            peoplelist+="<div class='four wide column'><img width='200px' height='200px' class='ui small circular image' src='"+rows[i].user_img+"' style=''><h5 class='content' style='text-align:center'>"+rows[i].user_name +"<br>("+ rows[i].sm_name+")</h5></div>";
+                            peoplelist+="<div class='four wide column'><img class='ui small circular image' src='"+rows[i].user_img+"' style='width:170px; height:170px;'><h5 class='content' style='text-align:center'>"+rows[i].user_name +"<br>("+ rows[i].sm_name+")</h5></div>";
                         }
  
                         res.send({peoplelist : peoplelist, session : req.session});
