@@ -39,18 +39,23 @@
             
             if(regUserId == sessionUserId){
                 // alert("내가 작성자일 때,");
-                $('#modify_button').show();
-                $('#delete_button').show();
-                $('#apply_button').hide();
-                $('#cancel_button').hide();
-            }
-            else{
+                // $('#apply_button').hide();
+                // $('#cancel_button').hide();
+                
+                //출발일이 지나면 완료, 미완료 버튼을 표시
+                var departure_dt = <%= data.departure_dt %>;
+                if(new Date()).yyyymmdd() > departure_dt) {
+                    $('#complete_button').show();
+                    $('#incomplete_button').show();
+                    $('#modify_button').hide();
+                    $('#delete_button').hide();
+                }else {
+                    $('#modify_button').show();
+                    $('#delete_button').show();
+                }
+            }else{
                 // alert("내가 작성자가 아닐 때,");
-                $('#modify_button').hide();
-                $('#delete_button').hide();
-                
                 var reg_state = "<%= reg_state %>";
-                
                 initApplyCancel(reg_state);
             }
 
@@ -127,7 +132,7 @@
         }
         
         //happyday_master 테이블 내 삭제 여부 표현 이슈
-        function deleteHappyday(happyday_id) {
+        function deleteHappyday(happyday_id, req_point) {
             if(confirm("등록한 해피데이 및 참가신청 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?")) {
                 location.href = '../deletehappyday/' + happyday_id;
             }
@@ -151,6 +156,7 @@
                 success: function(result) {
                     if(result.status == 200){
                         // 1. 포인트 체크
+                        
                         if(result.checkpoint == "N") {
                             alert("현재 남아았는 포인트가 참가 포인트보다 적어 참가 신청할 수 없습니다.");
                         }else {
@@ -261,6 +267,30 @@
                         
                     }else {
                         alert("시스템 문제로 조회할 수 없습니다.");
+                    }
+                }
+            });
+        }
+        
+        // 해피데이 완료하기
+        function completeHappyday(happyday_id) {
+            if(confirm("이번 해피데이 활동을 완료하시겠습니까?"))
+            var data = {};
+            data.happyday_id = happyday_id;
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/completehappyday',
+                success: function(result) {
+                    if(result.status == 200){
+                        $("#end_button").toggle("slow");
+                        $("#complete_button").hide();
+                        $("#incomplete_button").hide();
+                    }else {
+                        alert("시스템 문제로 완료할 수 없습니다.");
                     }
                 }
             });
@@ -443,10 +473,13 @@
                 </div>
                 
                 <div class="ui right aligned segment">
-                    <button class="ui primary button" id="modify_button" onClick="javascript:modifyHappyday('<%=data.happyday_id%>')">수정</button>
-                    <button class="ui button" id="delete_button" onClick="javascript:deleteHappyday('<%=data.happyday_id%>')">삭제</button>
-                    <button class="ui primary button" id="apply_button" onClick="javascript:applyHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청하기</button>
-                    <button class="ui button" id="cancel_button" onClick="javascript:cancelHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청취소</button>                        
+                    <button class="ui primary button" id="modify_button" style="display: none" onClick="javascript:modifyHappyday('<%=data.happyday_id%>')">수정</button>
+                    <button class="ui button" id="delete_button" style="display: none" onClick="javascript:deleteHappyday('<%=data.happyday_id%>')">삭제</button>
+                    <button class="ui primary button" id="apply_button" style="display: none" onClick="javascript:applyHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청하기</button>
+                    <button class="ui button" id="cancel_button" style="display: none" onClick="javascript:cancelHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청취소</button>                        
+                    <button class="ui orange button" id="complete_button" style="display: none" onClick="javascript:completeHappyday('<%=data.happyday_id%>')">완료하기</button>                        
+                    <button class="ui button" id="incomplete_button" style="display: none" onClick="javascript:incompleteHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">미완료</button>                        
+                    <button class="ui black button" id="end_button" style="display: none" onClick="">완료</button>                        
                 </div>
                 
             </div>
