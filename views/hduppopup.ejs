@@ -17,15 +17,7 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
-  //차감 포인트 컨트롤
-  function pointControl(point){
-    var val = $("#req_point_show").val();
-    val *= 1; //string to int
-    point *=1; // string to int
-    if(val+point <= 8000 && val+point >=500){
-      $("#req_point_show").val(val+point);  
-    }
-  }
+
   function showMap(){
     var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
     var popupX = (window.screen.width / 2) - (1200 / 2);
@@ -33,8 +25,8 @@
     var popupY= (window.screen.height /2) - (700 / 2);
     // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
     window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-   
   }
+  
   function setLocationValue(title, point){
     // alert('주소 정상 호출 확인 '+title+' '+point);
     //경도 longitude
@@ -49,34 +41,23 @@
     $("#latitude").val(latitude);  // 위도
     $("#longitude").val(longitude);  //경도
   }
-  function Happdaygetdata() {
-    
-    if(ddaydate=''){
-      var aa_from_db = <%=data.dday_dt%>
-        //넘버로 찍히니까 string으로 변환
-           aa_from_db += "";
-       var aa_year = aa_from_db.substring(0,4);
-       var aa_month = aa_from_db.substring(4,6);
-       var aa_date = aa_from_db.substring(6,8);
-    
-       var aa_show = aa_year+'/'+aa_month+'/'+aa_date;
-       var aa_goto_DB = aa_year+aa_month+aa_date;
-       // alert(aa_goto_DB);
-   
-    
-       $("#dday_dt_show").val(aa_show);  //화면에 보여주는거
-       $("#dday_goto_DB").val(aa_goto_DB);  //디비에 들어갈것
-       }
-  }        
+  
+  
   
  function goDetail(id){
     location.href = '../../detail/' + id;
   }  
   
 $(document).ready(function() {
-  Happdaygetdata();
+
+
+
+
+
+
   //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
   $('#happydayupdate').submit(function() {
+    alert("들어온다");
     var happyday_name = $("#happyday_name_show").val(); //해피데이 네임
     var category_code = $("#category_code_show").val();
     var num_participants = $("#num_participants_show").val();
@@ -87,9 +68,7 @@ $(document).ready(function() {
     var point_rsn = $("#point_rsn_show").val()
     var happyday_contents = $("#happyday_contents_show").val()
     //추가
-    //var ddaydate = $("#ddaydate_show").val()
-    //var startdate = $("#startdate_show").val()
-    //var starttime = $("#starttime_show").val()
+   
     ddaydate = $("#ddaydate_show").val()
     startdate = $("#startdate_show").val()
     starttime = $("#starttime_show").val()
@@ -97,14 +76,7 @@ $(document).ready(function() {
     
     //var flag = 1;
      var flag = 0; 
-     
-     if(ddaydate!=''){
-       $("#dday_goto_DB").val(ddaydate);   
-     }
-     
-     
-     
-     
+   
      
     // 해피데이 이름 check
     if(happyday_name == ''){
@@ -254,6 +226,7 @@ $(document).ready(function() {
     type: 'date',
     formatter: {
       date: function (date, settings) {
+        alert("example2");
         if (!date) return '';
         var year = date.getFullYear();
         var month = (date.getMonth() + 1).toString();
@@ -290,6 +263,7 @@ $(document).ready(function() {
     type: 'date',
     formatter: {
       date: function (date, settings) {
+        
         if (!date) return '';
         var year = date.getFullYear();
         var month = (date.getMonth() + 1).toString();
@@ -466,15 +440,14 @@ $(document).ready(function() {
 					<div class="ui calendar" name="example2">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="calendar icon"></i>
-							<input type="text" id="startdate_show" style=" width: 100%;" name="happyday_dt" readonly="true">
+							<input id="happday_dt" type="text" name="happday_dt" readonly="true" value="<%=data.happyday_dt %>">
 						</div>
 					</div>
 					<!-- calendar -->
 					<p class="p validation" id="startday_alert" style="color:red; visibility:hidden;">
 						 *출발날짜를 선택해 주세요
 					</p>
-					
-					<input type="hidden" id="startdate_goto_DB" style=" width: 100%;" name="startdate_goto_DB">
+					<input type="text" id="startdate_goto_DB" style=" width: 100%;" name="startdate_goto_DB" value="<%=data.happyday_dt %>">
 					
 					
 				</div>
@@ -487,8 +460,7 @@ $(document).ready(function() {
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="time icon"></i>
     					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="" >
-    					
-						</div>
+    				</div>
 						
 					</div>
 					<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
