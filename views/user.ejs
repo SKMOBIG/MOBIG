@@ -79,8 +79,16 @@
     <style type="text/css">
       .ui[class*="left icon"].input>input {
         padding-left: 3.67142857em!important;
-      };
-      .ui[class*="two column"].grid>.column:not(.row),.ui[class*="two column"].grid>.row>.column{width:400px};
+      }
+      .ui[class*="two column"].grid>.column:not(.row),.ui[class*="two column"].grid>.row>.column{width:380px;}
+      .ui.grid>.column:not(.row) {
+        padding-top: 3rem;
+        padding-bottom: 1rem;
+      }
+      .ui.feed>.event>.content .extra.images img {
+        margin: 0 .25em 0 0;
+        width: 15em;
+      }
     </style>
     
   </head>
@@ -229,6 +237,7 @@
             </div>  
           </div>
         </div> <!-- end div of grid -->
+          <div class="column"></div>
         </div>
       </div>
     </div> <!-- end div of container -->    
