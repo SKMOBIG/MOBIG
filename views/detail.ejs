@@ -30,28 +30,80 @@
             .ready(function() {
             $('.ui.accordion').accordion();
             
-                /* 본인이면 수정 및 삭제버튼 표시
-                타인이면 신청 및 신청 취소버튼 표시*/
+            /* 1. 미완료(I) 이면 모든 버튼 none -> 기본 none
+               2. 완료(C) 이면 완료버튼 표시
+               3. 진행중(Y) 이면
+                  3-1. 본인이면
+                        1) 출발일 전 - 수정 및 삭제버튼 표시
+                        2) 출발일 후 - 완료 및 미완료버튼 표시
+                  3-2. 타인이면 
+                       1) 참가 전 - 참가신청버튼 표시
+                       2) 참가 후 - 신청취소버튼 표시
+            */
+            var state = "<%=data.state%>";
             var regUserId = <%=data.reg_user_id %>;
             var sessionUserId = <%=session.user_id%>;
             
-            if(regUserId == sessionUserId){
-                // alert("내가 작성자일 때,");
-                $('#modify_button').show();
-                $('#delete_button').show();
-                $('#apply_button').hide();
-                $('#cancel_button').hide();
-            }
-            else{
-                // alert("내가 작성자가 아닐 때,");
-                $('#modify_button').hide();
-                $('#delete_button').hide();
-                
-                var reg_state = "<%= reg_state %>";
-                
-                initApplyCancel(reg_state);
+            if(state == "C") {
+                $('#end_button').show();
             }
             
+            if(regUserId == sessionUserId){
+                // alert("내가 작성자일 때,");
+                // $('#apply_button').hide();
+                // $('#cancel_button').hide();
+                
+                //출발일이 지나면 완료, 미완료 버튼을 표시
+                var departure_dt = <%= data.departure_dt %>;
+                if(new Date().yyyymmdd() > departure_dt) {
+                    $('#complete_button').show();
+                    $('#incomplete_button').show();
+                    $('#modify_button').hide();
+                    $('#delete_button').hide();
+                }else {
+                    $('#modify_button').show();
+                    $('#delete_button').show();
+                }
+            }else if(state == "Y") {
+                if(regUserId == sessionUserId){
+                    //출발일이 지나면 완료, 미완료 버튼을 표시
+                    var departure_dt = <%= data.departure_dt %>;
+                    if(new Date().yyyymmdd() > departure_dt) {
+                        $('#complete_button').show();
+                        $('#incomplete_button').show();
+                        $('#modify_button').hide();
+                        $('#delete_button').hide();
+                    }else {
+                        $('#modify_button').show();
+                        $('#delete_button').show();
+                    }
+                }else{
+                    // alert("내가 작성자가 아닐 때,");
+                    var reg_state = "<%= reg_state %>";
+                    initApplyCancel(reg_state);
+
+                }
+            }
+            
+            // 카테고리 셋팅
+            var categoryCode2 = "<%=data.category_code2%>";
+            var categoryCode3 = "<%=data.category_code3%>";
+
+            if(categoryCode2 != ""){
+                if(categoryCode3 != ""){
+                    $('#category3').show();
+                }
+                else{
+                    $('#category3').hide(); 
+                }
+                $('#category2').show();
+            }
+            else{
+                $('#category2').hide();
+                $('#category3').hide();
+            }
+            $('#category').show();
+        
         });
         
         function initApplyCancel(reg_state) {
@@ -83,8 +135,8 @@
                     user_id : user_id
                 },
                 success: function(data) {
-                    // alert(data.user.user_name + " " +data.user.sm_id + " " + data.user.phone_number)
-                    $('#modal_user_img').val(data.user.user_img);
+                    
+                    $('#modal_user_img').html("<img src=" + data.user.user_img + " style='margin-top: 7px; font-size:0.9em; width:100%; max-height: 300px; border:#000000 solid 1px'>"); 
                     $('#modal_user_name').html("이름 : " + data.user.user_name);
                     $('#modal_user_sm_name').html("소속 : " + data.user.sm_name);
                     $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
@@ -103,10 +155,17 @@
             location.href = '../detail/' + id + '/hduppopup';
         }
         
-        //happyday_master 테이블 내 삭제 여부 표현 이슈
+        // 해피데이 삭제하기
         function deleteHappyday(happyday_id) {
             if(confirm("등록한 해피데이 및 참가신청 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?")) {
                 location.href = '../deletehappyday/' + happyday_id;
+            }
+        }
+        
+        // 해피데이 미완료 처리하기
+        function incompleteHappyday(happyday_id) {
+            if(confirm("활동하지 못한 해비데이를 미완료 처리합니다.\n미완료로 남기는 것을 진행하시겠습니까?")) {
+                location.href = '../incompletehappyday/' + happyday_id;
             }
         }
 
@@ -128,6 +187,7 @@
                 success: function(result) {
                     if(result.status == 200){
                         // 1. 포인트 체크
+                        
                         if(result.checkpoint == "N") {
                             alert("현재 남아았는 포인트가 참가 포인트보다 적어 참가 신청할 수 없습니다.");
                         }else {
@@ -243,6 +303,30 @@
             });
         }
         
+        // 해피데이 완료하기
+        function completeHappyday(happyday_id) {
+            if(confirm("이번 해피데이 활동을 완료하시겠습니까?"))
+            var data = {};
+            data.happyday_id = happyday_id;
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/completehappyday',
+                success: function(result) {
+                    if(result.status == 200){
+                        $("#end_button").toggle("slow");
+                        $("#complete_button").hide();
+                        $("#incomplete_button").hide();
+                    }else {
+                        alert("시스템 문제로 완료할 수 없습니다.");
+                    }
+                }
+            });
+        }
+        
         
     </script>
 
@@ -284,7 +368,7 @@
         <div class="content">
             <div class="ui segments">
                 <div class="ui segment" style="background-color:#ffB914;">
-                    <div class="header" href="#" style="margin-left:20px; margin-top:6px"><span style="font-family: 'Jeju Gothic'; font-size:1.9em; color:#FFFFFF"><%= data.happyday_name %></span></div>
+                    <div class="header" href="#"><span style="font-family: 'Jeju Gothic'; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; line-height: 1.2; font-size:1.5em; letter-spacing:-1.4px; width:100%; color:#FFFFFF"><%= data.happyday_name %></span></div>
                 </div>
                 <div class="ui segment">
                     <img class="ui centered fluid image" src="<%=data.img_url%>" style = "max-height:600px; max-width:800px" >
@@ -299,20 +383,27 @@
                 </div>
 
                 <div class="ui horizontal segments" style="background-color:#FFFFFF">
-                    <div class="ui segment">
+                    <div class="ui segment" style="width:50%">
                         <div class="image">
                             <img class="ui avatar image" src="<%=data.user_img%>" onclick="javascript:infoUser('<%=data.reg_user_id%>')"> 
                             <span> 작성자 : <%= data.user_name %> </span>
                         </div>
 
                     </div>    
-                    <div class="ui segment">
-                            <span> 등록 : <%= data.reg_dtm %> </span>
+                    <div class="ui segment" style="width:50%">
+                            <p style="margin-top:7px"> 등록 : <%= data.reg_dtm %> </p>
                     </div>
                 </div>
                 <div class="ui segment">
-                    <span style="color:#ffB914">
-                        #<%=data.category_code%>  <%=data.category_code2%>  <%=data.category_code3%></span>
+                    <span style="color:#ee5252">
+                        <span id='category'>#<%=data.category_code%> </span>
+                        <span id='category2'>#<%=data.category_code2%> </span>
+                        <span id='category3'>#<%=data.category_code3%></span>
+                        
+                        <!--<button class='ui red button' id='category'>#<%=data.category_code%></button>-->
+                        <!--<button class='ui red button' id='category2'>#<%=data.category_code2%></button>-->
+                        <!--<button class='ui red button' id='category3'>#<%=data.category_code3%></button>-->
+
                 </div>
                 
                 <!-- 좋아요, 댓글 부분 -->
@@ -350,7 +441,7 @@
                                 <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td style = "margin-top: -15px;">차감포인트</td>
+                                <td style = "margin-top: -15px; letter-spacing:-2px" >차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
@@ -405,7 +496,7 @@
                         
                     </script>
                 </div>
-                
+                <% var i = 0 %>
                 <div class="ui segment" id="present_condition">
                     <p>* 신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
                     <div class="image">
@@ -417,10 +508,13 @@
                 </div>
                 
                 <div class="ui right aligned segment">
-                    <button class="ui primary button" id="modify_button" onClick="javascript:modifyHappyday('<%=data.happyday_id%>')">수정</button>
-                    <button class="ui button" id="delete_button" onClick="javascript:deleteHappyday('<%=data.happyday_id%>')">삭제</button>
-                    <button class="ui primary button" id="apply_button" onClick="javascript:applyHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청하기</button>
-                    <button class="ui button" id="cancel_button" onClick="javascript:cancelHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청취소</button>                        
+                    <button class="ui primary button" id="modify_button" style="display: none" onClick="javascript:modifyHappyday('<%=data.happyday_id%>')">수정</button>
+                    <button class="ui button" id="delete_button" style="display: none" onClick="javascript:deleteHappyday('<%=data.happyday_id%>')">삭제</button>
+                    <button class="ui primary button" id="apply_button" style="display: none" onClick="javascript:applyHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청하기</button>
+                    <button class="ui button" id="cancel_button" style="display: none" onClick="javascript:cancelHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">신청취소</button>                        
+                    <button class="ui orange button" id="complete_button" style="display: none" onClick="javascript:completeHappyday('<%=data.happyday_id%>')">완료하기</button>                        
+                    <button class="ui button" id="incomplete_button" style="display: none" onClick="javascript:incompleteHappyday('<%=data.happyday_id%>', '<%=data.req_point%>')">미완료</button>                        
+                    <button class="ui black button" id="end_button" style="display: none" onClick="">활동 완료</button>                        
                 </div>
                 
             </div>
@@ -430,12 +524,8 @@
 
     <!--사용자 프로필 Modal -->
     <div class="ui modal" >
-        <i class="close icon"></i>
-        <div class="image content" style="margin-top: 7px; font-size:0.9em"; "height: 200px;">
-            <div class="ui medium image" >
-                <!--<img src="<%=userList[0].user_img%>">-->
-                <!--<img id="modal_user_img", src="modal_user_img">-->
-                
+        <div class="image content">
+            <div class="ui medium image" id='modal_user_img' >
             </div>
             <div class="description">
                 <div class="ui header" id="usermodal">

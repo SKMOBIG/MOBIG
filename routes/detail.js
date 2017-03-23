@@ -23,7 +23,12 @@ module.exports = function(app, connectionPool) {
     
         // console.log("session : " + req.session.user_name+" / "+req.session.emp_num);
              connectionPool.getConnection(function(err, connection) {
-                connection.query('select hm.happyday_id, hm.happyday_name, hm.happyday_contents, hm.reg_user_id, hm.category_code, DATE_FORMAT(hm.reg_dtm, "%Y-%m-%d") AS reg_dtm, SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.reg_dtm), 1) AS reg_week, hm.dday_dt AS dday, DATE_FORMAT(hm.dday_dt, "%Y-%m-%d") AS dday_dt, SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.dday_dt), 1) AS dday_week, DATE_FORMAT(hm.happyday_dt, "%m월 %d일") AS happyday_date, SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.happyday_dt), 1) AS happyday_week, date_format(hm.happyday_dt,  "%H:%i") AS happyday_time, hm.req_point, hm.cal_point_text, hm.state, hm.ref_url, hm.num_participants, hm.place_name, hm.place_latitude, hm.place_longitude, hm.img_url, hm.point_rsn, hm.category_code, hm.category_code2, hm.category_code3, u.* from happyday_master hm, user u where hm.reg_user_id = u.id and hm.happyday_id = ?;', req.params.id, function(error, rows) {
+                connection.query('select u.*, hm.happyday_id, hm.happyday_name, hm.happyday_contents, hm.reg_user_id, hm.category_code' + 
+                                 ', DATE_FORMAT(hm.reg_dtm, "%Y-%m-%d") AS reg_dtm, SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.reg_dtm), 1) AS reg_week' + 
+                                 ', hm.dday_dt AS dday, DATE_FORMAT(hm.dday_dt, "%Y-%m-%d") AS dday_dt, SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.dday_dt), 1) AS dday_week' + 
+                                 ', substr(happyday_dt,1,8) AS departure_dt, DATE_FORMAT(hm.happyday_dt, "%m월 %d일") AS happyday_date, SUBSTR( _UTF8"일월화수목금토", DAYOFWEEK(hm.happyday_dt), 1) AS happyday_week, date_format(hm.happyday_dt,  "%H:%i") AS happyday_time' + 
+                                 ', hm.req_point, hm.cal_point_text, hm.state, hm.ref_url, hm.num_participants, hm.place_name, hm.place_latitude, hm.place_longitude, hm.img_url, hm.point_rsn, hm.category_code, hm.category_code2, hm.category_code3' + 
+                                 '  from happyday_master hm, user u where hm.reg_user_id = u.id and hm.happyday_id = ?;', req.params.id, function(error, rows) {
                 
                 // console.log("rows : " + rows.length);
                 
@@ -350,4 +355,84 @@ module.exports = function(app, connectionPool) {
             });
         });    
     });
+    
+    app.post('/completehappyday', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+           connection.query('update happyday_master' +
+                         '   set state = "C", update_dtm = date_format(sysdate(), "%Y%m%d%H%i")' +
+                         ' where happyday_id = ?', req.body.happyday_id, function(error, rows) {
+            if(error){
+                connection.release();
+                throw error;
+            }else {
+                res.json({success : "Successfully", status : 200});
+                connection.release();
+            }                     
+        });
+        }); 
+    });
+    
+    app.get('/incompletehappyday/:happyday_id', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            /* 미완료 작업 진행 
+                1. 해피데이 참가자 조회
+                2. 참가자의 hst state='N' update
+                3. 참가자의 user 포인트 반환
+                4. 해피데이 master state='I' update
+            */
+            console.log("delete : " + req.params.happyday_id);
+            
+            // 1. 해피데이 참가자 조회
+            connection.query('select user_id, use_point' +
+                             '  from happyday_user_hst' +
+                             ' where happyday_id = ? and state = "y"', req.params.happyday_id, function(error, userList) {
+                if(error) {
+                    connection.release();
+                    throw error;
+                }else {
+                    if(userList.length > 0) {
+                        
+                        for(var i=0; i<userList.length; i++) {
+                            // 2. 참가자의 hst state='N' update
+                            /*connection.query('update happyday_user_hst' + 
+                                             '   set state = "n", modify_dtm = date_format(sysdate(), "%Y%m%d%H%i")' + 
+                                             ' where user_id = ? and happyday_id = ? and state = "y";', [userList[i].user_id, req.params.happyday_id], function(error, rows){
+                                if(error){
+                                    connection.release();
+                                    throw error;
+                                }
+                            });*/
+                            // 3. 참가자의 user 포인트 반환             
+                            connection.query('update user' + 
+                                             '   set happy_point = happy_point + ?' + 
+                                             ' where id = ?;', [userList[i].use_point, userList[i].user_id], function(error, rows){
+                                if(error){
+                                    connection.release();
+                                    throw error;
+                                }
+                            });
+                        }
+                        
+                        // 4. 해피데이 master state='I' update           
+                        connection.query('update happyday_master' +
+                                         '   set state = "I", update_dtm = date_format(sysdate(), "%Y%m%d%H%i")' +
+                                         ' where happyday_id = ?', req.params.happyday_id, function(error, rows) {
+                            if(error){
+                                connection.release();
+                                throw error;
+                            }else {
+                                res.redirect('/hdmain');
+                                connection.release();
+                            }                     
+                        });
+                        
+                    }else {
+                        res.redirect('/');
+                        connection.release();
+                    }
+                }                 
+            });
+        });    
+    });
 }
+
