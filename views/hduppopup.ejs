@@ -18,17 +18,6 @@
  var starttime = '';
  var ddaydate = '';
   
-<<<<<<< HEAD
-var aa_show;
-var aa_goto_DB;
-
-var hd_show;//날짜
-var ht_show;//시간
-var hd_goto_DB;
-
-       
-=======
->>>>>>> 0a1b75761ea70661e9fb9fcf4817f00fccd3f827
   //차감 포인트 컨트롤
   function pointControl(point){
     var val = $("#req_point_show").val();
@@ -70,60 +59,32 @@ var hd_goto_DB;
   
 $(document).ready(function() {
   
-<<<<<<< HEAD
-  hd_from_db += "";
-  var hd_year = hd_from_db.substring(0,4);
-  var hd_month = hd_from_db.substring(4,6);
-  var hd_date = hd_from_db.substring(6,8);
-  hd_show = hd_year+'/'+hd_month+'/'+hd_date;
-  
-  var hd_time = hd_from_db.substring(8,10);
-  var hd_minute = hd_from_db.substring(10,14);  
-  ht_show = hd_time+'/'+hd_minute;
-  
-  hd_goto_DB = hd_year+hd_month+hd_date+hd_time+hd_minute; 
-     
-  $("#startdate_show").val(hd_show);  //화면에 보여주는거 startdate_show
-  $("#starttime_show").val(ht_show);  //화면에 보여주는거 startdate_show
-  
-  $("#startdate_goto_DB").val(hd_goto_DB);  //디비에 들어갈것     
-       
-       
-       
-       
-  //수정 모달에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
-=======
   //수정에서 출발날짜+시간 합치기 ->히든타입, db에만 저장(수정)
->>>>>>> 0a1b75761ea70661e9fb9fcf4817f00fccd3f827
   $('#happydayupdate').submit(function() {
    
     var happyday_name = $("#happyday_name_show").val(); //해피데이 네임
-    var category_code = $("#category_code_show").val();
-    var num_participants = $("#num_participants_show").val();    
+    var category_code = $("#category_code").val();
+    var num_participants = $("#num_participants").val();    
     var place_name = $("#place_name_show").val();
     var req_point = $("#req_point_show").val();     //해피데이 등록에 필요한 포인트
     var my_point = <%=session.happy_point %>   //보유한 해피데이 포인트
     var point_rsn = $("#point_rsn_show").val()
     var happyday_contents = $("#happyday_contents_show").val()
-<<<<<<< HEAD
-    //정합성은 나중에 생각하자...
-    //ddaydate = $("#dday_dt_show").val().substring(0,4) + $("#dday_dt_show").val().substring(5,7) + $("#dday_dt_show").val().substring(8,10);
-    //startdate = $("#startdate_show").val()
-    //starttime = $("#starttime_show").val()
-    //$('#starthappyday_update').val(startdate+starttime);
-    
-     var flag = 0; 
-     
-     if(ddaydate!=''){
-       $("#dday_goto_DB").val(ddaydate);   
-     }
-    
-     
-
-=======
     var flag = 0; 
     
->>>>>>> 0a1b75761ea70661e9fb9fcf4817f00fccd3f827
+    
+    var Category_Array= category_code
+    
+   
+     Category_Array= category_code.split(',');
+ 
+   
+  // alert(Category_Array[0]);
+  // alert(Category_Array[1]);
+  // alert(Category_Array[2]);
+    
+    
+    
     // 해피데이 이름 check
     if(happyday_name == ''){
       $('#happyday_name_alert').css("visibility","visible");
@@ -146,6 +107,7 @@ $(document).ready(function() {
     }
     
     // 맴버수 check
+    /*
     if(num_participants == ''){
       $('#num_participants_alert').css("visibility","visible");
     }
@@ -153,7 +115,17 @@ $(document).ready(function() {
       $('#num_participants_alert').css("visibility","hidden");
        flag = flag+1;
      
+    }*/ 
+    var current_users = <%=data.cur_users%>;
+    if(current_users >  num_participants){
+      $('#num_participants_check_alert').css("visibility","visible");
+        
+        
     } 
+    else{
+      $('#num_participants_check_alert').css("visibility","hidden");
+      flag = flag+1;
+    }
     
      // 장소 check  
     if(place_name == ''){
@@ -236,7 +208,12 @@ $(document).ready(function() {
     if(flag == 9){
     // if(flag <= 10){
       $('#starthappydaydatetime').val(startdate+starttime+'00');
+      
+      $("#category_code").val(Category_Array[0]);
+      $("#category_code2").val(Category_Array[1]);
+      $("#category_code3").val(Category_Array[2]);
       return true;
+      // return false;
     }
     else{
       //입력 내용이 완벽하지 않으면 false
@@ -249,14 +226,7 @@ $(document).ready(function() {
       maxSelections: 3
    });
   $('#select').dropdown();
-  $('#selectPoint').dropdown();
-  $('#selectPoint').attr('disabled', true);
-  //$('.ui.selection').attr('disabled', true);
-/* $("#selectPoint").click(function() {
-    $('#selectPoint').attr("disabled", true);
-  }*/
-  //ui selection dropdown
-  //.ui.selection.dropdown select
+  $('#selectPoint').dropdown();  
   
   // 출발 날짜(등록,수정)
   $("[name=example2]").calendar({
@@ -376,8 +346,9 @@ $(document).ready(function() {
 				<div class="ui sub header">
 					 **카테고리
 				</div>
+				
 				<div class="ui multiple selection dropdown" id="multipleSelect" style=" width: 100%;">
-					<input id="happyday_category_show" name="category_code" type="hidden" value="<%=data.totalCategory%>" style=" width: 100%;" readonly="true">
+					<input id="category_code" name="category_code" type="hidden" value="<%=data.totalCategory%>" style=" width: 100%;" readonly="true">
 					<i class="dropdown icon"></i>
 					<div class="default text">
 						 
@@ -392,8 +363,8 @@ $(document).ready(function() {
 						<div class="item" data-value="실내활동">
 							 실내활동
 						</div>
-						<div class="item" data-value="영화,연극">
-							 영화,연극
+						<div class="item" data-value="영화연극">
+							 영화연극
 						</div>
 						<div class="item" data-value="문화체험">
 							 문화체험
@@ -403,6 +374,8 @@ $(document).ready(function() {
 				<p class="p validation" id="category_code_alert" style="color:red; visibility:hidden;">
 					 *카테고리를 선택해 주세요
 				</p>
+				<input id="category_code2" name="category_code2" type="hidden" >
+				<input id="category_code3" name="category_code3" type="hidden" >
 			</div>
 			<div class="column">
 				<div class="ui sub header">
@@ -435,9 +408,10 @@ $(document).ready(function() {
 						</div>
 					</div>
 				</div>
-				<p class="p validation" id="num_participants_alert" style="color:red; visibility:hidden;">
-					 *모집 정원을 선택해 주세요
+				<p class="p validation" id="num_participants_check_alert" style="color:red; visibility:hidden;">
+					 *현재 참여인원이 모집정원보다 많아 수정할 수 없습니다.
 				</p>
+				
 			</div>
 		</div>
 		<br>
@@ -496,24 +470,14 @@ $(document).ready(function() {
 					<div class="ui calendar" name="example3">
 						<div class="ui input left icon" style=" width: 100%;">
 							<i class="time icon"></i>
-<<<<<<< HEAD
-    					<input type="text" id="starttime_show" name="happyday_time" readonly="true" value="" >
-    					
-						</div>
-=======
     					<input type="text" id="starttime_show"  style=" width: 100%;" name="happyday_time" readonly="true" value="<%=data.HDstarttimeShow %>" >
     				</div>
->>>>>>> 0a1b75761ea70661e9fb9fcf4817f00fccd3f827
 						
 					</div>
 					<p class="p validation" id="starttime_alert" style="color:red; visibility:hidden;">
 						 *출발시간를 선택해 주세요
 					</p>
-<<<<<<< HEAD
-					<!--<input type="hidden" id="starttime_DB"  style=" width: 100%;" name="happyday_DB" readonly="true" value="">-->
-=======
 					<input type="hidden" id="starttime_DB"  style=" width: 100%;" name="starttime_DB" readonly="true" value="<%=data.HDstarttimeDB %>">
->>>>>>> 0a1b75761ea70661e9fb9fcf4817f00fccd3f827
 				</div>
 			
 		</div>
@@ -540,13 +504,8 @@ $(document).ready(function() {
 			<div class="ui sub header">
 				 **차감포인트
 			</div>
-<<<<<<< HEAD
-			<input type="text" placeholder="" id="req_point_show" name="req_point" value="<%=data.req_point %> P" readonly="true">
-
-=======
 			<input type="text" id="req_point_show" name="req_point" value="<%=data.req_point %> P" style=" width: 100%;" readonly="true">
       
->>>>>>> 0a1b75761ea70661e9fb9fcf4817f00fccd3f827
 			<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">
 			</p>
 		</div>
