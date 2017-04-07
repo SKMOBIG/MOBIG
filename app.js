@@ -39,22 +39,20 @@ if ('development' == app.get('env')) {
 }
 
 /*
+ *  express-session 모듈 사용
+ */
+app.use(session({
+  secret : 'keyboard cat',
+  resave : false,
+  saveUninitialized : true
+}));
+
+/*
  * db connect pool
  */
 var mysql = require('mysql');
 var connectionPool;
 
-/* 운영 DB
-connectionPool = mysql.createPool({
-  user : 'admin',
-  password : 'tobehappy',
-  database : 'mysqldb',
-  host : 'b2bdb.csrn58xktwkr.ap-northeast-1.rds.amazonaws.com', //port빼고 end-point
-  port : '3306',
-  connectionLimit : 20,
-  waitForConnections : false
-});
- */
 /* TEST DB */
 connectionPool = mysql.createPool({
   user : 'tester',
@@ -64,18 +62,21 @@ connectionPool = mysql.createPool({
   port : '3306',
   connectionLimit : 20,
   waitForConnections : false
-}); 
+});
 
-/*
- *  express-session 모듈 사용
- */
-app.use(session({
-  secret : 'keyboard cat',
-  resave : false,
-  saveUninitialized : true
-}));
-
-  //app.get('/', routes.index);
+/* 운영 DB
+connectionPool = mysql.createPool({
+    user : 'admin',
+    password : 'tobehappy',
+    database : 'mysqldb',
+    host : 'b2bdb.csrn58xktwkr.ap-northeast-1.rds.amazonaws.com', //port빼고 end-point
+    port : '3306',
+    connectionLimit : 20,
+    waitForConnections : false
+}); */
+    
+  
+//app.get('/', routes.index);
 var index = require('./routes/index')(app, connectionPool);
 
 // main route file 사용
@@ -92,7 +93,6 @@ var hdmain = require('./routes/hdmain')(app, connectionPool);
 
 var postreg_KJB = require('./routes/postreg_KJB')(app, connectionPool);
 
-
 var hdregist = require('./routes/hdregist');
 app.use('/hdregist', hdregist);
 
@@ -105,23 +105,14 @@ var hdregpopup = require('./routes/hdregpopup')(app, connectionPool);
 var hduppopup = require('./routes/hduppopup')(app, connectionPool);
 var closepopup = require('./routes/closepopup')(app, connectionPool);
   
-/*
- *  express-session 모듈 사용
- */
-app.use(session({
-  secret : 'keyboard cat',
-  resave : false,
-  saveUninitialized : true
-}));
-
 
 var server = http.createServer(app)
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + ' : '+app.get('port'));
   
-  console.log('opened server on', server.address());
-
+  console.log('opened server on', server.address().address + " : " + server.address().port);
+  
 });
 
 module.exports = app;
