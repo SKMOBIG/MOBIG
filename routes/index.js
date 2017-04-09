@@ -15,48 +15,49 @@ module.exports = function(app, connectionPool) {
         
     });
     
-    app.post('/login', function(req, res, next) {
-        
+    app.post('/login', findUser, (req, res, next) => {
         // console.log(req.body);
         
-        connectionPool.getConnection(function(err, connection) {
-            connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.body.user_name, req.body.emp_num], function(error, rows) {
+        if(req.user.length > 0) {
+            /* session 내에 사용자 정보 저장 */
+            
+            req.session.regenerate(function (err) {
+              if(err){
+                console.log(err);
+              } else {
+                // console.log("index.js : "+ rows[0]);
+                req.session.user_name = req.user[0].user_name;
+                req.session.emp_num = req.user[0].emp_num;
+                req.session.team_id = req.user[0].team_id;
+                req.session.sm_id = req.user[0].sm_id;
+                req.session.mileage = req.user[0].mileage;
+                req.session.user_id = req.user[0].id;
+                //KJB
+                req.session.happy_point = req.user[0].happy_point;
+
+                res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사
+              }
+            });
+        }else {
+            res.redirect('/');
+        }
+    });
+    
+    
+    function findUser(req, res, next) {
+        connectionPool.getConnection((err, connection) => {
+            connection.query('select * from user' +
+                             ' where 1=1 and user_name = ? and emp_num = ?;', [req.body.user_name, req.body.emp_num], function(error, rows) {
                 if(error) {
                     connection.release();
-                    throw error;
+                    next(new Error("Couldn't find user: " + error));
                 }else {
-                    if(rows.length > 0) {
-                        connection.release();
-                        
-                        /* session 내에 사용자 정보 저장 */
-                        
-                        req.session.regenerate(function (err) {
-                          if(err){
-                            console.log(err);
-                          } else {
-                            // console.log("index.js : "+ rows[0]);
-                            req.session.user_name = rows[0].user_name;
-                            req.session.emp_num = rows[0].emp_num;
-                            req.session.team_id = rows[0].team_id;
-                            req.session.sm_id = rows[0].sm_id;
-                            req.session.mileage = rows[0].mileage;
-                            req.session.user_id = rows[0].id;
-                            //KJB
-                            req.session.happy_point = rows[0].happy_point;
-
-                            res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사
-                          }
-                        });
-                        
-                        //res.render('main', {user_name : rows[0].user_name, emp_num : rows[0].emp_num});
-                        
-                    }else {
-                        connection.release();
-                        res.redirect('/');
-                    }    
+                    req.user = rows
+                    next();
                 }
             });
-        });
-    });
+        })
+    }
+    
 };
 

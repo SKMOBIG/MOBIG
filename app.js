@@ -73,9 +73,9 @@ connectionPool = mysql.createPool({
     port : '3306',
     connectionLimit : 20,
     waitForConnections : false
+<<<<<<< HEAD
 }); */
-    
-  
+
 //app.get('/', routes.index);
 var index = require('./routes/index')(app, connectionPool);
 
