@@ -11,8 +11,10 @@
 
     <title>B2B사업팀 HappyDay</title>
 
-    <script src="../javascripts/jquery.js"></script>
-    <script src="../javascripts/jquery.min.js"></script>
+    <script src="../../javascripts/jquery.js"></script>
+    <script src="../../javascripts/jquery.min.js"></script>
+    
+
 
     <!--<script src="../javascripts/bootstrap.min.js"></script>-->
     <!--<script src="../javascripts/bootstrap.js"></script>-->
@@ -362,7 +364,7 @@
 
 <body>
     <!-- Navigation -->
-    <% include ./partials/navigation.ejs %>
+    <% include ../partials/navigation.ejs %>
     <!-- Page Content -->
     <div class="ui container">
         <div class="content">
@@ -405,22 +407,24 @@
                         <!--<button class='ui red button' id='category3'>#<%=data.category_code3%></button>-->
 
                 </div>
+
                 
-                <!-- 좋아요, 댓글 부분 -->
-                <!--<div class="ui segment">-->
-                <!--    <div class="ui labeled button" tabindex="0">-->
-                <!--        <div class="ui yellow button">-->
-                <!--            <i class="heart icon"></i> Like-->
-                <!--        </div>-->
-                <!--        <a class="ui basic red left pointing label">1,048</a>-->
-                <!--    </div>-->
-                <!--    <div class="ui labeled button" tabindex="0">-->
-                <!--        <div class="ui gray button">-->
-                <!--            <i class="feed icon"></i> Feed-->
-                <!--        </div>-->
-                <!--        <a class="ui basic red left pointing label">10</a>-->
-                <!--    </div>-->
-                <!--</div>-->
+                <div class="ui segment">
+                    <div class="ui labeled button" tabindex="0" style="background-color:#ee5252">
+                        <div class="ui red button" >
+                            <i class="like icon"></i> 좋아요
+                        </div>
+                        <a class="ui basic red left pointing label">1,048</a>
+                    </div>
+                    <div class="ui labeled button" tabindex="0" style="background-color:000000">
+                        <div class="ui grey button">
+                            <i class="talk outline icon"></i> 댓글
+                        </div>
+                        <a class="ui basic grey left pointing label">10</a>
+                    </div>
+                </div>
+                
+
                 
                 <div class="ui segment"><table class="ui definition table">
                         <tbody>
@@ -580,34 +584,3 @@
 
 
 </html>
-
-
-                (1)
-                <% var i = 0 %>
-                <div class="ui segment" id="present_condition">
-                    <p>* 댓글 (<%=댓글갯수%>)</p>
-                    <div class="image">
-                        <% for (var i = 0; i < userList.length; i++) { %>
-                           <!-- 댓글유형코드 = 'RPY' -->
-                            <span> <%=replyList[i].user_name%> (<%=userList[i].sm_name%>) <%=replyList.content%> </span></p>
-                            <button id="re_reply" onClick="javascript=goReReply('<%=replyList.seq_num%>')">답글(갯수)</button>
-                            <span> <%
-                        <% } %>
-                    </div>
-                </div>
-                
-                
-                (2) order by 순
-                
-                <% var i = 0 %>
-                <div class="ui segment" id="present_condition">
-                    <p>* 댓글 (<%=댓글갯수%>)</p>
-                    <div class="image">
-                        <% for (var i = 0; i < userList.length; i++) { %>
-                            <% if(replyList[i].댓글유형코드 = 'RPY') { %>   댓글
-                                <span> <%=replyList[i].user_name%> (<%=userList[i].sm_name%>) <%=replyList.content%> </span></p>
-                            <% } else if(replyList[i].댓글유형코드 = 'RRP')%>   답글
-                            
-                        <% } %>
-                    </div>
-                </div>

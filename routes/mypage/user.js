@@ -1,7 +1,7 @@
 
 module.exports = function(app, connectionPool) {
 
-    app.get('/user', function(req, res, next) {
+    app.get('/mypage/user', function(req, res, next) {
         
         /* session 없을 땐 로그인 화면으로 */
         if(!req.session.user_name) {
@@ -21,7 +21,7 @@ module.exports = function(app, connectionPool) {
                 }else {
                     if(rows.length > 0) {
                         
-                        res.render('user', {data : rows[0], session : req.session});
+                        res.render('mypage/user', {data : rows[0], session : req.session});
                         connection.release();
                     }else {
                         res.redirect('/');
