@@ -48,6 +48,7 @@ module.exports = function(app, connectionPool) {
                                 if(rows1.length > 0){
                                     var reg_state = "N";
                                     
+                                    //이게 무슨 일을 하는 작업일까???
                                     for(var i=0; i<rows1.length; i++) {
                                         var cur_user_id = rows1[i].user_id;
                                         if(req.session.user_id == cur_user_id) {

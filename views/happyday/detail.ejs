@@ -11,8 +11,8 @@
 
     <title>B2B사업팀 HappyDay</title>
 
-    <script src="../javascripts/jquery.js"></script>
-    <script src="../javascripts/jquery.min.js"></script>
+    <script src="../../javascripts/jquery.js"></script>
+    <script src="../../javascripts/jquery.min.js"></script>
 
     <!--<script src="../javascripts/bootstrap.min.js"></script>-->
     <!--<script src="../javascripts/bootstrap.js"></script>-->
@@ -26,8 +26,8 @@
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
         
-        $(document)
-            .ready(function() {
+        
+        $(document).ready(function() {
             $('.ui.accordion').accordion();
             
             /* 1. 미완료(I) 이면 모든 버튼 none -> 기본 none
@@ -64,24 +64,34 @@
                     $('#modify_button').show();
                     $('#delete_button').show();
                 }
-            }else if(state == "Y") {
-                if(regUserId == sessionUserId){
+            }
+            //내가 참가한 경우
+            else if(state == "Y") 
+            {    
+                //내가 작성자인경우
+                if(regUserId == sessionUserId)
+                {
                     //출발일이 지나면 완료, 미완료 버튼을 표시
                     var departure_dt = <%= data.departure_dt %>;
-                    if(new Date().yyyymmdd() > departure_dt) {
+                    if(new Date().yyyymmdd() > departure_dt) 
+                    {
                         $('#complete_button').show();
                         $('#incomplete_button').show();
                         $('#modify_button').hide();
                         $('#delete_button').hide();
-                    }else {
+                    }
+                    else 
+                    {
                         $('#modify_button').show();
                         $('#delete_button').show();
                     }
-                }else{
+                }
+                //내가 참가는 했지만, 작성자가 아닐 경우
+                else
+                {
                     // alert("내가 작성자가 아닐 때,");
                     var reg_state = "<%= reg_state %>";
                     initApplyCancel(reg_state);
-
                 }
             }
             
@@ -135,20 +145,17 @@
                     user_id : user_id
                 },
                 success: function(data) {
-                    
                     $('#modal_user_img').html("<img src=" + data.user.user_img + " style='margin-top: 7px; font-size:0.9em; width:100%; max-height: 300px; border:#000000 solid 1px'>"); 
                     $('#modal_user_name').html("이름 : " + data.user.user_name);
                     $('#modal_user_sm_name').html("소속 : " + data.user.sm_name);
                     $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
                     $('.ui.modal').modal('show');
-
                 },
                 error: function(e) {
                     alert(e.responseText);
                 }
             });
         }
-        
         
         //등록 파트에서 수정
         function modifyHappyday(id) {
