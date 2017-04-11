@@ -1,6 +1,6 @@
 module.exports = function(app, connectionPool) {
     
-    app.get('/detail/:id/hduppopup', function(req, res, next) {
+    app.get('/happyday/detail/:id/hduppopup', function(req, res, next) {
        
         /* session 없을 땐 로그인 화면으로*/
         if(!req.session.user_name) {
@@ -19,7 +19,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('hduppopup', {data : rows[0], session : req.session});
+                        res.render('happyday/hduppopup', {data : rows[0], session : req.session});
                         
                         connection.release();
                     }else {

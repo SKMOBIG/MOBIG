@@ -80,10 +80,8 @@ connectionPool = mysql.createPool({
 var index = require('./routes/index')(app, connectionPool);
 
 // main route file 사용
-var main = require('./routes/main')(app, connectionPool); // set route file
-//app.use('/main', main); // url에 /main 으로 사용
-
-var user = require('./routes/user')(app, connectionPool); // set route file
+var main = require('./routes/happyday/main')(app, connectionPool); // set route file
+var user = require('./routes/mypage/user')(app, connectionPool); // set route file
 var hdmain = require('./routes/happyday/hdmain')(app, connectionPool);
 var detail = require('./routes/happyday/detail')(app, connectionPool);
 var postlist = require('./routes/happyday/postlist')(app, connectionPool);

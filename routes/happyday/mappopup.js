@@ -1,7 +1,7 @@
 module.exports = function(app, connectionPool) {
 
-    app.get('/mappopup', function(req, res) {
-        res.render('mappopup', { title: '지도..' });
+    app.get('/happyday/mappopup', function(req, res) {
+        res.render('happyday/mappopup', { title: '지도..' });
     });
     
 }

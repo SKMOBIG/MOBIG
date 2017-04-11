@@ -21,7 +21,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('main', {data : rows[0], session : req.session});
+                        res.render('happyday/main', {data : rows[0], session : req.session});
                         connection.release();
                     }else {
                         res.redirect('/');

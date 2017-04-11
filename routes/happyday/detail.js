@@ -14,7 +14,7 @@ module.exports = function(app, connectionPool) {
     
     
     /*GET방식은 URL을 통해 데이터를 넘겨주는 방식 */
-    app.get('/detail/:id', function(req, res, next) {
+    app.get('/happyday/detail/:id', function(req, res, next) {
         
         /* session 없을 땐 로그인 화면으로*/
         if(!req.session.user_name) {
@@ -56,7 +56,7 @@ module.exports = function(app, connectionPool) {
                                         }
                                     }
                                     
-                                    res.render('detail', {data : rows[0], userList : rows1, session : req.session, reg_state : reg_state});
+                                    res.render('happyday/detail', {data : rows[0], userList : rows1, session : req.session, reg_state : reg_state});
                                     connection.release();
                                 }else {
                                     res.redirect('/');
@@ -342,7 +342,7 @@ module.exports = function(app, connectionPool) {
                                 connection.release();
                                 throw error;
                             }else {
-                                res.redirect('/hdmain');
+                                res.redirect('happyday/hdmain');
                                 connection.release();
                             }                     
                         });
@@ -421,7 +421,7 @@ module.exports = function(app, connectionPool) {
                                 connection.release();
                                 throw error;
                             }else {
-                                res.redirect('/hdmain');
+                                res.redirect('happyday/hdmain');
                                 connection.release();
                             }                     
                         });
