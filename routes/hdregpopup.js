@@ -1,13 +1,9 @@
 
 module.exports = function(app, connectionPool) {
-
     app.get('/hdregpopup', function(req, res) {
-        
         connectionPool.getConnection(function(err, connection) {
             connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
-                
-                // console.log("rows : " + rows.length);
-                
+
                 if(error) {
                     connection.release();
                     throw error;
@@ -25,6 +21,12 @@ module.exports = function(app, connectionPool) {
         
         
     });
+    
+    
+    // 해피데이 등록 시 진행 될 사항
+    // 1. happday_master 테이블 insert
+    // 2. happyday_user_hst 테이블 insert
+    // 3. user 테이블의 point 컬럼 update
     app.post('/happyday_regist', function(req, res, next) {
         connectionPool.getConnection(function(err, connection) {
             console.log(req.body);
@@ -36,23 +38,19 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     
-                    //happyday-user 테이블 insert
-                   
+                   //happyday-user 테이블 insert
                    connection.query('insert into happyday_user_hst(user_id, happyday_id, reg_dtm, use_point,state) select reg_user_id, happyday_id, date_format(sysdate(),"%Y%m%d%H%i%s") as reg_dtm , req_point , "y" as state from happyday_master where happyday_id = (select max(happyday_id) from happyday_master);', req.body.postid, function(error, rows1) {
                             if(error){
                                 connection.release();
                                 throw error;
                             }else {
                                     
-                                    //TODO : user테이블에서 point 차감
+                                    // user테이블에서 point 차감
                                   connection.query('update user set happy_point = happy_point - ? where id = ?;',[req.body.req_point, req.session.user_id], function(error, rows1) {
-                                    
                                     if(error){
-                                    
                                           connection.release();
                                          throw error;
                                      }else {
-                                    
                                              connection.release();
                                              res.redirect('/hdmain');
                                          }

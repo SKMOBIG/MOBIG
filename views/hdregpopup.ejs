@@ -19,16 +19,8 @@
   var startdate = '';
   var starttime = '';
   var ddaydate = '';
-  //차감 포인트 컨트롤
-  function pointControl(point){
-    var val = $("#req_point").val();
-    val *= 1; //string to int
-    point *=1; // string to int
-    // if(val+point <= 8000 && val+point >=500){
-    if(val+point <= 8000 && val+point >=500 ){
-      $("#req_point").val(val+point);  
-    }
-  }
+ 
+  //지도 팝업 크기, 위치 조절
   function showMap(){
               var popUrl = "../mappopup";	//팝업창에 출력될 페이지 URL
               var popupX = (window.screen.width / 2) - (1200 / 2);
@@ -37,6 +29,8 @@
               // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
               window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
   }
+  
+  //지역명, 위도,경도 split
   function setLocationValue(title, point){
         // alert('주소 정상 호출 확인 '+title+' '+point);
         //경도 longitude
@@ -51,60 +45,67 @@
         $("#latitude").val(latitude);  // 위도
         $("#longitude").val(longitude);  //경도
   }
+  
+  // 뒤로가기 버튼 -> 메인화면 이동
   function goMain(){
       location.href = '../hdmain';
   }
+  
+// 화면 reload 될 때마다 실행 되는 함수
 $(document).ready(function() {
   
-  function refreshParent() {
-      window.opener.location.reload();
-  }  
-    // 등록 에서 submit 하기 전에 해야 될 사항 ->히든타입, db에만 저장
+
+  // 등록 에서 submit 하기 전
+  // 정합성 체크
   $('#hdregForm').submit(function() {
     $('#starthappyday').val(startdate+starttime+'00'); //날짜 합치기
     var happyday_name = $("#happyday_name").val(); //해피데이 네임
-    var category_code = $("#category_code").val();
-    var num_participants = $("#num_participants").val();
-    var img_url = $("#img_url").val();
-    var place_name = $("#place_name").val();
+    var category_code = $("#category_code").val(); //해피데이 코드
+    var num_participants = $("#num_participants").val(); //참가 정원
+    var img_url = $("#img_url").val();   // img URL
+    var place_name = $("#place_name").val(); //장소명
     var req_point = $("#req_point").val();     //해피데이 등록에 필요한 포인트
     var my_point = <%=session.happy_point %>   //보유한 해피데이 포인트
-    var point_rsn = $("#point_rsn").val()
-    var happyday_contents = $("#happyday_contents").val()
-    var flag = 0;
-    var today_date_ojbect = new Date();
-    var year = today_date_ojbect.getFullYear().toString();
-    var month;
-    var date; 
+    var point_rsn = $("#point_rsn").val()      // 포인트 사유 textarea
+    var happyday_contents = $("#happyday_contents").val()   // 해피데이 설명 textarea
+    var flag = 0;  // 정합성 체크 var
+    var today_date_ojbect = new Date();   // 현재 날짜 object
+    var year = today_date_ojbect.getFullYear().toString();  //현재 년
+    var month;  //현재 월
+    var date;   //현재 일
     
     
-    var Category_Array= category_code.split(',');
+    
+    var Category_Array= category_code.split(',');   //3개의 카테고리 잘라 Array 저장
 
   
-    $("#category_code").val(Category_Array[0]);
-    $("#category_code2").val(Category_Array[1]);
-    $("#category_code3").val(Category_Array[2]);
+    $("#category_code").val(Category_Array[0]);  //카테고리1
+    $("#category_code2").val(Category_Array[1]); //카테고리2
+    $("#category_code3").val(Category_Array[2]); //카테고리3
     
      
+    //Ex) 9월 -> 09월 변환
     if(today_date_ojbect.getMonth()+1 < 10){
-      //앞에 0을 붙여야 2017'0'305가 됨
       month = '0'+(today_date_ojbect.getMonth()+1).toString();
     }
     else{
       month = (today_date_ojbect.getMonth()+1).toString();
     }
+    
+    //Ex) 9일 -> 09일 변환
     if(today_date_ojbect.getDate()<10){
-      //앞에 0을 붙여야 201703'0'5가 됨
       date = '0'+today_date_ojbect.getDate().toString();
     }
     else{
       date = today_date_ojbect.getDate().toString();
     }
-    var today_date = year+month+date;   //form : 20170305 8자리
+    
+    //today_date -> 오늘 날짜 변수 Ex) 20170308
+    var today_date = year+month+date;   
+    
     // 해피데이 이름 check
     if(happyday_name == ''){
       $('#happyday_name_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#happyday_name_alert').css("visibility","hidden");
@@ -113,7 +114,6 @@ $(document).ready(function() {
     // 카테고리 check
     if(category_code == ''){
       $('#category_code_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#category_code_alert').css("visibility","hidden");
@@ -122,7 +122,6 @@ $(document).ready(function() {
     // 맴버수 check
     if(num_participants == ''){
       $('#num_participants_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#num_participants_alert').css("visibility","hidden");
@@ -146,19 +145,19 @@ $(document).ready(function() {
          $("#img_url").val("http://www.m-i.kr/news/photo/201401/107574_56130_3629.jpg");
       }
     }
+   
    // 장소 check  
     if(place_name == ''){
       $('#place_name_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#place_name_alert').css("visibility","hidden");
       flag = flag+1;
     } 
+   
     // 출발날짜 check
     if(startdate == ''){
       $('#startday_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#startday_alert').css("visibility","hidden");
@@ -167,25 +166,22 @@ $(document).ready(function() {
     // 출발시간 check TODO 왜 디폴트가 2300으로 등러갈가요??? 저녁 11시에 놀러가는 사람 없겠죠??
     if(starttime == '2300'){
       $('#starttime_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#starttime_alert').css("visibility","hidden");
       flag = flag+1;
-    } 
+    }
+    
+    //마감 날짜 체크,
     if(ddaydate == ''){
       $('#dday_dt_alert').css("visibility","visible").text("*마감일을 선택 해 주세요");
-      // flag = 0;
     }
     else{
         if(startdate < ddaydate){
           $('#dday_dt_alert').css("visibility","visible").text("*출발일이 마감일 보다 빠릅니다");
-          // return false;
-          
         }
         else if(ddaydate < today_date){
           $('#dday_dt_alert').css("visibility","visible").text("*마감일이 오늘 보다 빠릅니다");
-          // return false;
         }
         else{
           $('#HappyDDay').val(ddaydate);
@@ -196,12 +192,10 @@ $(document).ready(function() {
   // 포인트 check   
     if(req_point == ''){
       $('#point_alert').css("visibility","visible").text("*차감포인트를 작성해 주세요");
-      // flag = 1;
     }
     else{
       if(req_point > my_point){
         $('#point_alert').css("visibility","visible").text("*보유한 포인트보다 소모 포인트가 많습니다");
-        // flag = 0;
       }
       else {
         $('#point_alert').css("visibility","hidden");
@@ -211,7 +205,6 @@ $(document).ready(function() {
     // 사유 check 
     if(point_rsn == ''){
       $('#point_rsn_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#point_rsn_alert').css("visibility","hidden");
@@ -220,42 +213,43 @@ $(document).ready(function() {
     // 내용 check 
     if(happyday_contents == ''){
       $('#happyday_contents_alert').css("visibility","visible");
-      // flag = 0;
     }
     else{
       $('#happyday_contents_alert').css("visibility","hidden");
       flag = flag+1;
     }
+    
+    //모두 정상 입력 했을 시, 포인트 수정 불가 공지 진행
     if(flag == 10){
       var check = confirm("등록 후 포인트는 수정할 수 없습니다");
-      
+      //OK 버튼 Click
       if(check){
         return true;
       }
+      //취소 버튼 Click
       else{
         return false;
       }
-    
-     
     }
+    //입력 내용이 완벽하지 않은 경우
     else{
-      //입력 내용이 완벽하지 않으면 false
       return false;
     }
   });
   
-  //카테고리 드롭다운(등록,수정)
-  // ui multiple selection dropdown
+  //카테고리 드롭다운
   $('#MultipleSelection').dropdown({
        maxSelections: 3
    });
    
-    //모집 정원 제이쿼리
+  //포인트 드롭다운
   $('#SelectionDropdown').dropdown();
+  
+  //모집 정원 드롭다운
   $('#SelectionDropdown2').dropdown();
    
   
-  // 출발 날짜(등록,수정)
+  // 출발 날짜(등록)
   $("[name=example2]").calendar({
     type: 'date',
     formatter: {
@@ -266,10 +260,10 @@ $(document).ready(function() {
         month = month.length > 1 ? month : '0' + month;
         var day = date.getDate().toString();
         day = day.length > 1 ? day : '0' + day;
-        var fullDate = year + month + day;
-        var fullDateShow = year+'/' + month+'/' + day;
-        startdate = fullDate;
-        return fullDateShow;
+        var fullDate = year + month + day;               //DB에 들어갈 출발날짜 년월일, Ex)20170303
+        var fullDateShow = year+'/' + month+'/' + day;   //화면에 보여줄 출발날짜,      Ex)2017/03/03
+        startdate = fullDate;                            //startdate: global 변수 -> submit할때 DB로 전송  
+        return fullDateShow;                             //화면에 보여줄 출발날짜,      Ex)2017/03/03
       }
     }
   });
@@ -281,11 +275,11 @@ $(document).ready(function() {
         if (!date) return '';
         var hour = date.getHours().toString();
         hour = hour.length > 1 ? hour : '0' + hour;
-        var minute = date.getMinutes().toString();
+        var minute = date.getMinutes().toString();             
         minute = minute.length > 1 ? minute : '0' + minute;
-        var time = hour + minute; 
-        starttime = time;
-        return hour+'시 ' +  minute+'분';
+        var time = hour + minute;                           //DB에 들어갈 출발시간 , Ex)1630                 
+        starttime = time;                                   //starttime: global 변수 -> submit할 때 DB로 전송
+        return hour+'시 ' +  minute+'분';                   //화면에 보여줄 출발시간, EX)16시 30분
       }
     }
   });
@@ -311,11 +305,7 @@ $(document).ready(function() {
 });
 </script>
 <style type="text/css">
-    /*카테고리 최소 너비*/
-    .ui.multiple.selection.dropdown {
-      
-	    /*min-width: 20px;	*/
-    }
+    
     
     /*모집 정원 최소 너비*/
     .ui.selection.dropdown {
@@ -349,15 +339,8 @@ $(document).ready(function() {
 	.ui.sub.header {
     	color:white;
 	}
-  /*포인트 아이콘 손모양*/
-	.large.toggle{
-	  cursor: pointer;
-	  color:#A5673F;
-	}
+
 	
-    /*마우스 올리면 손모양으로*/
-    /*.ui.label*/
-    /*{cursor: pointer;}*/
 </style>
 </head>
 <body>
@@ -607,29 +590,6 @@ $(document).ready(function() {
   				</p>
   			</div>
 			
-			
-			
-  			<!--<div class="column">-->
-  			<!--	<div class="ui sub header">-->
-  			<!--		 *차감포인트-->
-  			<!--	</div>-->
-  			<!--	<div class="ui left icon input" style=" width: 100%;">-->
-  			<!--		<input type="text" id="req_point" placeholder="Input Point" value="0" readonly="true" style="width:100%" name="req_point">-->
-  			<!--		<i class="won icon"></i>-->
-  			<!--		<div style="height:37.67px;">-->
-  			<!--		   <div>-->
-  			<!--			    <i class="large toggle up icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(500)></i>-->
-  			<!--		   </div>-->
-  			<!--		   <div>-->
-  			<!--				  <i class="large toggle down icon" style="margin-left:-20px; margin-top:-4px;" onclick=javascript:pointControl(-500)></i>-->
-  			<!--			  </div>-->
-  			<!--		</div>-->
-  			<!--		</div>	  -->
-  					<!-- point -->
-  			<!--		<p class="p validation" id="point_alert" style="color:red; visibility:hidden;">-->
-  			<!--		</p>-->
-  			
-  			<!--</div>-->
 			</div>
 			<br>
 			<!--<div class="ui two column grid" >-->
