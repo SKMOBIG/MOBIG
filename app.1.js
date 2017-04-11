@@ -39,20 +39,22 @@ if ('development' == app.get('env')) {
 }
 
 /*
- *  express-session 모듈 사용
- */
-app.use(session({
-  secret : 'keyboard cat',
-  resave : false,
-  saveUninitialized : true
-}));
-
-/*
  * db connect pool
  */
 var mysql = require('mysql');
 var connectionPool;
 
+/* 운영 DB
+connectionPool = mysql.createPool({
+  user : 'admin',
+  password : 'tobehappy',
+  database : 'mysqldb',
+  host : 'b2bdb.csrn58xktwkr.ap-northeast-1.rds.amazonaws.com', //port빼고 end-point
+  port : '3306',
+  connectionLimit : 20,
+  waitForConnections : false
+});
+ */
 /* TEST DB */
 connectionPool = mysql.createPool({
   user : 'tester',
@@ -62,41 +64,64 @@ connectionPool = mysql.createPool({
   port : '3306',
   connectionLimit : 20,
   waitForConnections : false
-});
+}); 
 
-/* 운영 DB
-connectionPool = mysql.createPool({
-    user : 'admin',
-    password : 'tobehappy',
-    database : 'mysqldb',
-    host : 'b2bdb.csrn58xktwkr.ap-northeast-1.rds.amazonaws.com', //port빼고 end-point
-    port : '3306',
-    connectionLimit : 20,
-    waitForConnections : false
-<<<<<<< HEAD
-}); */
+/*
+ *  express-session 모듈 사용
+ */
+app.use(session({
+  secret : 'keyboard cat',
+  resave : false,
+  saveUninitialized : true
+}));
 
-//app.get('/', routes.index);
+  //app.get('/', routes.index);
 var index = require('./routes/index')(app, connectionPool);
 
 // main route file 사용
-var main = require('./routes/happyday/main')(app, connectionPool); // set route file
-var user = require('./routes/mypage/user')(app, connectionPool); // set route file
-var hdmain = require('./routes/happyday/hdmain')(app, connectionPool);
-var detail = require('./routes/happyday/detail')(app, connectionPool);
-var postlist = require('./routes/happyday/postlist')(app, connectionPool);
-var mappopup = require('./routes/happyday/mappopup')(app, connectionPool);
-var hdregpopup = require('./routes/happyday/hdregpopup')(app, connectionPool);
-var hduppopup = require('./routes/happyday/hduppopup')(app, connectionPool);
+var main = require('./routes/main')(app, connectionPool); // set route file
+//app.use('/main', main); // url에 /main 으로 사용
+
+var user = require('./routes/user')(app, connectionPool); // set route file
+
+var hdregist = require('./routes/hdregist')(app, connectionPool);
+var hdupdate = require('./routes/hdupdate')(app, connectionPool);
+
+var hdmain = require('./routes/hdmain')(app, connectionPool);
+
+
+var postreg_KJB = require('./routes/postreg_KJB')(app, connectionPool);
+
+
+var hdregist = require('./routes/hdregist');
+app.use('/hdregist', hdregist);
+
+var detail = require('./routes/detail')(app, connectionPool);
+
+var postlist = require('./routes/postlist')(app, connectionPool);
+
+var mappopup = require('./routes/mappopup')(app, connectionPool);
+var hdregpopup = require('./routes/hdregpopup')(app, connectionPool);
+var hduppopup = require('./routes/hduppopup')(app, connectionPool);
+var closepopup = require('./routes/closepopup')(app, connectionPool);
   
+/*
+ *  express-session 모듈 사용
+ */
+app.use(session({
+  secret : 'keyboard cat',
+  resave : false,
+  saveUninitialized : true
+}));
+
 
 var server = http.createServer(app)
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + ' : '+app.get('port'));
   
-  console.log('opened server on', server.address().address + " : " + server.address().port);
-  
+  console.log('opened server on', server.address());
+
 });
 
 module.exports = app;

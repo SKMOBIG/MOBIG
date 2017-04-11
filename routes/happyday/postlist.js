@@ -4,7 +4,7 @@ module.exports = function(app, connectionPool) {
   
     // });
     
-    app.get('/detail/:id/postlist', function(req, res, next) {
+    app.get('/happyday/detail/:id/postlist', function(req, res, next) {
         
         /* session 없을 땐 로그인 화면으로*/
         if(!req.session.user_name) {
@@ -28,7 +28,7 @@ module.exports = function(app, connectionPool) {
                             }else {
                                 if(rows1.length >= 0){
                             
-                                    res.render('postlist', {data : rows[0], postdata : rows1, session : req.session});
+                                    res.render('happyday/postlist', {data : rows[0], postdata : rows1, session : req.session});
                                     connection.release();
                                 }else {
                                     // console.log("ee");
@@ -61,7 +61,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else 
                 {
-                        res.redirect('/detail/'+ req.body.happyID+'/postlist');
+                        res.redirect('happyday/detail/'+ req.body.happyID+'/postlist');
                         connection.release();
                 }
             });
@@ -112,7 +112,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else 
                 {
-                         res.redirect('/detail/'+ req.body.happyID+'/postlist');
+                         res.redirect('happyday/detail/'+ req.body.happyID+'/postlist');
                         connection.release();
                 }
             });
