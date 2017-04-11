@@ -580,3 +580,34 @@
 
 
 </html>
+
+
+                (1)
+                <% var i = 0 %>
+                <div class="ui segment" id="present_condition">
+                    <p>* 댓글 (<%=댓글갯수%>)</p>
+                    <div class="image">
+                        <% for (var i = 0; i < userList.length; i++) { %>
+                           <!-- 댓글유형코드 = 'RPY' -->
+                            <span> <%=replyList[i].user_name%> (<%=userList[i].sm_name%>) <%=replyList.content%> </span></p>
+                            <button id="re_reply" onClick="javascript=goReReply('<%=replyList.seq_num%>')">답글(갯수)</button>
+                            <span> <%
+                        <% } %>
+                    </div>
+                </div>
+                
+                
+                (2) order by 순
+                
+                <% var i = 0 %>
+                <div class="ui segment" id="present_condition">
+                    <p>* 댓글 (<%=댓글갯수%>)</p>
+                    <div class="image">
+                        <% for (var i = 0; i < userList.length; i++) { %>
+                            <% if(replyList[i].댓글유형코드 = 'RPY') { %>   댓글
+                                <span> <%=replyList[i].user_name%> (<%=userList[i].sm_name%>) <%=replyList.content%> </span></p>
+                            <% } else if(replyList[i].댓글유형코드 = 'RRP')%>   답글
+                            
+                        <% } %>
+                    </div>
+                </div>

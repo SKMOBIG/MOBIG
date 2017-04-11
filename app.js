@@ -53,7 +53,7 @@ app.use(session({
 var mysql = require('mysql');
 var connectionPool;
 
-/* TEST DB 
+/* TEST DB */
 connectionPool = mysql.createPool({
   user : 'tester',
   password : 'tobehappy',
@@ -62,9 +62,9 @@ connectionPool = mysql.createPool({
   port : '3306',
   connectionLimit : 20,
   waitForConnections : false
-}); */
+});
 
-/* 운영 DB */
+/* 운영 DB
 connectionPool = mysql.createPool({
     user : 'admin',
     password : 'tobehappy',
@@ -74,7 +74,7 @@ connectionPool = mysql.createPool({
     connectionLimit : 20,
     waitForConnections : false
 }); 
-    
+    */
   
 //app.get('/', routes.index);
 var index = require('./routes/index')(app, connectionPool);
