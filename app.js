@@ -84,26 +84,12 @@ var main = require('./routes/main')(app, connectionPool); // set route file
 //app.use('/main', main); // url에 /main 으로 사용
 
 var user = require('./routes/user')(app, connectionPool); // set route file
-
-var hdregist = require('./routes/hdregist')(app, connectionPool);
-var hdupdate = require('./routes/hdupdate')(app, connectionPool);
-
-var hdmain = require('./routes/hdmain')(app, connectionPool);
-
-
-var postreg_KJB = require('./routes/postreg_KJB')(app, connectionPool);
-
-var hdregist = require('./routes/hdregist');
-app.use('/hdregist', hdregist);
-
-var detail = require('./routes/detail')(app, connectionPool);
-
-var postlist = require('./routes/postlist')(app, connectionPool);
-
-var mappopup = require('./routes/mappopup')(app, connectionPool);
-var hdregpopup = require('./routes/hdregpopup')(app, connectionPool);
-var hduppopup = require('./routes/hduppopup')(app, connectionPool);
-var closepopup = require('./routes/closepopup')(app, connectionPool);
+var hdmain = require('./routes/happyday/hdmain')(app, connectionPool);
+var detail = require('./routes/happyday/detail')(app, connectionPool);
+var postlist = require('./routes/happyday/postlist')(app, connectionPool);
+var mappopup = require('./routes/happyday/mappopup')(app, connectionPool);
+var hdregpopup = require('./routes/happyday/hdregpopup')(app, connectionPool);
+var hduppopup = require('./routes/happyday/hduppopup')(app, connectionPool);
   
 
 var server = http.createServer(app)

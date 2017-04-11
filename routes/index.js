@@ -8,7 +8,7 @@ module.exports = function(app, connectionPool) {
     app.get('/', function(req, res) {
         var sess = req.session
         if(sess.views) {
-            res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사    
+            res.redirect('/happyday/hdmain'); // /main url에서 다시 세션 존재 검사    
         }else {
             res.render('index', { title: 'Happy App' });    
         }
@@ -35,7 +35,7 @@ module.exports = function(app, connectionPool) {
                 //KJB
                 req.session.happy_point = req.user[0].happy_point;
 
-                res.redirect('/hdmain'); // /main url에서 다시 세션 존재 검사
+                res.redirect('happyday/hdmain'); // /main url에서 다시 세션 존재 검사
               }
             });
         }else {
