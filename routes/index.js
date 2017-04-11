@@ -15,7 +15,7 @@ module.exports = function(app, connectionPool) {
         
     });
     
-    app.post('/login', findUser, (req, res, next) => {
+    app.post('/login', findUser, makeLoginHst, setMileage, (req, res, next) => {
         // console.log(req.body);
         
         if(req.user.length > 0) {
@@ -50,9 +50,82 @@ module.exports = function(app, connectionPool) {
                              ' where 1=1 and user_name = ? and emp_num = ?;', [req.body.user_name, req.body.emp_num], function(error, rows) {
                 if(error) {
                     connection.release();
-                    next(new Error("Couldn't find user: " + error));
+                    next(new Error("route findUser error: " + error));
                 }else {
-                    req.user = rows
+                    connection.release();
+                    req.user = rows;
+                    next();
+                }
+            });
+        });
+    }
+    
+    function makeLoginHst(req, res, next) {
+        //console.log(req.user);
+        connectionPool.getConnection((err, connection) => {
+            /*
+             * 하루에 한번 로그인 이력 생성(insert)
+             * 두번 이상의 경우 최종 로그인 시간 및 횟수만 수정(update)
+             */
+            connection.query('select * from login_hst' +
+                             ' where login_id = ?' +
+                             ' and login_dt = date_format(sysdate(), "%Y%m%d");', [req.user[0].id, req.body.emp_num], function(error, rows) {
+                if(error) {
+                    connection.release();
+                    next(new Error("route makeLoginHst error: " + error));
+                }else {
+                    if(rows.length > 0) {
+                        /* 당일 로그인 이력 존재하므로 UPDATE */
+                        connection.query('update login_hst' +
+                                         '   set login_cnt = login_cnt+1, update_dtm = date_format(sysdate(), "%Y%m%d%H%i%s")' +
+                                         ' where login_id = ? and login_dt = date_format(sysdate(), "%Y%m%d");', req.user[0].id, function(error, rows) {
+                            if(error) {
+                                connection.release();
+                                next(new Error("route makeLoginHst update error: " + error));
+                            }else {
+                                connection.release();
+                                next();                            }
+                        });
+                    }else {
+                        /* 당일 로그인 이력이 없으면 INSERT */
+                        connection.query('insert into login_hst' +
+                                         ' (login_id, reg_dtm, login_dt, login_cnt, update_dtm)' +
+                                         ' values' +
+                                         ' (?, date_format(sysdate(), "%Y%m%d%H%i%s"), date_format(sysdate(), "%Y%m%d"), 1, date_format(sysdate(), "%Y%m%d%H%i%s"))', req.user[0].id, function(error, rows) {
+                            if(error) {
+                                connection.release();
+                                next(new Error("route makeLoginHst insert error: " + error));
+                            }else {
+                                connection.release();
+                                next();
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    }
+    
+    function setMileage(req, res, next) {
+        connectionPool.getConnection((err, connection) => {
+            /*
+             * mileage 셋팅
+             */
+            connection.query('select login_cnt from login_hst' +
+                             ' where login_id = ?' +
+                             ' and login_dt = date_format(sysdate(), "%Y%m%d");', [req.user[0].id, req.body.emp_num], function(error, row) {
+                if(error) {
+                    connection.release();
+                    next(new Error("route makeLoginHst error: " + error));
+                }else {
+                    if(row.login_cnt == 1) {
+                        /* 첫 로그인 시 마일리지 적립 */
+                        
+                        // connection.
+                        
+                    }
+                    
+                    
                     next();
                 }
             });
