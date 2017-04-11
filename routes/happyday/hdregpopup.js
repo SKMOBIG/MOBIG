@@ -1,7 +1,7 @@
 
 module.exports = function(app, connectionPool) {
 
-    app.get('/hdregpopup', function(req, res) {
+    app.get('/happyday/hdregpopup', function(req, res) {
         
         connectionPool.getConnection(function(err, connection) {
             connection.query('select * from user where 1=1 and user_name = ? and emp_num = ?;', [req.session.user_name, req.session.emp_num], function(error, rows) {
@@ -13,7 +13,7 @@ module.exports = function(app, connectionPool) {
                     throw error;
                 }else {
                     if(rows.length > 0) {
-                        res.render('hdregpopup', {data : rows[0], session : req.session});
+                        res.render('happyday/hdregpopup', {data : rows[0], session : req.session});
                         connection.release();
                     }else {
                         res.redirect('/');
