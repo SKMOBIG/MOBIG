@@ -49,6 +49,7 @@ module.exports = function(app, connectionPool) {
                                     var reg_state = "N";
                                     
                                     //이게 무슨 일을 하는 작업일까???
+                                    //아 신청 했는지 안했는지 알아보는 거구나..
                                     for(var i=0; i<rows1.length; i++) {
                                         var cur_user_id = rows1[i].user_id;
                                         if(req.session.user_id == cur_user_id) {
@@ -56,6 +57,10 @@ module.exports = function(app, connectionPool) {
                                             break;
                                         }
                                     }
+                                    
+                                    
+                                    
+                                    
                                     
                                     res.render('happyday/detail', {data : rows[0], userList : rows1, session : req.session, reg_state : reg_state});
                                     connection.release();
