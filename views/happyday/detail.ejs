@@ -185,6 +185,8 @@
             data.happyday_id = happyday_id;
             data.req_point = req_point;
             
+            
+            //json으로 데이터를 받아올 땐 result로 받는다??
             $.ajax({
                 type: 'POST',
                 data: JSON.stringify(data),
@@ -195,9 +197,12 @@
                     if(result.status == 200){
                         // 1. 포인트 체크
                         
-                        if(result.checkpoint == "N") {
+                        if(result.checkpoint == "N") 
+                        {
                             alert("현재 남아았는 포인트가 참가 포인트보다 적어 참가 신청할 수 없습니다.");
-                        }else {
+                        }
+                        else 
+                        {
                             //TODO : 화면에서 참가 리스트 갱신
                             makeParticipantList(result.userList);
                             initApplyCancel(result.reg_state);
