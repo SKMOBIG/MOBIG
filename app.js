@@ -73,7 +73,6 @@ connectionPool = mysql.createPool({
     port : '3306',
     connectionLimit : 20,
     waitForConnections : false
-<<<<<<< HEAD
 }); */
 
 //app.get('/', routes.index);
@@ -88,7 +87,6 @@ var postlist = require('./routes/happyday/postlist')(app, connectionPool);
 var mappopup = require('./routes/happyday/mappopup')(app, connectionPool);
 var hdregpopup = require('./routes/happyday/hdregpopup')(app, connectionPool);
 var hduppopup = require('./routes/happyday/hduppopup')(app, connectionPool);
-  
 
 var server = http.createServer(app)
 

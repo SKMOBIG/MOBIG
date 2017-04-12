@@ -15,7 +15,7 @@ module.exports = function(app, connectionPool) {
         
     });
     
-    app.post('/login', findUser, makeLoginHst, setMileage, (req, res, next) => {
+    app.post('/login', findUser, makeLoginHst, (req, res, next) => {
         // console.log(req.body);
         
         if(req.user.length > 0) {
@@ -96,8 +96,16 @@ module.exports = function(app, connectionPool) {
                                 connection.release();
                                 next(new Error("route makeLoginHst insert error: " + error));
                             }else {
-                                connection.release();
-                                next();
+                                /* 첫 로그인 시 마일리지 적립 */
+                                var common = new (require('./common/common'))();
+                                var result = common.setMileage(req, connection);
+                                
+                                if(result) {
+                                    connection.release();
+                                    next(result);
+                                }else {
+                                    next();    
+                                }
                             }
                         });
                     }
@@ -105,32 +113,39 @@ module.exports = function(app, connectionPool) {
             });
         });
     }
-    
-    function setMileage(req, res, next) {
-        connectionPool.getConnection((err, connection) => {
-            /*
-             * mileage 셋팅
-             */
-            connection.query('select login_cnt from login_hst' +
-                             ' where login_id = ?' +
-                             ' and login_dt = date_format(sysdate(), "%Y%m%d");', [req.user[0].id, req.body.emp_num], function(error, row) {
-                if(error) {
-                    connection.release();
-                    next(new Error("route makeLoginHst error: " + error));
+  /*  
+    function setMileage(req, connection) {
+        var path = req.path;
+        console.log('req path : ' + path);
+             
+        connection.query('select * from com_mileage' +
+                         ' where route_path = ?;', path, function(error, rows) {
+            
+            if(error) {
+                return new Error("Error in setMileage : " + error);
+            }else {
+                if(rows.length > 0) {
+                    var mileage = rows[0].mileage;
+                    var type = rows[0].use_type;
+                    
+                    if(type=='D') mileage *= -1;
+                    
+                    console.log('mileage / type : ' + mileage + ' / ' + type);
+                    
+                    connection.query('update user' +
+                                     '   set mileage = mileage +  convert(?, signed)' + 
+                                     ' where id = ?;',[mileage, req.user[0].id], function(error, user) {
+                        if(error) {
+                            return new Error("Error of set User Mileage : " + error);
+                        }else { 
+                            return;
+                        }
+                    });
                 }else {
-                    if(row.login_cnt == 1) {
-                        /* 첫 로그인 시 마일리지 적립 */
-                        
-                        // connection.
-                        
-                    }
-                    
-                    
-                    next();
+                    return;
                 }
-            });
-        })
-    }
+            }
+        });
+    } */
     
 };
-
