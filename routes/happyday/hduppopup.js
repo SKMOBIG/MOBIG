@@ -1,3 +1,4 @@
+
 module.exports = function(app, connectionPool) {
     
     app.get('/happyday/detail/:id/hduppopup', function(req, res, next) {

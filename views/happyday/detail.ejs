@@ -11,8 +11,10 @@
 
     <title>B2B사업팀 HappyDay</title>
 
-    <script src="../javascripts/jquery.js"></script>
-    <script src="../javascripts/jquery.min.js"></script>
+    <script src="../../javascripts/jquery.js"></script>
+    <script src="../../javascripts/jquery.min.js"></script>
+    
+
 
     <!--<script src="../javascripts/bootstrap.min.js"></script>-->
     <!--<script src="../javascripts/bootstrap.js"></script>-->
@@ -26,8 +28,7 @@
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
         
-        $(document)
-            .ready(function() {
+        $(document).ready(function() {
             $('.ui.accordion').accordion();
             
             /* 1. 미완료(I) 이면 모든 버튼 none -> 기본 none
@@ -81,14 +82,12 @@
                     // alert("내가 작성자가 아닐 때,");
                     var reg_state = "<%= reg_state %>";
                     initApplyCancel(reg_state);
-
                 }
             }
             
             // 카테고리 셋팅
             var categoryCode2 = "<%=data.category_code2%>";
             var categoryCode3 = "<%=data.category_code3%>";
-
             if(categoryCode2 != ""){
                 if(categoryCode3 != ""){
                     $('#category3').show();
@@ -141,7 +140,6 @@
                     $('#modal_user_sm_name').html("소속 : " + data.user.sm_name);
                     $('#modal_user_phone_number').html("번호 : " + data.user.phone_number);
                     $('.ui.modal').modal('show');
-
                 },
                 error: function(e) {
                     alert(e.responseText);
@@ -168,7 +166,6 @@
                 location.href = '../incompletehappyday/' + happyday_id;
             }
         }
-
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
             
@@ -328,6 +325,33 @@
         }
         
         
+        function likeHappyDay(happyday_id) {
+            var data = {};
+            data.happyday_id = happyday_id;
+            
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                datatype: "json", // expecting JSON to be returned
+                url: '/likeHappyDay',
+                success: function(result) {
+                    alert("숫자 확인");
+                    $("#HD_like_cnt").empty();
+                    $("#HD_like_cnt").append(result.cur_like_cnt).trigger("create");
+                }
+            });
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </script>
 
     <style type="text/css">
@@ -405,22 +429,24 @@
                         <!--<button class='ui red button' id='category3'>#<%=data.category_code3%></button>-->
 
                 </div>
+
                 
-                <!-- 좋아요, 댓글 부분 -->
-                <!--<div class="ui segment">-->
-                <!--    <div class="ui labeled button" tabindex="0">-->
-                <!--        <div class="ui yellow button">-->
-                <!--            <i class="heart icon"></i> Like-->
-                <!--        </div>-->
-                <!--        <a class="ui basic red left pointing label">1,048</a>-->
-                <!--    </div>-->
-                <!--    <div class="ui labeled button" tabindex="0">-->
-                <!--        <div class="ui gray button">-->
-                <!--            <i class="feed icon"></i> Feed-->
-                <!--        </div>-->
-                <!--        <a class="ui basic red left pointing label">10</a>-->
-                <!--    </div>-->
-                <!--</div>-->
+                <div class="ui segment">
+                    <div class="ui labeled button" tabindex="0" style="background-color:#ee5252" onClick="javascript:likeHappyDay('<%=data.happyday_id%>')">
+                        <div class="ui red button">
+                            <i class="like icon"></i> 좋아요
+                        </div>
+                        <a class="ui basic red left pointing label" id="HD_like_cnt"><%=HD_like.like_cnt%></a>
+                    </div>
+                    <div class="ui labeled button" tabindex="0" style="background-color:000000">
+                        <div class="ui grey button">
+                            <i class="talk outline icon"></i> 댓글
+                        </div>
+                        <a class="ui basic grey left pointing label">10</a>
+                    </div>
+                </div>
+                
+
                 
                 <div class="ui segment"><table class="ui definition table">
                         <tbody>
