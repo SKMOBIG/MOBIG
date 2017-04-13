@@ -14,18 +14,18 @@
     <script src="../../javascripts/jquery.js"></script>
     <script src="../../javascripts/jquery.min.js"></script>
 
-
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
 
     <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script> 
-   
-
+  
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
+        var rereply_flag = 0
         
         $(document).ready(function() {
             $('.ui.accordion').accordion();
+            rereply_show_hide();
             
             /* 1. 미완료(I) 이면 모든 버튼 none -> 기본 none
                2. 완료(C) 이면 완료버튼 표시
@@ -320,7 +320,6 @@
             });
         }
         
-        
         function likeHappyDay(happyday_id) {
             var data = {};
             data.happyday_id = happyday_id;
@@ -332,22 +331,25 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/likeHappyDay',
                 success: function(result) {
-                    alert("숫자 확인");
-                    $("#HD_like_cnt").empty();
+                  $("#HD_like_cnt").empty();
                     $("#HD_like_cnt").append(result.cur_like_cnt).trigger("create");
                 }
             });
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        function rereply_show_hide() {
+            
+                if(rereply_flag==0)
+                {
+                    $('#rereply_textarea').hide();
+                    rereply_flag=1;
+                }
+                else
+                {
+                    $('#rereply_textarea').show();
+                    rereply_flag=0;
+                }
+        }
     </script>
 
     <style type="text/css">
@@ -375,7 +377,7 @@
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
         }
-        
+   
     </style>
 
 </head>
@@ -539,10 +541,69 @@
                     <button class="ui black button" id="end_button" style="display: none" onClick="">활동 완료</button>                        
                 </div>
                 
-            </div>
-
-
-        </div> <!-- content -->
+   <div class="ui segment">
+	<div class="ui comments">
+		<h3 class="ui dividing header">댓글</h3>
+		<div class="comment">
+			<a class="avatar">
+			<img src="/images/avatar/small/elliot.jpg">
+			</a>
+			<div class="content">
+				<a class="author">원석이형</a>
+				<div class="metadata">
+					<span class="date">Yesterday at 12:30AM</span>
+				</div>
+				<div class="text">
+					<p>
+						 나는야~~ 노래꾼~♬
+					</p>
+				</div>
+				<div class="actions">
+					<a class="reply">답글// 답글 취소</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="comment">
+			<a class="avatar">
+			<img src="/images/avatar/small/elliot.jpg">
+			</a>
+			<div class="content">
+				<a class="author">조꿀꿀</a>
+				<div class="metadata">
+					<span class="date">Yesterday at 12:30AM</span>
+				</div>
+				<div class="text">
+					<p>
+						 난 조건 안보고 사람 됨됨이를 봐~ 꿀꿀
+					</p>
+				</div>
+				<div class="actions">
+					<a class="reply" onClick="javascript:rereply_show_hide()">답글//답글 취소</a>
+				</div>
+				<div>
+				<form class="ui rereply form" id ="rereply_textarea">
+		         	<div class="field">
+			        	<textarea style="resize: none; "></textarea>
+		        	</div>
+		        	<div class="ui blue labeled submit icon button">
+			        	<i class="icon edit"></i> 등록
+		        	</div>
+	        	</form>
+			    </div>
+		</div>
+		<form class="ui reply form">
+			<div class="field">
+				<textarea style="resize: none; "></textarea>
+			</div>
+			<div class="ui blue labeled submit icon button">
+				<i class="icon edit"></i> 등록
+			</div>
+		</form>
+	</div>
+   </div>
+  </div>
+ </div> <!-- content -->
 
     <!--사용자 프로필 Modal -->
     <div class="ui modal" >
@@ -554,7 +615,6 @@
                     <span id="modal_user_name"> </span> <p></p>
                     <span id="modal_user_sm_name"> </span> <p></p>
                     <span id="modal_user_phone_number"> </span>
-                    
                 </div>
             </div>
         </div>
@@ -566,10 +626,7 @@
         </div>
     </div>
 
-    
-    
     <!--    <div class="header">===이전 관련 활동보기===</div>-->
-        
     <!--    <div class="ui link cards">-->
     <!--        <div class="card">-->
     <!--            <div class="image">-->
@@ -596,7 +653,8 @@
     <!--        </div>-->
     <!--    </div>-->
     <!--</div>-->
-    
+    </div>
+
 </body>
 
 
