@@ -14,13 +14,11 @@
     <script src="../../javascripts/jquery.js"></script>
     <script src="../../javascripts/jquery.min.js"></script>
 
-
     <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
     <script src="/dist/semantic.min.js"></script>
 
     <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=770adf51a5a246189a8db45706f471ce&libraries=services"></script> 
-   
-
+  
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
         var rereply_flag = 0
@@ -322,7 +320,6 @@
             });
         }
         
-        
         function likeHappyDay(happyday_id) {
             var data = {};
             data.happyday_id = happyday_id;
@@ -334,8 +331,7 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/likeHappyDay',
                 success: function(result) {
-                    alert("숫자 확인");
-                    $("#HD_like_cnt").empty();
+                  $("#HD_like_cnt").empty();
                     $("#HD_like_cnt").append(result.cur_like_cnt).trigger("create");
                 }
             });
