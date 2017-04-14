@@ -71,21 +71,37 @@ module.exports = function(app, connectionPool) {
                                          }
                                         else 
                                         {
-                                            //이미 좋아요 누른 사람이 있을 경우
-                                            //TODO : 내가 눌렀는지 확인 하는 작업
-                                            //TODO : 내가 눌렀으면 누른 state Y return, 아닐경우 N 리턴
-                                            if(rows.length > 0) 
+                                            if(hd_like_rows.length > 0)
                                             {
-                                                // console.log("cc");
-                                                res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state});
-                                                connection.release();
+                                               
+                                                var like_state = "N";
+
+                                                //이미 좋아요 누른 사람이 있을 경우
+                                                connection.query('select * from happyday_like where happyday_id = ? and user_id = ?;', [req.params.id, req.session.user_id], function(error, hd_like_yn) {
+                                                //TODO : 내가 눌렀는지 확인 하는 작업
+                                                //TODO : 내가 눌렀으면 누른 state Y return, 아닐경우 N 리턴
+                                                    if(hd_like_yn.length > 0) 
+                                                    {
+                                                        // console.log("cc");
+                                                        like_state = "Y";
+                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state, like_state : like_state});
+                                                        connection.release();
+                                                        console.log(like_state);
+                                                    }
+                                                    //이미 좋아요 누른 사람이 없는경우 ,, (굳이 이렇게 로직을 짜야하나..)
+                                                    else 
+                                                    {
+                                                        like_state = "N";
+                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state, like_state : like_state});
+                                                        connection.release();
+                                                        console.log(like_state);
+                                                    }
+                                                });
                                             }
-                                            //이미 좋아요 누른 사람이 없는경우 ,, (굳이 이렇게 로직을 짜야하나..)
-                                            else 
-                                            {
-                                                res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state});
-                                                connection.release();
-                                            }    
+                                            else{
+                                                res.redirect('/');
+                                                connection.release(); 
+                                            }
                                         }
                                     });
                                 }
@@ -415,10 +431,12 @@ module.exports = function(app, connectionPool) {
                 connection.release();
                 throw error;
             }else {
+                var like_state = "N";
                 //내가 좋아요를 누르지 않은 상태
                 //테이블에 insert
                 if(rows.length==0)
                 {
+                    
                     connection.query('insert into happyday_like (happyday_id , user_id , happyday_like_dtm) values(?,?,date_format(sysdate(), "%Y%m%d%H%i%s"));',
                         [req.body.happyday_id,  req.session.user_id], function(error, rows) 
                         {
@@ -434,8 +452,9 @@ module.exports = function(app, connectionPool) {
                                          throw error;
                                      }
                                     else 
-                                    { 
-                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt});
+                                    {
+                                        like_state ="Y";
+                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt, like_state : like_state});
                                         connection.release();
                                   }
                                 });
@@ -461,7 +480,8 @@ module.exports = function(app, connectionPool) {
                                      }
                                     else 
                                     {
-                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt});
+                                        like_state ="N";
+                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt, like_state : like_state});
                                         connection.release();
                                   }
                                 });
