@@ -475,6 +475,35 @@ module.exports = function(app, connectionPool) {
     });
     
     
+    
+    
+    
+    
+    //댓글 등록
+    app.post('/RegReply', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            console.log(req.body.reply_contents);
+           connection.query('insert into happyday_reply (happyday_id, user_id, HDreply_contents, HDreply_code, reg_dtm, update_dtm, del_yn) values(?, ?, ?,  "reply",  date_format(sysdate(), "%Y%m%d%H%i%s"),date_format(sysdate(), "%Y%m%d%H%i%s"), "n");', [req.body.happyday_id, req.session.user_id, req.body.reply_contents], function(error, reply_insert_rows) {
+            if(error){
+                connection.release();
+                throw error;
+            }else {
+                res.json({success : "Successfully", status : 200});
+                connection.release();
+            }                     
+        });
+        }); 
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     app.get('/incompletehappyday/:happyday_id', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
             /* 미완료 작업 진행 
