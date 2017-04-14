@@ -45,7 +45,7 @@ module.exports = function(app, connectionPool) {
                     connection.release();
                     throw error;
                 }else {
-                    res.redirect('/detail/'+ req.body.happyID);
+                    res.redirect('happyday/detail/'+ req.body.happyID);
                     connection.release();
                 }    
                 

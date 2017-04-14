@@ -73,6 +73,7 @@ connectionPool = mysql.createPool({
     port : '3306',
     connectionLimit : 20,
     waitForConnections : false
+
 }); */
 
 //app.get('/', routes.index);
