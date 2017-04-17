@@ -62,41 +62,62 @@ module.exports = function(app, connectionPool) {
                                         }
                                     }
                                     
-                                    //20170412KJB::Happyday_like(해피데이 좋아요) select 쿼리
-                                    //TODO : 쿼리 다시 짜기
-                                    connection.query('select count(*) as like_cnt from happyday_like where happyday_id = ?;', [req.params.id], function(error, hd_like_rows) {
+                                    //20170417KJB::해당 해피데이 댓글  select all
+                                    //TODO: 쿼리 수정
+                                    connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.happyday_id = ?;', [req.params.id], function(error, hd_reply_rows) {
                                         if(error) {
                                            connection.release();
                                              throw error;
                                          }
                                         else 
                                         {
-                                            if(hd_like_rows.length > 0)
+                                            if(hd_reply_rows.length >= 0)
                                             {
                                                
-                                                var like_state = "N";
-
-                                                //이미 좋아요 누른 사람이 있을 경우
-                                                connection.query('select * from happyday_like where happyday_id = ? and user_id = ?;', [req.params.id, req.session.user_id], function(error, hd_like_yn) {
-                                                //TODO : 내가 눌렀는지 확인 하는 작업
-                                                //TODO : 내가 눌렀으면 누른 state Y return, 아닐경우 N 리턴
-                                                    if(hd_like_yn.length > 0) 
-                                                    {
-                                                        // console.log("cc");
-                                                        like_state = "Y";
-                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state, like_state : like_state});
-                                                        connection.release();
-                                                        console.log(like_state);
-                                                    }
-                                                    //이미 좋아요 누른 사람이 없는경우 ,, (굳이 이렇게 로직을 짜야하나..)
-                                                    else 
-                                                    {
-                                                        like_state = "N";
-                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state, like_state : like_state});
-                                                        connection.release();
-                                                        console.log(like_state);
-                                                    }
-                                                });
+                                                  //20170412KJB::Happyday_like(해피데이 좋아요) select 쿼리
+                                                  //TODO : 쿼리 다시 짜기
+                                                  connection.query('select count(*) as like_cnt from happyday_like where happyday_id = ?;', [req.params.id], function(error, hd_like_rows) {
+                                                        if(error) {
+                                                           connection.release();
+                                                             throw error;
+                                                         }
+                                                        else 
+                                                        {
+                                                            if(hd_like_rows.length > 0)
+                                                            {
+                                                               
+                                                                var like_state = "N";
+                                                                console.log(hd_reply_rows);
+                
+                                                                //이미 좋아요 누른 사람이 있을 경우
+                                                                connection.query('select * from happyday_like where happyday_id = ? and user_id = ?;', [req.params.id, req.session.user_id], function(error, hd_like_yn) {
+                                                                //TODO : 내가 눌렀는지 확인 하는 작업
+                                                                //TODO : 내가 눌렀으면 누른 state Y return, 아닐경우 N 리턴
+                                                                    if(hd_like_yn.length > 0) 
+                                                                    {
+                                                                        // console.log("cc");
+                                                                        like_state = "Y";
+                                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], hd_reply:hd_reply_rows, session : req.session, reg_state : reg_state, like_state : like_state});
+                                                                        connection.release();
+                                                                        console.log(like_state);
+                                                                    }
+                                                                    //이미 좋아요 누른 사람이 없는경우 ,, (굳이 이렇게 로직을 짜야하나..)
+                                                                    else 
+                                                                    {
+                                                                        like_state = "N";
+                                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], hd_reply:hd_reply_rows, session : req.session, reg_state : reg_state, like_state : like_state});
+                                                                        connection.release();
+                                                                        console.log(like_state);
+                                                                    }
+                                                                });
+                                                                
+                                                            }
+                                                            else{
+                                                                res.redirect('/');
+                                                                connection.release(); 
+                                                            }
+                                                        }
+                                                    });
                                             }
                                             else{
                                                 res.redirect('/');

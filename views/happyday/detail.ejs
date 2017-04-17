@@ -359,7 +359,6 @@
                         $("#likeY").hide();
                         $("#likeN").show();
                     }
-                    
                 }
             });
         }
@@ -383,7 +382,7 @@
         
         
         
-        
+        //해피데이 댓글 등록
         function RegReply(happyday_id) {
             var data = {};
             data.happyday_id = happyday_id;
@@ -401,6 +400,12 @@
                  
                 }
             });
+        }
+        
+        function ShowReply(happyday_id)
+        {
+            
+            return true;
         }
         
         
@@ -606,26 +611,30 @@
    <div class="ui segment" id="reply_list">
 	<div class="ui comments">
 		<h3 class="ui dividing header">댓글</h3>
-		<div class="comment">
-			<a class="avatar">
-			<img src="/images/avatar/small/elliot.jpg">
-			</a>
-			<div class="content">
-				<a class="author">원석이형</a>
-				<div class="metadata">
-					<span class="date">Yesterday at 12:30AM</span>
-				</div>
+		
+		 <% for (var i = 0; i < hd_reply.length; i++) { %>
+             <div class="comment">
+			    <a class="avatar">
+			    <img src="/images/avatar/small/elliot.jpg">
+			    </a>
+		    	<div class="content">
+			    	<a class="author"><%=hd_reply[i].user_name%></a>
+			    	<div class="metadata">
+				    	<span class="date"><%=hd_reply[i].update_dtm%></span>
+			    	</div>
 				<div class="text">
 					<p>
-						 나는야~~ 노래꾼~♬
+						 <%=hd_reply[i].HDreply_contents%>
 					</p>
 				</div>
 				<div class="actions">
 					<a class="reply">답글// 답글 취소</a>
 				</div>
-			</div>
-		</div>
+		    	</div>
+	    	</div>
+         <% } %>
 		
+
 		<div class="comment">
 			<a class="avatar">
 			<img src="/images/avatar/small/elliot.jpg">
@@ -654,6 +663,11 @@
 	        	</form>
 			    </div>
 		</div>
+		
+		
+		
+		
+		
 		<form class="ui reply form">
 			<div class="field">
 				<textarea id="reply_contents" style="resize: none; "></textarea>
