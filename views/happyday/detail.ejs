@@ -402,9 +402,9 @@
             });
         }
         
+        //20170417:: 댓글 CRUD 하고 난뒤 새로 SHOW
         function ShowReply(happyday_id)
         {
-            
             return true;
         }
         
@@ -622,61 +622,37 @@
 			    	<div class="metadata">
 				    	<span class="date"><%=hd_reply[i].update_dtm%></span>
 			    	</div>
-				<div class="text">
-					<p>
-						 <%=hd_reply[i].HDreply_contents%>
-					</p>
-				</div>
-				<div class="actions">
-					<a class="reply">답글// 답글 취소</a>
-				</div>
+    				<div class="text">
+    					<p>
+    						 <%=hd_reply[i].HDreply_contents%>
+    					</p>
+    				</div>
+    				<div class="actions">
+    					<a class="reply" onClick="javascript:rereply_show_hide()">답글// 답글 취소</a>
+    				</div>
+    				<div style="display:hide">
+				        <form class="ui rereply form" id ="rereply_textarea">
+		         	        <div class="field">
+			        	        <textarea style="resize: none; "></textarea>
+		        	        </div>
+		        	        <div class="ui blue labeled submit icon button">
+			        	        <i class="icon edit" ></i> 등록
+		        	        </div>
+	        	        </form>
+			        </div>
 		    	</div>
 	    	</div>
          <% } %>
 		
-
-		<div class="comment">
-			<a class="avatar">
-			<img src="/images/avatar/small/elliot.jpg">
-			</a>
-			<div class="content">
-				<a class="author">꿀꿀</a>
-				<div class="metadata">
-					<span class="date">Yesterday at 12:30AM</span>
-				</div>
-				<div class="text">
-					<p>
-						 꿀꿀
-					</p>
-				</div>
-				<div class="actions">
-					<a class="reply" onClick="javascript:rereply_show_hide()">답글//답글 취소</a>
-				</div>
-				<div>
-				<form class="ui rereply form" id ="rereply_textarea">
-		         	<div class="field">
-			        	<textarea style="resize: none; "></textarea>
-		        	</div>
-		        	<div class="ui blue labeled submit icon button">
-			        	<i class="icon edit" ></i> 등록
-		        	</div>
-	        	</form>
-			    </div>
-		</div>
-		
-		
-		
-		
-		
-		<form class="ui reply form">
-			<div class="field">
-				<textarea id="reply_contents" style="resize: none; "></textarea>
-			</div>
-			<div class="ui blue labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
-				<i class="icon edit"></i> 등록
-			</div>
-		</form>
-	</div>
+    		<form class="ui reply form">
+    			<div class="field">
+    				<textarea id="reply_contents" style="resize: none; "></textarea>
+    			</div>
+    			<div class="ui blue labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
+    				<i class="icon edit"></i> 등록
+    			</div>
+    		</form>
+	    
    </div>
   </div>
  </div> <!-- content -->
