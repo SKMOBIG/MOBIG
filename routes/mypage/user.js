@@ -52,6 +52,8 @@ module.exports = function(app, connectionPool) {
                                         'set phone_number = ?, birthday = ?, user_img = ?, home_town = ? '+
                                       'where id = ?;', params, function(error, result) {
                         if(error) {
+                            console.log("ERROR!!!!!!!!!");
+                            
                             connection.rollback(function() {
                                 connection.release();
                                 console.error("update user rollback error");
@@ -61,21 +63,26 @@ module.exports = function(app, connectionPool) {
                             throw error;
                         } // error
                         
-                        connection.commit(function(err) {
-                            if(err) {
-                                console.error("update user commit error : " + err);
-                                connection.rollback(function() {
-                                    connection.release();
-                                    console.error("update user rollback error");
-                                    throw error;
-                                });
-                            }
-                            connection.release();
-                            res.json({success : "Updated Successfully", status : 200, user_img : req.body.user_img}); // express 사용 시
-                        });
+                        console.log("RESULT : " + result.affectedRows);
                         
+                        if(result.affectedRows > 0) {
+                            connection.commit(function(err) {
+                                if(err) {
+                                    console.error("update user commit error : " + err);
+                                    connection.rollback(function() {
+                                        connection.release();
+                                        console.error("update user rollback error");
+                                        throw error;
+                                    });
+                                }
+                                
+                                res.json({success : "Updated Success", status : 200, user_img : req.body.user_img}); // express 사용 시
+                            });
+                        }else {
+                            res.json({success : "Updated fail", status : 500}); // express 사용 시
+                        }
                         
-                        
+                        connection.release();
                     });
                 });
                 

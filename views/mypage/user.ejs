@@ -57,6 +57,9 @@
                   if(result.status == 200){
                       alert("수정되었습니다");
                       $(".bordered.image").attr("src", result.user_img).trigger("create");
+                  }else {
+                      alert("수정중 오류가 발생했습니다.");
+                      location.href = '/';
                   }
                 }
               });
