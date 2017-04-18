@@ -38,31 +38,48 @@ module.exports = function(app, connectionPool) {
             res.redirect('/');
             
         }else if(req.session.user_id == req.body.user_id) {
+            // console.log(req.body);
             connectionPool.getConnection(function(err, connection) {
                 
-                console.log(req.body);
-                
-                var params = [req.body.phone_number, req.body.birthday, req.body.user_img, req.body.home_town, req.session.user_id];
-                var queries = connection.query('update user '+
-                                 'set phone_number = ?, birthday = ?, user_img = ?, home_town = ? '+
-                                 'where id = ?;', params, function(error, result) {
-                    
-                    if(error) {
+                connection.beginTransaction(function(err) {
+                    if(err) {
                         connection.release();
-                        throw error;
-                    }else {
-                        connection.release();
-                        res.json({success : "Updated Successfully", status : 200, user_img : req.body.user_img}); // express 사용 시
-                        /*
-                        var response = {
-                            status  : 200,
-                            success : 'Updated Successfully'
-                        }
-                        
-                        res.end(JSON.stringify(response));
-                        */
+                        throw err;
                     }
+                    
+                    var params = [req.body.phone_number, req.body.birthday, req.body.user_img, req.body.home_town, req.session.user_id];
+                    connection.query('update user '+
+                                        'set phone_number = ?, birthday = ?, user_img = ?, home_town = ? '+
+                                      'where id = ?;', params, function(error, result) {
+                        if(error) {
+                            connection.rollback(function() {
+                                connection.release();
+                                console.error("update user rollback error");
+                                throw error;
+                            });
+                            connection.release();
+                            throw error;
+                        } // error
+                        
+                        connection.commit(function(err) {
+                            if(err) {
+                                console.error("update user commit error : " + err);
+                                connection.rollback(function() {
+                                    connection.release();
+                                    console.error("update user rollback error");
+                                    throw error;
+                                });
+                            }
+                            connection.release();
+                            res.json({success : "Updated Successfully", status : 200, user_img : req.body.user_img}); // express 사용 시
+                        });
+                        
+                        
+                        
+                    });
                 });
+                
+                
             });    
         }
     });
