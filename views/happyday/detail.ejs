@@ -117,13 +117,13 @@
             }
             
             //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
-            $('.actions').hide();
-            
-            for(i=0; i< <%=hd_reply.length%>; i++){
-                var locationArray+i= 1;
-                
-            }
 
+            $('.actions').hide();
+
+            // $('.actions').hide();
+            
+            
+        
 
         
         });
@@ -476,7 +476,7 @@
             
             $("#reply_list").empty();
             
-            var $ui_comments = $("<div class='ui comments' id='reply_ui_comments'></div>");
+            var $ui_comments = $("<div class='ui comments' id='reply_ui_comments' style='max-width:100em; background-color:#FDF5E6'></div>");
             $("#reply_list").append($ui_comments).trigger("create");
             
             var $ui_dividing_header = $("<h3 class='ui dividing header'>댓글</h3>");
@@ -523,7 +523,7 @@
                 var $ui_update_textarea = $("<textarea style='resize: none;' maxlength='70' id='HDreply_update_text"+ reply_row[i].happydayreply_id+"'>"+reply_row[i].HDreply_contents +"</textarea>");
                 $("#field"+reply_row[i].happydayreply_id).append($ui_update_textarea).trigger("create");
                 
-                var $submit_update_reply_button = $("<div class='ui blue labeled submit icon button'  id='submit_update_reply_button"+reply_row[i].happydayreply_id+"' onClick='UpdateHDReply("+reply_row[i].happydayreply_id+ "," +happyday_id+")' </div> ");
+                var $submit_update_reply_button = $("<div class='ui green labeled submit icon button'  id='submit_update_reply_button"+reply_row[i].happydayreply_id+"' onClick='UpdateHDReply("+reply_row[i].happydayreply_id+ "," +happyday_id+")' </div> ");
                 $("#updatereply_textarea"+reply_row[i].happydayreply_id).append($submit_update_reply_button).trigger("create");
                 
                 var $reply_update_icon = $("<i class='icon edit'> </i>");
@@ -555,7 +555,7 @@
             var $reply_textarea = $("<textarea id='reply_contents' style='resize:none; maxlength='70'  ' </textarea>");
             $("#reply_field").append($reply_textarea).trigger("create");
             
-            var $div_button_field = $("<div class='ui blue labeled submit icon button' id='reply_reg_button' onClick='RegReply("+happyday_id+")'> </div>");
+            var $div_button_field = $("<div class='ui green labeled submit icon button' id='reply_reg_button' onClick='RegReply("+happyday_id+")'> </div>");
             $("#ui_reply_form").append($div_button_field).trigger("create");
             
             var $i_class_icon = $("<i class='icon edit'> </i>");
@@ -687,7 +687,7 @@
                                 <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td style = "margin-top: -15px; letter-spacing:-2px" >차감포인트</td>
+                                <td style = "margin-top: -15px; letter-spacing:-1px" >차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
@@ -744,7 +744,7 @@
                 </div>
                 <% var i = 0 %>
                 <div class="ui segment" id="present_condition">
-                    <p>* 신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
+                    <h3 class="ui dividing header">신청현황 (<%=userList.length%>/<%=data.num_participants%>)</h3>
                     <div class="image">
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="<%=userList[i].user_img%>" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
@@ -764,8 +764,8 @@
                 </div>
                 
    <div class="ui segment" id="reply_list">
-	<div class="ui comments" id="reply_ui_comments">
-		<h3 class="ui dividing header">댓글</h3>
+	<h3 class="ui dividing header">댓글</h3>
+	<div class="ui comments" id="reply_ui_comments" style="max-width:100em; background-color:#FDF5E6">
 		
 		 <% for (var i = 0; i < hd_reply.length; i++) { %>
              <div class="comment">
@@ -784,9 +784,9 @@
     				</div>
     				<form class="ui update form" id ="updatereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
-			        	        <textarea style="resize: none;", id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
+			        	        <textarea style="resize: none; " style="" id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
 		        	        </div>
-		        	        <div class="ui blue labeled submit icon button " onClick="javascript:UpdateHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)">
+		        	        <div class="ui green labeled submit icon button " onClick="javascript:UpdateHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)">
 			        	        <i class="icon edit" ></i> 수정
 		        	        </div>
 	        	    </form>
@@ -798,10 +798,12 @@
     				<div>
 				        <form class="ui rereply form" id ="rereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
-			        	        <textarea style="resize: none; "></textarea>
+			        	        <textarea style="resize: none;"></textarea>
 		        	        </div>
-		        	        <div class="ui blue labeled submit icon button">
+		        	        <div class="ui right aligned segment">
+		        	        <div class="ui green labeled submit icon button">
 			        	        <i class="icon edit" ></i> 등록
+		        	        </div>
 		        	        </div>
 	        	        </form>
 			        </div>
@@ -809,13 +811,16 @@
 	    	</div>
          <% } %>
 		
-    		<form class="ui reply form">
+    		<form class="ui reply form" >
+    		    
     			<div class="field">
-    				<textarea id="reply_contents" style="resize: none;" maxlength="70"></textarea>
+    				<textarea id="reply_contents" style="resize: none; height:0.5em"></textarea>
     			</div>
-    			<div class="ui blue labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
-    				<i class="icon edit"></i> 등록
+    					        	        
+    			<div class="ui green labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
+    				<i class="icon edit" ></i> 등록
     			</div>
+    	
     		</form>
 	    
    </div>
