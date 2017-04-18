@@ -62,30 +62,67 @@ module.exports = function(app, connectionPool) {
                                         }
                                     }
                                     
-                                    //20170412KJB::Happyday_like(해피데이 좋아요) select 쿼리
-                                    //TODO : 쿼리 다시 짜기
-                                    connection.query('select count(*) as like_cnt from happyday_like where happyday_id = ?;', [req.params.id], function(error, hd_like_rows) {
+                                    //20170417KJB::해당 해피데이 댓글  select all (del_yn='n')
+                                    //TODO: 쿼리 수정
+                                    connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.params.id], function(error, hd_reply_rows) {
                                         if(error) {
                                            connection.release();
                                              throw error;
                                          }
                                         else 
                                         {
-                                            //이미 좋아요 누른 사람이 있을 경우
-                                            //TODO : 내가 눌렀는지 확인 하는 작업
-                                            //TODO : 내가 눌렀으면 누른 state Y return, 아닐경우 N 리턴
-                                            if(rows.length > 0) 
+                                            if(hd_reply_rows.length >= 0)
                                             {
-                                                // console.log("cc");
-                                                res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state});
-                                                connection.release();
+                                               
+                                                  //20170412KJB::Happyday_like(해피데이 좋아요) select 쿼리
+                                                  //TODO : 쿼리 다시 짜기
+                                                  connection.query('select count(*) as like_cnt from happyday_like where happyday_id = ?;', [req.params.id], function(error, hd_like_rows) {
+                                                        if(error) {
+                                                           connection.release();
+                                                             throw error;
+                                                         }
+                                                        else 
+                                                        {
+                                                            if(hd_like_rows.length > 0)
+                                                            {
+                                                               
+                                                                var like_state = "N";
+                                                                console.log(hd_reply_rows);
+                
+                                                                //이미 좋아요 누른 사람이 있을 경우
+                                                                connection.query('select * from happyday_like where happyday_id = ? and user_id = ?;', [req.params.id, req.session.user_id], function(error, hd_like_yn) {
+                                                                //TODO : 내가 눌렀는지 확인 하는 작업
+                                                                //TODO : 내가 눌렀으면 누른 state Y return, 아닐경우 N 리턴
+                                                                    if(hd_like_yn.length > 0) 
+                                                                    {
+                                                                        // console.log("cc");
+                                                                        like_state = "Y";
+                                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], hd_reply:hd_reply_rows, session : req.session, reg_state : reg_state, like_state : like_state});
+                                                                        connection.release();
+                                                                        console.log(like_state);
+                                                                    }
+                                                                    //이미 좋아요 누른 사람이 없는경우 ,, (굳이 이렇게 로직을 짜야하나..)
+                                                                    else 
+                                                                    {
+                                                                        like_state = "N";
+                                                                        res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], hd_reply:hd_reply_rows, session : req.session, reg_state : reg_state, like_state : like_state});
+                                                                        connection.release();
+                                                                        console.log(like_state);
+                                                                    }
+                                                                });
+                                                                
+                                                            }
+                                                            else{
+                                                                res.redirect('/');
+                                                                connection.release(); 
+                                                            }
+                                                        }
+                                                    });
                                             }
-                                            //이미 좋아요 누른 사람이 없는경우 ,, (굳이 이렇게 로직을 짜야하나..)
-                                            else 
-                                            {
-                                                res.render('happyday/detail', {data : rows[0], userList : rows1, HD_like : hd_like_rows[0], session : req.session, reg_state : reg_state});
-                                                connection.release();
-                                            }    
+                                            else{
+                                                res.redirect('/');
+                                                connection.release(); 
+                                            }
                                         }
                                     });
                                 }
@@ -415,10 +452,12 @@ module.exports = function(app, connectionPool) {
                 connection.release();
                 throw error;
             }else {
+                var like_state = "N";
                 //내가 좋아요를 누르지 않은 상태
                 //테이블에 insert
                 if(rows.length==0)
                 {
+                    
                     connection.query('insert into happyday_like (happyday_id , user_id , happyday_like_dtm) values(?,?,date_format(sysdate(), "%Y%m%d%H%i%s"));',
                         [req.body.happyday_id,  req.session.user_id], function(error, rows) 
                         {
@@ -434,8 +473,9 @@ module.exports = function(app, connectionPool) {
                                          throw error;
                                      }
                                     else 
-                                    { 
-                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt});
+                                    {
+                                        like_state ="Y";
+                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt, like_state : like_state});
                                         connection.release();
                                   }
                                 });
@@ -461,7 +501,8 @@ module.exports = function(app, connectionPool) {
                                      }
                                     else 
                                     {
-                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt});
+                                        like_state ="N";
+                                        res.json({success : "Successfully", cur_like_cnt : hd_like_rows[0].like_cnt, like_state : like_state});
                                         connection.release();
                                   }
                                 });
@@ -473,6 +514,100 @@ module.exports = function(app, connectionPool) {
         });
         }); 
     });
+    
+    //2017043KJB::댓글 등록
+    app.post('/RegReply', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+          
+           connection.query('insert into happyday_reply (happyday_id, user_id, HDreply_contents, HDreply_code, reg_dtm, update_dtm, del_yn) values(?, ?, ?,  "reply",  date_format(sysdate(), "%Y%m%d%H%i%s"),date_format(sysdate(), "%Y%m%d%H%i%s"), "n");', [req.body.happyday_id, req.session.user_id, req.body.reply_contents], function(error, reply_insert_rows) {
+            if(error){
+                connection.release();
+                throw error;
+            }else {
+                
+                
+                 connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, insert_HDreply_rows) {
+                                if(error) {
+                                   connection.release();
+                                     throw error;
+                                 }
+                                else{
+                                    res.json({success : "Successfully", insert_HDreply_rows: insert_HDreply_rows });
+                                    connection.release();
+                                }
+                });
+               }                     
+        });
+        }); 
+    });
+    
+    
+    //20170418KJB::댓글 수정(내용, update dtm)
+    app.post('/UpdateHDReply', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+        //   console.log("수정 들어와라");
+        //   console.log(req.body.HDreply_update_text);
+        //   console.log(req.body.happydayreply_id);
+          connection.query('UPDATE happyday_reply SET HDreply_contents=?, update_dtm= date_format(sysdate(), "%Y%m%d%H%i%s")  WHERE happydayreply_id=?;', [req.body.HDreply_update_text, req.body.happydayreply_id], function(error, reply_insert_rows) {
+            if(error){
+                connection.release();
+                throw error;
+            }else {
+                
+                
+                connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, update_HDreply_rows) {
+                                if(error) {
+                                   connection.release();
+                                     throw error;
+                                 }
+                                else{
+                                    res.json({success : "Successfully", update_HDreply_rows: update_HDreply_rows });
+                                    connection.release();
+                                }
+                });
+                
+                 
+            }                     
+        });
+        }); 
+    });
+    
+    
+    
+    
+    //20170418KJB::댓글 삭제 del_yn="y"
+    app.post('/DelHDReply', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            
+           connection.query('update happyday_reply set del_yn="y" where happydayreply_id = ?;', [req.body.happydayreply_id], function(error, reply_insert_rows) {
+            if(error){
+                connection.release();
+                throw error;
+            }else {
+                
+                    connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, del_HDreply_rows) {
+                                if(error) {
+                                   connection.release();
+                                     throw error;
+                                 }
+                                else{
+                                    res.json({success : "Successfully", del_HDreply_rows: del_HDreply_rows });
+                                    connection.release();
+                                }
+                });
+                
+                
+            }                     
+        });
+        }); 
+    });
+    
+    
+    
+    
+    
+    
+    
     
     
     app.get('/incompletehappyday/:happyday_id', function(req, res, next){
