@@ -26,6 +26,7 @@
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
         var rereply_flag = 0
+        var updatereply_flag = 0
         
         $(document).ready(function() {
             $('.ui.accordion').accordion();
@@ -283,10 +284,6 @@
             }
         }
          
-         
-              
-         
-         
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
@@ -400,10 +397,7 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/RegReply',
                 success: function(result) {
-                    
-                    
-                    ShowReply(result.insert_HDreply_rows, happyday_id);
-                 
+                     ShowReply(result.insert_HDreply_rows, happyday_id);
                 }
             });
         }
@@ -414,9 +408,6 @@
             data.happydayreply_id = happydayreply_id;
             data.HDreply_update_text = $("#HDreply_update_text"+happydayreply_id).val();
             data.happyday_id = happyday_id;
-            
-            
-            alert($("#HDreply_update_text"+happydayreply_id).val());
             
             $.ajax({
                 type: 'POST',
@@ -444,9 +435,7 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/DelHDReply',
                 success: function(result) {
-                    
                     ShowReply(result.del_HDreply_rows, happyday_id);
-                    
                 }
             });
         }
@@ -462,14 +451,25 @@
         //20170417_KJB::수정 버튼 누르면 해당 수정Form 태그 Show
         function ShowUpdateReplyForm(happydayreply_id)
         {
-             $('.reply_contents').show();
-             $('.ui.update.form').hide();                                 //Open 되어 있는거 모두 Hide 
-             
-             var contents_id = "#HDreply_contents"+happydayreply_id;
-             $(contents_id).hide();
-             
-             var update_form_id = "#updatereply_textarea"+happydayreply_id;
-             $(update_form_id).show();
+            //updatereply_flag ==0 // :: 모든 update_textarea가 닫혀있는 상태
+            //updatereply_flag ==? // :: reply_id=?의 update_textaera가 열려있는 상태
+            if(updatereply_flag == 0 || updatereply_flag != happydayreply_id){
+                $('.reply_contents').show();
+                $('.ui.update.form').hide();                                 //Open 되어 있는거 모두 Hide
+                 
+                var contents_id = "#HDreply_contents"+happydayreply_id;
+                $(contents_id).hide();
+                
+                var update_form_id = "#updatereply_textarea"+happydayreply_id;
+                $(update_form_id).show();
+                updatereply_flag = happydayreply_id;
+            }
+            
+            // textarea를 닫기만 원하는 경우
+            else if(updatereply_flag == happydayreply_id){
+                $('.reply_contents').show();
+                $('.ui.update.form').hide();
+            }
         }
         
         // 20170417:: 댓글 CRUD 하고 난뒤 새로 SHOW
@@ -481,10 +481,8 @@
             var $ui_comments = $("<div class='ui comments' id='reply_ui_comments'></div>");
             $("#reply_list").append($ui_comments).trigger("create");
             
-            
             var $ui_dividing_header = $("<h3 class='ui dividing header'>댓글</h3>");
             $("#reply_ui_comments").append($ui_dividing_header).trigger("create");
-            
             
             //for문의 시작
             for(i=0;i<reply_row.length; i++){
@@ -599,11 +597,7 @@
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
         }
-        
-    
-        
-        
-   
+
     </style>
 
 </head>
