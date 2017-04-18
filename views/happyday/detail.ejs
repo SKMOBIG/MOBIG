@@ -774,7 +774,7 @@
                 </div>
                 
    <div class="ui segment" id="reply_list">
-	<div class="ui comments" id="reply_ui_comments">
+	<div class="ui comments" id="reply_ui_comments" style="max-width:100em">
 		<h3 class="ui dividing header">댓글</h3>
 		
 		 <% for (var i = 0; i < hd_reply.length; i++) { %>
@@ -794,7 +794,7 @@
     				</div>
     				<form class="ui update form" id ="updatereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
-			        	        <textarea style="resize: none;", id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
+			        	        <textarea style="resize: none; ", style=""; id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
 		        	        </div>
 		        	        <div class="ui blue labeled submit icon button " onClick="javascript:UpdateHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)">
 			        	        <i class="icon edit" ></i> 수정
@@ -809,10 +809,12 @@
     				<div>
 				        <form class="ui rereply form" id ="rereply_textarea">
 		         	        <div class="field">
-			        	        <textarea style="resize: none; "></textarea>
+			        	        <textarea style="resize: none;" cols="40" rows="10">111</textarea>
 		        	        </div>
+		        	        <div class="ui right aligned segment">11dafasdf
 		        	        <div class="ui blue labeled submit icon button">
 			        	        <i class="icon edit" ></i> 등록
+		        	        </div>
 		        	        </div>
 	        	        </form>
 			        </div>
@@ -820,13 +822,16 @@
 	    	</div>
          <% } %>
 		
-    		<form class="ui reply form">
+    		<form class="ui reply form" >
+    		    
     			<div class="field">
-    				<textarea id="reply_contents" style="resize: none;" maxlength="70"></textarea>
+    				<textarea id="reply_contents" style="resize: none; height:0.5em">11111111</textarea>
     			</div>
-    			<div class="ui blue labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
-    				<i class="icon edit"></i> 등록
+    					        	        
+    			<div class="ui green labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
+    				<i class="icon edit" ></i> 등록
     			</div>
+    	
     		</form>
 	    
    </div>
