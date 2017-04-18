@@ -25,11 +25,12 @@
   
     <script type="text/javascript">
         var cur_num_users = <%= userList.length %>
+        
         var rereply_flag = 0
+        var updatereply_flag = 0
         
         $(document).ready(function() {
             $('.ui.accordion').accordion();
-            rereply_show_hide();
             HideUpdateReplyForm();
             
             /* 1. 미완료(I) 이면 모든 버튼 none -> 기본 none
@@ -106,8 +107,6 @@
             
             // 좋아요 셋팅
             var likeState = "<%= like_state %>";
-            
-            
             if(likeState == "Y"){
                 $('#likeY').show();
                 $('#likeN').hide();
@@ -116,6 +115,15 @@
                 $('#likeY').hide();
                 $('#likeN').show();
             }
+            
+            //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
+            $('.actions').hide();
+            alert("user_id: "+<%=hd_reply[0].user_id%>);
+            
+            
+           
+            
+            
         
         });
         
@@ -283,10 +291,6 @@
             }
         }
          
-         
-              
-         
-         
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
@@ -369,21 +373,7 @@
         }
         
         
-        //TODO 할게 많아 헤헤 주석도 나중에
-        //대댓글 등록창 보이기 안보이기
-        function rereply_show_hide() {
-            
-                if(rereply_flag==0)
-                {
-                    $('#rereply_textarea').hide();
-                    rereply_flag=1;
-                }
-                else
-                {
-                    $('#rereply_textarea').show();
-                    rereply_flag=0;
-                }
-        }
+
         
         
         
@@ -400,10 +390,7 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/RegReply',
                 success: function(result) {
-                    
-                    
-                    ShowReply(result.insert_HDreply_rows, happyday_id);
-                 
+                     ShowReply(result.insert_HDreply_rows, happyday_id);
                 }
             });
         }
@@ -414,9 +401,6 @@
             data.happydayreply_id = happydayreply_id;
             data.HDreply_update_text = $("#HDreply_update_text"+happydayreply_id).val();
             data.happyday_id = happyday_id;
-            
-            
-            alert($("#HDreply_update_text"+happydayreply_id).val());
             
             $.ajax({
                 type: 'POST',
@@ -444,9 +428,7 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/DelHDReply',
                 success: function(result) {
-                    
                     ShowReply(result.del_HDreply_rows, happyday_id);
-                    
                 }
             });
         }
@@ -462,14 +444,25 @@
         //20170417_KJB::수정 버튼 누르면 해당 수정Form 태그 Show
         function ShowUpdateReplyForm(happydayreply_id)
         {
-             $('.reply_contents').show();
-             $('.ui.update.form').hide();                                 //Open 되어 있는거 모두 Hide 
-             
-             var contents_id = "#HDreply_contents"+happydayreply_id;
-             $(contents_id).hide();
-             
-             var update_form_id = "#updatereply_textarea"+happydayreply_id;
-             $(update_form_id).show();
+            //updatereply_flag ==0 // :: 모든 update_textarea가 닫혀있는 상태
+            //updatereply_flag ==? // :: reply_id=?의 update_textaera가 열려있는 상태
+            if(updatereply_flag == 0 || updatereply_flag != happydayreply_id){
+                $('.reply_contents').show();
+                $('.ui.update.form').hide();                                 //Open 되어 있는거 모두 Hide
+                 
+                var contents_id = "#HDreply_contents"+happydayreply_id; 
+                $(contents_id).hide();
+                
+                var update_form_id = "#updatereply_textarea"+happydayreply_id;
+                $(update_form_id).show();
+                updatereply_flag = happydayreply_id;
+            }
+            
+            // textarea를 닫기만 원하는 경우
+            else if(updatereply_flag == happydayreply_id){
+                $('.reply_contents').show();
+                $('.ui.update.form').hide();
+            }
         }
         
         // 20170417:: 댓글 CRUD 하고 난뒤 새로 SHOW
@@ -481,10 +474,8 @@
             var $ui_comments = $("<div class='ui comments' id='reply_ui_comments'></div>");
             $("#reply_list").append($ui_comments).trigger("create");
             
-            
             var $ui_dividing_header = $("<h3 class='ui dividing header'>댓글</h3>");
             $("#reply_ui_comments").append($ui_dividing_header).trigger("create");
-            
             
             //for문의 시작
             for(i=0;i<reply_row.length; i++){
@@ -507,7 +498,7 @@
                 var $reply_metadata = $("<div class='metadata' id='reply_metadata"+reply_row[i].happydayreply_id+"'> </div>");
                 $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_metadata).trigger("create");
                 
-                var $reply_date = $("<span class='data'>"+reply_row[i].update_dtm+"</span>");
+                var $reply_date = $("<span class='data'>"+reply_row[i].date+"</span>");
                 $("#reply_metadata"+reply_row[i].happydayreply_id).append($reply_date).trigger("create");
                 
                 var $reply_show_contents_div = $("<div class ='reply_contents' id='HDreply_contents"+reply_row[i].happydayreply_id+"'>");
@@ -533,14 +524,12 @@
                 var $reply_update_icon = $("<i class='icon edit'> </i>");
                 $("#submit_update_reply_button"+reply_row[i].happydayreply_id).append($reply_update_icon,"수정").trigger("create");
      
-     
-     
-                
+               
                 var $reply_action = $("<div class='actions' id='reply_action"+reply_row[i].happydayreply_id+"'> </div>");
                 $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_action).trigger("create");
                 
-                var $rereply_button = $("<a class= 'reply' onClick='rereply_show_hide()'> 답글// 답글취소</a>");
-                $("#reply_action"+reply_row[i].happydayreply_id).append($rereply_button).trigger("create");
+                // var $rereply_button = $("<a class= 'reply' onClick='rereply_show_hide()'> 답글// 답글취소</a>");
+                // $("#reply_action"+reply_row[i].happydayreply_id).append($rereply_button).trigger("create");
                 
                 var $reply_update_button = $("<a onClick='ShowUpdateReplyForm("+reply_row[i].happydayreply_id+")'> 수정 </a>");
                 $("#reply_action"+reply_row[i].happydayreply_id).append($reply_update_button).trigger("create");
@@ -599,11 +588,7 @@
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
         }
-        
-    
-        
-        
-   
+
     </style>
 
 </head>
@@ -785,7 +770,7 @@
 		    	<div class="content">
 			    	<a class="author"><%=hd_reply[i].user_name%></a>
 			    	<div class="metadata">
-				    	<span class="date"><%=hd_reply[i].update_dtm%></span>
+				    	<span class="date"><%=hd_reply[i].date%></span>
 			    	</div>
     				<div class="reply_contents" id="HDreply_contents<%=hd_reply[i].happydayreply_id%>">
     					<p>
@@ -801,13 +786,12 @@
 		        	        </div>
 	        	    </form>
     				
-    				<div class="actions">
-    					<a class="reply" onClick="javascript:rereply_show_hide()">답글// 답글 취소</a>
+    				<div class="actions" id="reply_action<%=hd_reply[i].happydayreply_id%>">
     					<a onClick="javascript:ShowUpdateReplyForm(<%=hd_reply[i].happydayreply_id%>)" > 수정</a>
     					<a onclick="javascript:DelHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)"> 삭제</a>
     				</div>
     				<div>
-				        <form class="ui rereply form" id ="rereply_textarea">
+				        <form class="ui rereply form" id ="rereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
 			        	        <textarea style="resize: none;" cols="40" rows="10">111</textarea>
 		        	        </div>
