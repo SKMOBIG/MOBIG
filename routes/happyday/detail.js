@@ -62,9 +62,9 @@ module.exports = function(app, connectionPool) {
                                         }
                                     }
                                     
-                                    //20170417KJB::해당 해피데이 댓글  select all
+                                    //20170417KJB::해당 해피데이 댓글  select all (del_yn='n')
                                     //TODO: 쿼리 수정
-                                    connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.happyday_id = ?;', [req.params.id], function(error, hd_reply_rows) {
+                                    connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.params.id], function(error, hd_reply_rows) {
                                         if(error) {
                                            connection.release();
                                              throw error;
@@ -515,27 +515,92 @@ module.exports = function(app, connectionPool) {
         }); 
     });
     
-    
-    
-    
-    
-    
-    //댓글 등록
+    //2017043KJB::댓글 등록
     app.post('/RegReply', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
-            console.log(req.body.reply_contents);
+          
            connection.query('insert into happyday_reply (happyday_id, user_id, HDreply_contents, HDreply_code, reg_dtm, update_dtm, del_yn) values(?, ?, ?,  "reply",  date_format(sysdate(), "%Y%m%d%H%i%s"),date_format(sysdate(), "%Y%m%d%H%i%s"), "n");', [req.body.happyday_id, req.session.user_id, req.body.reply_contents], function(error, reply_insert_rows) {
             if(error){
                 connection.release();
                 throw error;
             }else {
-                res.json({success : "Successfully", status : 200});
+                
+                
+                 connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, insert_HDreply_rows) {
+                                if(error) {
+                                   connection.release();
+                                     throw error;
+                                 }
+                                else{
+                                    res.json({success : "Successfully", insert_HDreply_rows: insert_HDreply_rows });
+                                    connection.release();
+                                }
+                });
+               }                     
+        });
+        }); 
+    });
+    
+    
+    //20170418KJB::댓글 수정(내용, update dtm)
+    app.post('/UpdateHDReply', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+        //   console.log("수정 들어와라");
+        //   console.log(req.body.HDreply_update_text);
+        //   console.log(req.body.happydayreply_id);
+          connection.query('UPDATE happyday_reply SET HDreply_contents=?, update_dtm= date_format(sysdate(), "%Y%m%d%H%i%s")  WHERE happydayreply_id=?;', [req.body.HDreply_update_text, req.body.happydayreply_id], function(error, reply_insert_rows) {
+            if(error){
                 connection.release();
+                throw error;
+            }else {
+                
+                
+                connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, update_HDreply_rows) {
+                                if(error) {
+                                   connection.release();
+                                     throw error;
+                                 }
+                                else{
+                                    res.json({success : "Successfully", update_HDreply_rows: update_HDreply_rows });
+                                    connection.release();
+                                }
+                });
+                
+                 
             }                     
         });
         }); 
     });
     
+    
+    
+    
+    //20170418KJB::댓글 삭제 del_yn="y"
+    app.post('/DelHDReply', function(req, res, next){
+        connectionPool.getConnection(function(err, connection) {
+            
+           connection.query('update happyday_reply set del_yn="y" where happydayreply_id = ?;', [req.body.happydayreply_id], function(error, reply_insert_rows) {
+            if(error){
+                connection.release();
+                throw error;
+            }else {
+                
+                    connection.query('select hdr.*, user.* from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, del_HDreply_rows) {
+                                if(error) {
+                                   connection.release();
+                                     throw error;
+                                 }
+                                else{
+                                    res.json({success : "Successfully", del_HDreply_rows: del_HDreply_rows });
+                                    connection.release();
+                                }
+                });
+                
+                
+            }                     
+        });
+        }); 
+    });
     
     
     
