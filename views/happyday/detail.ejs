@@ -117,7 +117,7 @@
             }
             
             //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
-            $('.actions').hide();
+            // $('.actions').hide();
             alert("user_id: "+<%=hd_reply[0].user_id%>);
             
             
@@ -471,7 +471,7 @@
             
             $("#reply_list").empty();
             
-            var $ui_comments = $("<div class='ui comments' id='reply_ui_comments'></div>");
+            var $ui_comments = $("<div class='ui comments' id='reply_ui_comments' style='max-width:100em; background-color:#FDF5E6'></div>");
             $("#reply_list").append($ui_comments).trigger("create");
             
             var $ui_dividing_header = $("<h3 class='ui dividing header'>댓글</h3>");
@@ -518,7 +518,7 @@
                 var $ui_update_textarea = $("<textarea style='resize: none;' maxlength='70' id='HDreply_update_text"+ reply_row[i].happydayreply_id+"'>"+reply_row[i].HDreply_contents +"</textarea>");
                 $("#field"+reply_row[i].happydayreply_id).append($ui_update_textarea).trigger("create");
                 
-                var $submit_update_reply_button = $("<div class='ui blue labeled submit icon button'  id='submit_update_reply_button"+reply_row[i].happydayreply_id+"' onClick='UpdateHDReply("+reply_row[i].happydayreply_id+ "," +happyday_id+")' </div> ");
+                var $submit_update_reply_button = $("<div class='ui green labeled submit icon button'  id='submit_update_reply_button"+reply_row[i].happydayreply_id+"' onClick='UpdateHDReply("+reply_row[i].happydayreply_id+ "," +happyday_id+")' </div> ");
                 $("#updatereply_textarea"+reply_row[i].happydayreply_id).append($submit_update_reply_button).trigger("create");
                 
                 var $reply_update_icon = $("<i class='icon edit'> </i>");
@@ -550,7 +550,7 @@
             var $reply_textarea = $("<textarea id='reply_contents' style='resize:none; maxlength='70'  ' </textarea>");
             $("#reply_field").append($reply_textarea).trigger("create");
             
-            var $div_button_field = $("<div class='ui blue labeled submit icon button' id='reply_reg_button' onClick='RegReply("+happyday_id+")'> </div>");
+            var $div_button_field = $("<div class='ui green labeled submit icon button' id='reply_reg_button' onClick='RegReply("+happyday_id+")'> </div>");
             $("#ui_reply_form").append($div_button_field).trigger("create");
             
             var $i_class_icon = $("<i class='icon edit'> </i>");
@@ -779,9 +779,9 @@
     				</div>
     				<form class="ui update form" id ="updatereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
-			        	        <textarea style="resize: none; ", style=""; id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
+			        	        <textarea style="resize: none; " style="" id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
 		        	        </div>
-		        	        <div class="ui blue labeled submit icon button " onClick="javascript:UpdateHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)">
+		        	        <div class="ui green labeled submit icon button " onClick="javascript:UpdateHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)">
 			        	        <i class="icon edit" ></i> 수정
 		        	        </div>
 	        	    </form>
@@ -793,10 +793,10 @@
     				<div>
 				        <form class="ui rereply form" id ="rereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
-			        	        <textarea style="resize: none;" cols="40" rows="10">111</textarea>
+			        	        <textarea style="resize: none;"></textarea>
 		        	        </div>
 		        	        <div class="ui right aligned segment">
-		        	        <div class="ui blue labeled submit icon button">
+		        	        <div class="ui green labeled submit icon button">
 			        	        <i class="icon edit" ></i> 등록
 		        	        </div>
 		        	        </div>
