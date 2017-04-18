@@ -118,12 +118,13 @@
             
             //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
             $('.actions').hide();
-            alert("user_id: "+<%=hd_reply[0].user_id%>);
             
-            
-           
-            
-            
+            for(i=0; i< <%=hd_reply.length%>; i++){
+                var locationArray+i= 1;
+                
+            }
+
+
         
         });
         
@@ -372,7 +373,11 @@
             });
         }
         
-        
+        function reply_Update_Del_Button_ShowAndHide(hd_reply){
+            
+            alert("여기들어오나");
+            
+        }
 
         
         
