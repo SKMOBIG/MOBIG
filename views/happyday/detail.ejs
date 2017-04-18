@@ -118,11 +118,8 @@
             
             //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
 
-            $('.actions').hide();
-
             // $('.actions').hide();
-            
-            
+    
         
 
         
@@ -467,6 +464,7 @@
             else if(updatereply_flag == happydayreply_id){
                 $('.reply_contents').show();
                 $('.ui.update.form').hide();
+                updatereply_flag= 0;
             }
         }
         
