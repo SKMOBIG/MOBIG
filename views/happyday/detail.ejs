@@ -393,7 +393,6 @@
             data.happyday_id = happyday_id;
             data.reply_contents = $("#reply_contents").val();
             
-            
             $.ajax({
                 type: 'POST',
                 data: JSON.stringify(data),
@@ -413,8 +412,11 @@
         function UpdateHDReply(happydayreply_id,happyday_id) {
             var data = {};
             data.happydayreply_id = happydayreply_id;
-            data.HDreply_update_text = $("#HDreply_update_text").val();
+            data.HDreply_update_text = $("#HDreply_update_text"+happydayreply_id).val();
             data.happyday_id = happyday_id;
+            
+            
+            alert($("#HDreply_update_text"+happydayreply_id).val());
             
             $.ajax({
                 type: 'POST',
@@ -423,10 +425,7 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/UpdateHDReply',
                 success: function(result) {
-                   
-                    
                     ShowReply(result.update_HDreply_rows, happyday_id);
-                 
                 }
             });
         }
@@ -445,13 +444,12 @@
                 datatype: "json", // expecting JSON to be returned
                 url: '/DelHDReply',
                 success: function(result) {
-                     
+                    
                     ShowReply(result.del_HDreply_rows, happyday_id);
                     
                 }
             });
         }
-        
         
         //20170417_KJB::첫 Load때 수정 Form 모두 Hide
         function HideUpdateReplyForm()
@@ -489,7 +487,6 @@
             
             
             //for문의 시작
-            
             for(i=0;i<reply_row.length; i++){
             
                 var $comment = $("<div class='comment' id='reply_comment"+reply_row[i].happydayreply_id+"'> </div>");
@@ -520,11 +517,24 @@
                 $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
                 
                 
-                //TODO : 대댓글 , 수정 textarea 붙이기?? 아 몰랑
+                //수정 Textarea 생성
                 var $ui_update_form = $("<form class='ui update form' id='updatereply_textarea"+reply_row[i].happydayreply_id+"' style='display: none;'> </form>")
                 $("#reply_show_contents"+reply_row[i].happydayreply_id).append($ui_update_form).trigger("create");
                 
+                var $ui_update_field = $("<div class='field' id='field"+reply_row[i].happydayreply_id+"'>  </div>");
+                $("#updatereply_textarea"+reply_row[i].happydayreply_id).append($ui_update_field).trigger("create");
                 
+                var $ui_update_textarea = $("<textarea style='resize: none;' maxlength='70' id='HDreply_update_text"+ reply_row[i].happydayreply_id+"'>"+reply_row[i].HDreply_contents +"</textarea>");
+                $("#field"+reply_row[i].happydayreply_id).append($ui_update_textarea).trigger("create");
+                
+                var $submit_update_reply_button = $("<div class='ui blue labeled submit icon button'  id='submit_update_reply_button"+reply_row[i].happydayreply_id+"' onClick='UpdateHDReply("+reply_row[i].happydayreply_id+ "," +happyday_id+")' </div> ");
+                $("#updatereply_textarea"+reply_row[i].happydayreply_id).append($submit_update_reply_button).trigger("create");
+                
+                var $reply_update_icon = $("<i class='icon edit'> </i>");
+                $("#submit_update_reply_button"+reply_row[i].happydayreply_id).append($reply_update_icon,"수정").trigger("create");
+     
+     
+     
                 
                 var $reply_action = $("<div class='actions' id='reply_action"+reply_row[i].happydayreply_id+"'> </div>");
                 $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_action).trigger("create");
@@ -548,7 +558,7 @@
             var $div_class_field = $("<div class='field' id ='reply_field'> </div>");
             $("#ui_reply_form").append($div_class_field).trigger("create");
             
-            var $reply_textarea = $("<textarea id='reply_contents' style='resize:none;' </textarea>");
+            var $reply_textarea = $("<textarea id='reply_contents' style='resize:none; maxlength='70'  ' </textarea>");
             $("#reply_field").append($reply_textarea).trigger("create");
             
             var $div_button_field = $("<div class='ui blue labeled submit icon button' id='reply_reg_button' onClick='RegReply("+happyday_id+")'> </div>");
@@ -566,6 +576,9 @@
         body {
             font-family: 'Jeju Gothic', serif !important;
             background-color:#e2e2e2;
+        }
+        textarea {
+            height: 2em;
         }
         
         .ui.card>.content>.header,
@@ -586,6 +599,10 @@
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
         }
+        
+    
+        
+        
    
     </style>
 
@@ -777,7 +794,7 @@
     				</div>
     				<form class="ui update form" id ="updatereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
-			        	        <textarea style="resize: none;", id="HDreply_update_text"> <%=hd_reply[i].HDreply_contents%></textarea>
+			        	        <textarea style="resize: none;", id="HDreply_update_text<%=hd_reply[i].happydayreply_id%>" maxlength="70"> <%=hd_reply[i].HDreply_contents%></textarea>
 		        	        </div>
 		        	        <div class="ui blue labeled submit icon button " onClick="javascript:UpdateHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)">
 			        	        <i class="icon edit" ></i> 수정
@@ -805,7 +822,7 @@
 		
     		<form class="ui reply form">
     			<div class="field">
-    				<textarea id="reply_contents" style="resize: none; "></textarea>
+    				<textarea id="reply_contents" style="resize: none;" maxlength="70"></textarea>
     			</div>
     			<div class="ui blue labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
     				<i class="icon edit"></i> 등록
