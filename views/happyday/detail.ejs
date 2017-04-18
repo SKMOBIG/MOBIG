@@ -682,7 +682,7 @@
                                 <td><%= data.reg_dtm %>(<%= data.reg_week%>) ~ <%= data.dday_dt %>(<%= data.dday_week%>)</td>
                             </tr>
                             <tr>
-                                <td style = "margin-top: -15px; letter-spacing:-2px" >차감포인트</td>
+                                <td style = "margin-top: -15px; letter-spacing:-1px" >차감포인트</td>
                                 <td><%= data.req_point%>P 
                                     <div class="ui accordion">
                                         <div class="title">
@@ -739,7 +739,7 @@
                 </div>
                 <% var i = 0 %>
                 <div class="ui segment" id="present_condition">
-                    <p>* 신청현황 (<%=userList.length%>/<%=data.num_participants%>)</p>
+                    <h3 class="ui dividing header">신청현황 (<%=userList.length%>/<%=data.num_participants%>)</h3>
                     <div class="image">
                         <% for (var i = 0; i < userList.length; i++) { %>
                             <p><img class="ui avatar image" src="<%=userList[i].user_img%>" onclick="javascript:infoUser('<%=userList[i].user_id%>')">
@@ -759,8 +759,8 @@
                 </div>
                 
    <div class="ui segment" id="reply_list">
-	<div class="ui comments" id="reply_ui_comments" style="max-width:100em">
-		<h3 class="ui dividing header">댓글</h3>
+	<h3 class="ui dividing header">댓글</h3>
+	<div class="ui comments" id="reply_ui_comments" style="max-width:100em; background-color:#FDF5E6">
 		
 		 <% for (var i = 0; i < hd_reply.length; i++) { %>
              <div class="comment">
@@ -795,7 +795,7 @@
 		         	        <div class="field">
 			        	        <textarea style="resize: none;" cols="40" rows="10">111</textarea>
 		        	        </div>
-		        	        <div class="ui right aligned segment">11dafasdf
+		        	        <div class="ui right aligned segment">
 		        	        <div class="ui blue labeled submit icon button">
 			        	        <i class="icon edit" ></i> 등록
 		        	        </div>
@@ -809,7 +809,7 @@
     		<form class="ui reply form" >
     		    
     			<div class="field">
-    				<textarea id="reply_contents" style="resize: none; height:0.5em">11111111</textarea>
+    				<textarea id="reply_contents" style="resize: none; height:0.5em"></textarea>
     			</div>
     					        	        
     			<div class="ui green labeled submit icon button" onClick="javascript:RegReply('<%=data.happyday_id%>')">
