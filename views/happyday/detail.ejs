@@ -491,8 +491,9 @@
                 var $avatar = $("<a class='avatar' id='avatar"+reply_row[i].happydayreply_id+"'> </a>");
                 $("#reply_comment"+reply_row[i].happydayreply_id).append($avatar).trigger("create");
         
-                var $user_image = $("<img src='/images/avatar/small/elliot.jpg'> ");
+                var $user_image = $("<img src='"+reply_row[i].user_img+"'> ");
                 $("#avatar"+reply_row[i].happydayreply_id).append($user_image).trigger("create");
+                
                 
                 var $reply_show_contents = $("<div class='content' id='reply_show_contents"+reply_row[i].happydayreply_id+"'> </div>");
                 $("#reply_comment"+reply_row[i].happydayreply_id).append($reply_show_contents).trigger("create");
@@ -786,7 +787,7 @@
 		 <% for (var i = 0; i < hd_reply.length; i++) { %>
              <div class="comment" style="top:5px;" >
 			    <a class="avatar">
-			    <img src="/images/avatar/small/elliot.jpg">
+			    <img src=<%=hd_reply[i].user_img%>>
 			    </a>
 		    	<div class="content">
 			    	<a class="author"><%=hd_reply[i].user_name%></a>
