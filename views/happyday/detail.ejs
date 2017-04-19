@@ -119,11 +119,13 @@
             //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
 
             // $('.actions').hide();
-    
-        
-
-        
+            
+           
+            
         });
+        
+      
+   
         
         function initApplyCancel(reg_state) {
             if(reg_state == "N"){
@@ -526,19 +528,21 @@
                 
                 var $reply_update_icon = $("<i class='icon edit'> </i>");
                 $("#submit_update_reply_button"+reply_row[i].happydayreply_id).append($reply_update_icon,"수정").trigger("create");
-     
                
-                var $reply_action = $("<div class='actions' id='reply_action"+reply_row[i].happydayreply_id+"'> </div>");
-                $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_action).trigger("create");
+                if(reply_row[i].user_id == <%=session.user_id%>) {
+                    var $reply_action = $("<div class='actions' id='reply_action"+reply_row[i].happydayreply_id+"'> </div>");
+                    $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_action).trigger("create");
+                    
+                    // var $rereply_button = $("<a class= 'reply' onClick='rereply_show_hide()'> 답글// 답글취소</a>");
+                    // $("#reply_action"+reply_row[i].happydayreply_id).append($rereply_button).trigger("create");
+                    
+                    var $reply_update_button = $("<a onClick='ShowUpdateReplyForm("+reply_row[i].happydayreply_id+")'> 수정 </a>");
+                    $("#reply_action"+reply_row[i].happydayreply_id).append($reply_update_button).trigger("create");
+                    
+                    var $reply_del_button = $("<a onClick='DelHDReply("+reply_row[i].happydayreply_id+","+happyday_id+")'> 삭제 </a>");
+                    $("#reply_action"+reply_row[i].happydayreply_id).append($reply_del_button).trigger("create");       
+                }
                 
-                // var $rereply_button = $("<a class= 'reply' onClick='rereply_show_hide()'> 답글// 답글취소</a>");
-                // $("#reply_action"+reply_row[i].happydayreply_id).append($rereply_button).trigger("create");
-                
-                var $reply_update_button = $("<a onClick='ShowUpdateReplyForm("+reply_row[i].happydayreply_id+")'> 수정 </a>");
-                $("#reply_action"+reply_row[i].happydayreply_id).append($reply_update_button).trigger("create");
-                
-                var $reply_del_button = $("<a onClick='DelHDReply("+reply_row[i].happydayreply_id+","+happyday_id+")'> 삭제 </a>");
-                $("#reply_action"+reply_row[i].happydayreply_id).append($reply_del_button).trigger("create");
                 
             }    
             
@@ -789,10 +793,12 @@
 		        	        </div>
 	        	    </form>
     				
+    				<% if(hd_reply[i].user_id == session.user_id) { %>
     				<div class="actions" id="reply_action<%=hd_reply[i].happydayreply_id%>">
     					<a onClick="javascript:ShowUpdateReplyForm(<%=hd_reply[i].happydayreply_id%>)" > 수정</a>
     					<a onclick="javascript:DelHDReply(<%=hd_reply[i].happydayreply_id%>, <%=hd_reply[i].happyday_id%>)"> 삭제</a>
     				</div>
+    				<% } %>
     				<div>
 				        <form class="ui rereply form" id ="rereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
