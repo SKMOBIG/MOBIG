@@ -485,7 +485,7 @@
             //for문의 시작
             for(i=0;i<reply_row.length; i++){
             
-                var $comment = $("<div class='comment' id='reply_comment"+reply_row[i].happydayreply_id+"'> </div>");
+                var $comment = $("<div class='comment' id='reply_comment"+reply_row[i].happydayreply_id+"' style='top:5px'> </div>");
                 $("#reply_ui_comments").append($comment).trigger("create");
           
                 var $avatar = $("<a class='avatar' id='avatar"+reply_row[i].happydayreply_id+"'> </a>");
@@ -509,9 +509,17 @@
                 var $reply_show_contents_div = $("<div class ='reply_contents' id='HDreply_contents"+reply_row[i].happydayreply_id+"'>");
                 $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_div).trigger("create");
                 
-                var $reply_show_contents_ptag = $("<p>"+reply_row[i].HDreply_contents+"</p>");
-                $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
+                //textarea Enter 안먹힘..ㅠㅠ
+                // var $reply_show_contents_ptag = $("<p>"+reply_row[i].HDreply_contents+"</p>");
+                // $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
                 
+                var $reply_enter_pre_tag = $("<pre class='reply_pre_tag' id='reply_pre_tag"+reply_row[i].happydayreply_id+"'></pre>");
+                $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_enter_pre_tag).trigger("create");
+                
+                var $reply_show_contents_ptag = reply_row[i].HDreply_contents;
+                $("#reply_pre_tag"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
+                
+          
                 
                 //수정 Textarea 생성
                 var $ui_update_form = $("<form class='ui update form' id='updatereply_textarea"+reply_row[i].happydayreply_id+"' style='display: none;'> </form>")
@@ -594,6 +602,12 @@
         
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
+        }
+        
+        .reply_pre_tag{
+            white-space: pre-wrap; 
+            font-size:1em; 
+            font-family:'Jeju Gothic', serif !important;
         }
 
     </style>
@@ -770,7 +784,7 @@
 	<div class="ui comments" id="reply_ui_comments" style="max-width:100em; background-color:#FDF5E6">
 		
 		 <% for (var i = 0; i < hd_reply.length; i++) { %>
-             <div class="comment">
+             <div class="comment" style="top:5px;" >
 			    <a class="avatar">
 			    <img src="/images/avatar/small/elliot.jpg">
 			    </a>
@@ -780,9 +794,7 @@
 				    	<span class="date"><%=hd_reply[i].date%></span>
 			    	</div>
     				<div class="reply_contents" id="HDreply_contents<%=hd_reply[i].happydayreply_id%>">
-    					<p>
-    						 <%=hd_reply[i].HDreply_contents%>
-    					</p>
+    				     <pre style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; " ><%=hd_reply[i].HDreply_contents%></pre>
     				</div>
     				<form class="ui update form" id ="updatereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
