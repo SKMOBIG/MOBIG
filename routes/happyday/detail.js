@@ -64,7 +64,7 @@ module.exports = function(app, connectionPool) {
                                     
                                     //20170417KJB::해당 해피데이 댓글  select all (del_yn='n')
                                     //TODO: 쿼리 수정
-                                    connection.query('select hdr.*, user.*, concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일" ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.params.id], function(error, hd_reply_rows) {
+                                    connection.query('select hdr.*, user.*, concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일 ",substring(hdr.update_dtm,9,2),":",substring(hdr.update_dtm,11,2)  ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.params.id], function(error, hd_reply_rows) {
                                         if(error) {
                                            connection.release();
                                              throw error;
@@ -526,7 +526,7 @@ module.exports = function(app, connectionPool) {
             }else {
                 
                 
-                 connection.query('select hdr.*, user.*,concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일" ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, insert_HDreply_rows) {
+                 connection.query('select hdr.*, user.*,concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일 ",substring(hdr.update_dtm,9,2),":",substring(hdr.update_dtm,11,2)  ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, insert_HDreply_rows) {
                                 if(error) {
                                    connection.release();
                                      throw error;
@@ -555,7 +555,7 @@ module.exports = function(app, connectionPool) {
             }else {
                 
                 
-                connection.query('select hdr.*, user.*, concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일" ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, update_HDreply_rows) {
+                connection.query('select hdr.*, user.*, concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일 ",substring(hdr.update_dtm,9,2),":",substring(hdr.update_dtm,11,2)  ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, update_HDreply_rows) {
                                 if(error) {
                                    connection.release();
                                      throw error;
@@ -585,7 +585,7 @@ module.exports = function(app, connectionPool) {
                 throw error;
             }else {
                 
-                    connection.query('select hdr.*, user.*, concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일" ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, del_HDreply_rows) {
+                    connection.query('select hdr.*, user.*, concat(left(hdr.update_dtm,4) ,"년",substring(hdr.update_dtm,5,2),"월",substring(hdr.update_dtm,7,2),"일 ",substring(hdr.update_dtm,9,2),":",substring(hdr.update_dtm,11,2)  ) as date from happyday_reply hdr,  user user where hdr.user_id = user.id and hdr.del_yn="n" and hdr.happyday_id = ?;', [req.body.happyday_id], function(error, del_HDreply_rows) {
                                 if(error) {
                                    connection.release();
                                      throw error;
