@@ -182,11 +182,13 @@
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
             
-            if(!availableApply()) return;
             
+            if(!availableApply()) return;
+            if(!doubleSubmitCheck()){
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
+            
             
             $.ajax({
                 type: 'POST',
@@ -207,6 +209,8 @@
                             
                             cur_num_users = result.userList.length;
                             
+                            doubleSubmitFlag=false;
+                            
                             alert("참가신청이 되었습니다.");
                         }
                     }else {
@@ -214,6 +218,8 @@
                     }
                 }
             });
+        }
+            
         }
         
         function makeParticipantList(userList) {
@@ -285,7 +291,7 @@
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
-            
+            if(!doubleSubmitCheck()){
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
@@ -303,7 +309,7 @@
                         initApplyCancel(result.reg_state);
                         
                         cur_num_users = result.userList.length;
-                        
+                        doubleSubmitFlag=false;
                         alert("참가 취소 되었습니다.");
                         
                     }else {
@@ -311,10 +317,14 @@
                     }
                 }
             });
+            }
         }
         
         // 해피데이 완료하기
         function completeHappyday(happyday_id) {
+            
+            
+          
             if(confirm("이번 해피데이 활동을 완료하시겠습니까?"))
             var data = {};
             data.happyday_id = happyday_id;
@@ -385,10 +395,11 @@
         
         
         function RegReply(happyday_id) {
+
+            
             var data = {};
             data.happyday_id = happyday_id;
             data.reply_contents = $("#reply_contents").val();
-            alert("aa");
             
             $.ajax({
                 type: 'POST',
@@ -401,6 +412,7 @@
                  
                 }
             });
+            
         }
         
         
