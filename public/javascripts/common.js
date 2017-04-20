@@ -13,7 +13,3 @@
             return false;
         }
     };
-    
-    function lewislewis(){
-        alert('공통');
-    };

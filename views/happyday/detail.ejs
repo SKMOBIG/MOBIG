@@ -191,11 +191,13 @@
         // 해피데이 신청하기
         function applyHappyday(happyday_id, req_point) {
             
-            if(!availableApply()) return;
             
+            if(!availableApply()) return;
+            if(!doubleSubmitCheck()){
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
+            
             
             $.ajax({
                 type: 'POST',
@@ -216,6 +218,8 @@
                             
                             cur_num_users = result.userList.length;
                             
+                            doubleSubmitFlag=false;
+                            
                             alert("참가신청이 되었습니다.");
                         }
                     }else {
@@ -223,6 +227,8 @@
                     }
                 }
             });
+        }
+            
         }
         
         function makeParticipantList(userList) {
@@ -294,7 +300,7 @@
         
         // 해피데이 취소하기
         function cancelHappyday(happyday_id, req_point) {
-            
+            if(!doubleSubmitCheck()){
             var data = {};
             data.happyday_id = happyday_id;
             data.req_point = req_point;
@@ -312,7 +318,7 @@
                         initApplyCancel(result.reg_state);
                         
                         cur_num_users = result.userList.length;
-                        
+                        doubleSubmitFlag=false;
                         alert("참가 취소 되었습니다.");
                         
                     }else {
@@ -320,10 +326,14 @@
                     }
                 }
             });
+            }
         }
         
         // 해피데이 완료하기
         function completeHappyday(happyday_id) {
+            
+            
+          
             if(confirm("이번 해피데이 활동을 완료하시겠습니까?"))
             var data = {};
             data.happyday_id = happyday_id;
@@ -383,6 +393,8 @@
         
         //해피데이 댓글 등록
         function RegReply(happyday_id) {
+
+            
             var data = {};
             data.happyday_id = happyday_id;
             data.reply_contents = $("#reply_contents").val();
@@ -435,6 +447,7 @@
                     ShowReply(result.del_HDreply_rows, happyday_id);
                 }
             });
+            
         }
         
         //20170417_KJB::첫 Load때 수정 Form 모두 Hide
@@ -485,14 +498,15 @@
             //for문의 시작
             for(i=0;i<reply_row.length; i++){
             
-                var $comment = $("<div class='comment' id='reply_comment"+reply_row[i].happydayreply_id+"'> </div>");
+                var $comment = $("<div class='comment' id='reply_comment"+reply_row[i].happydayreply_id+"' style='top:5px'> </div>");
                 $("#reply_ui_comments").append($comment).trigger("create");
           
                 var $avatar = $("<a class='avatar' id='avatar"+reply_row[i].happydayreply_id+"'> </a>");
                 $("#reply_comment"+reply_row[i].happydayreply_id).append($avatar).trigger("create");
         
-                var $user_image = $("<img src='/images/avatar/small/elliot.jpg'> ");
+                var $user_image = $("<img src='"+reply_row[i].user_img+"'> ");
                 $("#avatar"+reply_row[i].happydayreply_id).append($user_image).trigger("create");
+                
                 
                 var $reply_show_contents = $("<div class='content' id='reply_show_contents"+reply_row[i].happydayreply_id+"'> </div>");
                 $("#reply_comment"+reply_row[i].happydayreply_id).append($reply_show_contents).trigger("create");
@@ -509,9 +523,17 @@
                 var $reply_show_contents_div = $("<div class ='reply_contents' id='HDreply_contents"+reply_row[i].happydayreply_id+"'>");
                 $("#reply_show_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_div).trigger("create");
                 
-                var $reply_show_contents_ptag = $("<p>"+reply_row[i].HDreply_contents+"</p>");
-                $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
+                //textarea Enter 안먹힘..ㅠㅠ
+                // var $reply_show_contents_ptag = $("<p>"+reply_row[i].HDreply_contents+"</p>");
+                // $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
                 
+                var $reply_enter_pre_tag = $("<pre class='reply_pre_tag' id='reply_pre_tag"+reply_row[i].happydayreply_id+"'></pre>");
+                $("#HDreply_contents"+reply_row[i].happydayreply_id).append($reply_enter_pre_tag).trigger("create");
+                
+                var $reply_show_contents_ptag = reply_row[i].HDreply_contents;
+                $("#reply_pre_tag"+reply_row[i].happydayreply_id).append($reply_show_contents_ptag).trigger("create");
+                
+          
                 
                 //수정 Textarea 생성
                 var $ui_update_form = $("<form class='ui update form' id='updatereply_textarea"+reply_row[i].happydayreply_id+"' style='display: none;'> </form>")
@@ -594,6 +616,12 @@
         
         #mapArea{
             margin-bottom:20px;width:100%;height:300px;clear:both;
+        }
+        
+        .reply_pre_tag{
+            white-space: pre-wrap; 
+            font-size:1em; 
+            font-family:'Jeju Gothic', serif !important;
         }
 
     </style>
@@ -770,9 +798,9 @@
 	<div class="ui comments" id="reply_ui_comments" style="max-width:100em; background-color:#FDF5E6">
 		
 		 <% for (var i = 0; i < hd_reply.length; i++) { %>
-             <div class="comment">
+             <div class="comment" style="top:5px;" >
 			    <a class="avatar">
-			    <img src="/images/avatar/small/elliot.jpg">
+			    <img src=<%=hd_reply[i].user_img%>>
 			    </a>
 		    	<div class="content">
 			    	<a class="author"><%=hd_reply[i].user_name%></a>
@@ -780,9 +808,7 @@
 				    	<span class="date"><%=hd_reply[i].date%></span>
 			    	</div>
     				<div class="reply_contents" id="HDreply_contents<%=hd_reply[i].happydayreply_id%>">
-    					<p>
-    						 <%=hd_reply[i].HDreply_contents%>
-    					</p>
+    				     <pre style="white-space: pre-wrap; font-size:1em; font-family:'Jeju Gothic', serif !important; " ><%=hd_reply[i].HDreply_contents%></pre>
     				</div>
     				<form class="ui update form" id ="updatereply_textarea<%=hd_reply[i].happydayreply_id%>">
 		         	        <div class="field">
