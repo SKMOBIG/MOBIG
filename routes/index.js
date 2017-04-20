@@ -43,6 +43,11 @@ module.exports = function(app, connectionPool) {
         }
     });
     
+    app.post('/login', (req, res) => {
+        /* 로그인시 Error 처리를 위한 route */
+        res.redirect('/'); 
+    });
+    
     
     function findUser(req, res, next) {
         connectionPool.getConnection((err, connection) => {
@@ -52,9 +57,13 @@ module.exports = function(app, connectionPool) {
                     connection.release();
                     next(new Error("route findUser error: " + error));
                 }else {
-                    connection.release();
-                    req.user = rows;
-                    next();
+                    if(rows.length > 0) {
+                        connection.release();
+                        req.user = rows;    
+                        next();
+                    }else {
+                        next('route');
+                    }
                 }
             });
         });
@@ -62,6 +71,7 @@ module.exports = function(app, connectionPool) {
     
     function makeLoginHst(req, res, next) {
         //console.log(req.user);
+        
         connectionPool.getConnection((err, connection) => {
             /*
              * 하루에 한번 로그인 이력 생성(insert)
