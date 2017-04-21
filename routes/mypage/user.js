@@ -94,26 +94,33 @@ module.exports = function(app, connectionPool) {
     });
     
     function sendMail(data) {
-        var helper = require('sendgrid').mail;
-  
-        var from_email = new helper.Email("dadembii@gmail.com");
-        var to_email = new helper.Email("dadembii@naver.com");
-        var subject = "Sending with SendGrid is Fun";
-        var content = new helper.Content('text/plain', 'Hello, Email!');
-        var mail = new helper.Mail(from_email, subject, to_email, content);
+        'use strict';
+        const nodemailer = require('nodemailer');
         
-        var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-        var request = sg.emptyRequest({
-          method: 'POST',
-          path: '/v3/mail/send',
-          body: mail.toJSON()
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport("SMTP", {
+            service: 'gmail',
+            auth: {
+                user: 'dadembii@gmail.com',
+                pass: 'eclipse2!C'
+            }
         });
         
-        sg.API(request, function(error, response) {
-          console.log(response.statusCode);
-          console.log(response.body);
-          console.log(response.headers);
-        })
+        // setup email data with unicode symbols
+        let mailOptions = {
+            from: 'dadembii@naver.com', // sender address
+            to: 'ljw82@sk.com', // list of receivers
+            subject: 'Hello', // Subject line
+            text: 'Hello world', // plain text body
+            html: '<b>Hello world</b>' // html body
+        };
         
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        });
     }
 }
