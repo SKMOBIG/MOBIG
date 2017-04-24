@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>happy app</title>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+<script src="/dist/semantic.min.js"></script>
+<!--<link rel='stylesheet' href='/stylesheets/style.css'/>-->
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css"/>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+
+<script type="text/javascript">
+  var startdate = '';
+  var starttime = '';
+  var ddaydate = '';
+ 
+  //지도 팝업 크기, 위치 조절
+  function showMap(){
+              var popUrl = "./mappopup";	//팝업창에 출력될 페이지 URL
+              var popupX = (window.screen.width / 2) - (1200 / 2);
+              // 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+              var popupY= (window.screen.height /2) - (700 / 2);
+              // 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+              window.open(popUrl, '', 'status=no, height=500, width=600, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+  }
+  
+  //지역명, 위도,경도 split
+  function setLocationValue(title, point){
+        // alert('주소 정상 호출 확인 '+title+' '+point);
+        //경도 longitude
+        //위도 latitude
+        var global_point = point;
+        //point 변수타입이 object라 문자열 자르기가 안되서 string으로 강제 캐스팅
+        global_point += "";
+        var locationArray= global_point.split(',');
+        var latitude = locationArray[0].substring(1,locationArray[0].length);
+        var longitude = locationArray[1].substring(0,locationArray[1].length-1);
+        $("#place_name").val(title);   //지역 명
+        $("#latitude").val(latitude);  // 위도
+        $("#longitude").val(longitude);  //경도
+  }
+  
+  // 뒤로가기 버튼 -> 메인화면 이동
+  function goMain(){
+      location.href = '../happyday/hdmain';
+
+  }
+</script> 	
+</head>
+<body>
+  
+<!-- Navigation -->
+<% include ../partials/navigation.ejs %>
+<h1>에러페이지 입니다</h1>  
+<div class="ui button" style="color:white; background:dimgrey" onclick=javascript:goMain()>
+		 메인으로
+</div>
+
+	</body>
+	</html>

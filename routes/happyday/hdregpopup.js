@@ -68,7 +68,7 @@ module.exports = function(app, connectionPool) {
                             }else {
                                     
                                 // user테이블에서 point 차감
-                                connection.query('update user set happy_point = happy_point - ? where id = ?;',[req.body.req_point, req.session.user_id], function(error, rows1) {
+                                connection.query('update user222222 set happy_point = happy_point - ? where id = ?;',[req.body.req_point, req.session.user_id], function(error, rows1) {
                                 if(error){
                                     console.log("ERROR3!!!!!!!!!");
                                 
@@ -77,6 +77,7 @@ module.exports = function(app, connectionPool) {
                                         console.error("update happy_point rollback error");
                                         throw error;
                                     }); 
+                                    res.render('happyday/error', {data : rows[0], session : req.session});
                                     connection.release();
                                     throw error;
                                 } //error
@@ -98,6 +99,8 @@ module.exports = function(app, connectionPool) {
                                     });//commit
                                 }else {
                                     //fail
+                                    connection.release();
+                                    res.redirect('happyday/error');
                                 }
                                 
                                 connection.release();

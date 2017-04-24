@@ -113,6 +113,7 @@ var postlist = require('./routes/happyday/postlist')(app, connectionPool);
 var mappopup = require('./routes/happyday/mappopup')(app, connectionPool);
 var hdregpopup = require('./routes/happyday/hdregpopup')(app, connectionPool);
 var hduppopup = require('./routes/happyday/hduppopup')(app, connectionPool);
+var error = require('./routes/happyday/error')(app, connectionPool);
 
 var server = http.createServer(app)
 
