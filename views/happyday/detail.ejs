@@ -119,13 +119,7 @@
             //:: 수정 삭제 Show & Hide(본인:Show, 타인:Hide)
 
             // $('.actions').hide();
-            
-           
-            
         });
-        
-      
-   
         
         function initApplyCancel(reg_state) {
             if(reg_state == "N"){
@@ -178,14 +172,14 @@
         // 해피데이 삭제하기
         function deleteHappyday(happyday_id) {
             if(confirm("등록한 해피데이 및 참가신청 정보가 삭제됩니다.\n정말로 삭제하시겠습니까?")) {
-                location.href = '../deletehappyday/' + happyday_id;
+                location.href = '../delete/' + happyday_id;
             }
         }
         
         // 해피데이 미완료 처리하기
         function incompleteHappyday(happyday_id) {
             if(confirm("활동하지 못한 해비데이를 미완료 처리합니다.\n미완료로 남기는 것을 진행하시겠습니까?")) {
-                location.href = '../incompletehappyday/' + happyday_id;
+                location.href = '../incomplete/' + happyday_id;
             }
         }
         // 해피데이 신청하기
@@ -204,7 +198,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/applyhappyday',
+                url: '/happyday/apply',
                 success: function(result) {
                     if(result.status == 200){
                         // 1. 포인트 체크
@@ -310,7 +304,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/cancelhappyday',
+                url: '/happyday/cancel',
                 success: function(result) {
                     if(result.status == 200){
                         //TODO : 화면에서 참가 리스트 갱신
@@ -343,7 +337,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/completehappyday',
+                url: '/happyday/complete',
                 success: function(result) {
                     if(result.status == 200){
                         $("#end_button").toggle("slow");
@@ -365,7 +359,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/likeHappyDay',
+                url: '/happyday/like',
                 success: function(result) {
                     $("#HD_like_cnt").empty();
                     $("#HD_like_cnt").empty();
@@ -382,15 +376,7 @@
             });
         }
         
-        function reply_Update_Del_Button_ShowAndHide(hd_reply){
-            
-            alert("여기들어오나");
-            
-        }
 
-        
-        
-        
         //해피데이 댓글 등록
         function RegReply(happyday_id) {
 
@@ -404,7 +390,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/RegReply',
+                url: '/happyday/regreply',
                 success: function(result) {
                      ShowReply(result.insert_HDreply_rows, happyday_id);
                 }
@@ -422,7 +408,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/DelHDReply',
+                url: '/happyday/delreply',
                 success: function(result) {
                     ShowReply(result.del_HDreply_rows, happyday_id);
                 }
@@ -477,7 +463,7 @@
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 datatype: "json", // expecting JSON to be returned
-                url: '/UpdateHDReply',
+                url: '/happyday/updatereply',
                 success: function(result) {
                     ShowReply(result.update_HDreply_rows, happyday_id);
                 }
@@ -675,22 +661,19 @@
                 
                 <div class="ui segment">
                     <div class="ui labeled button" tabindex="0" style="background-color:#000000" onClick="javascript:likeHappyDay('<%=data.happyday_id%>')">
-
                         <div class="ui red button" id="likeY" > 
                             <i class="like icon"></i> 좋아요
                         </div>
                         <div class="ui gray button" id="likeN" >
                             <i class="like icon"></i> 좋아요
                         </div>
-                            
-
                         <a class="ui basic white left pointing label" id="HD_like_cnt"><%=HD_like.like_cnt%></a>
                     </div>
                     <div class="ui labeled button" tabindex="0" style="background-color:000000">
                         <a class="ui white button" href="#reply_list">
                             <i class="talk outline icon"></i> 댓글
                         </a>
-                        <a class="ui basic white left pointing label">2</a>
+                        <a class="ui basic white left pointing label"><%=hd_reply.length%></a>
                     </div>
                 </div>
                 

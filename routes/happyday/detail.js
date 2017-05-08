@@ -50,10 +50,9 @@ module.exports = function(app, connectionPool) {
                             {
                                 if(rows1.length > 0)
                                 {
+                                    //해피데이에 로그인 사용자가 신청했는지 여부 
                                     var reg_state = "N";
                                     
-                                    //이게 무슨 일을 하는 작업일까???
-                                    //아 신청 했는지 안했는지 알아보는 거구나..
                                     for(var i=0; i<rows1.length; i++) {
                                         var cur_user_id = rows1[i].user_id;
                                         if(req.session.user_id == cur_user_id) {
@@ -190,7 +189,7 @@ module.exports = function(app, connectionPool) {
        }) 
     });
     
-    app.post('/applyhappyday', function(req, res, next){
+    app.post('/happyday/apply', function(req, res, next){
         
         console.log("apply : " + JSON.stringify(req.body));
         
@@ -314,7 +313,7 @@ module.exports = function(app, connectionPool) {
     }); // end app.post
 
 
-    app.post('/cancelhappyday', function(req, res, next){
+    app.post('/happyday/cancel', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
              
             /* 참가 취소 작업 진행 
@@ -364,7 +363,7 @@ module.exports = function(app, connectionPool) {
         });
     });
 
-    app.get('/deletehappyday/:happyday_id', function(req, res, next){
+    app.get('/happyday/delete/:happyday_id', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
             /* 삭제 작업 진행 
                 1. 해피데이 참가자 조회
@@ -413,7 +412,7 @@ module.exports = function(app, connectionPool) {
                                 connection.release();
                                 throw error;
                             }else {
-                                res.redirect('happyday/hdmain');
+                                res.redirect('/happyday/hdmain');
                                 connection.release();
                             }                     
                         });
@@ -427,7 +426,7 @@ module.exports = function(app, connectionPool) {
         });    
     });
     
-    app.post('/completehappyday', function(req, res, next){
+    app.post('/happyday/complete', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
            connection.query('update happyday_master' +
                          '   set state = "C", update_dtm = date_format(sysdate(), "%Y%m%d%H%i")' +
@@ -445,7 +444,7 @@ module.exports = function(app, connectionPool) {
     
     
     //20170412_KJB :: 해피데이 좋아요 Insert Or Delete 쿼리
-    app.post('/likeHappyDay', function(req, res, next){
+    app.post('/happyday/like', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
            connection.query('select * from happyday_like where happyday_id = ? and user_id =?;', [req.body.happyday_id,req.session.user_id] , function(error, rows) {
             if(error){
@@ -516,7 +515,7 @@ module.exports = function(app, connectionPool) {
     });
     
     //2017043KJB::댓글 등록
-    app.post('/RegReply', function(req, res, next){
+    app.post('/happyday/regreply', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
           
            connection.query('insert into happyday_reply (happyday_id, user_id, HDreply_contents, HDreply_code, reg_dtm, update_dtm, del_yn) values(?, ?, ?,  "reply",  date_format(sysdate(), "%Y%m%d%H%i%s"),date_format(sysdate(), "%Y%m%d%H%i%s"), "n");', [req.body.happyday_id, req.session.user_id, req.body.reply_contents], function(error, reply_insert_rows) {
@@ -543,7 +542,7 @@ module.exports = function(app, connectionPool) {
     
     
     //20170418KJB::댓글 수정(내용, update dtm)
-    app.post('/UpdateHDReply', function(req, res, next){
+    app.post('/happyday/updatereply', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
         //   console.log("수정 들어와라");
         //   console.log(req.body.HDreply_update_text);
@@ -572,11 +571,9 @@ module.exports = function(app, connectionPool) {
         }); 
     });
     
-    
-    
-    
+
     //20170418KJB::댓글 삭제 del_yn="y"
-    app.post('/DelHDReply', function(req, res, next){
+    app.post('/happyday/delreply', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
             
            connection.query('update happyday_reply set del_yn="y" where happydayreply_id = ?;', [req.body.happydayreply_id], function(error, reply_insert_rows) {
@@ -602,15 +599,7 @@ module.exports = function(app, connectionPool) {
         }); 
     });
     
-    
-    
-    
-    
-    
-    
-    
-    
-    app.get('/incompletehappyday/:happyday_id', function(req, res, next){
+    app.get('/happyday/incomplete/:happyday_id', function(req, res, next){
         connectionPool.getConnection(function(err, connection) {
             /* 미완료 작업 진행 
                 1. 해피데이 참가자 조회
@@ -659,7 +648,7 @@ module.exports = function(app, connectionPool) {
                                 connection.release();
                                 throw error;
                             }else {
-                                res.redirect('happyday/hdmain');
+                                res.redirect('/happyday/hdmain');
                                 connection.release();
                             }                     
                         });

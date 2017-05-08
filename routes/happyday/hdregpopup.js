@@ -29,6 +29,7 @@ module.exports = function(app, connectionPool) {
     // 1. happday_master 테이블 insert
     // 2. happyday_user_hst 테이블 insert
     // 3. user 테이블의 point 컬럼 update
+    // 4. 해피데이 등록 메일 발송
     app.post('/happyday_regist', function(req, res, next) {
         connectionPool.getConnection(function(err, connection) {
             //console.log(req.body);
@@ -68,44 +69,47 @@ module.exports = function(app, connectionPool) {
                             }else {
                                     
                                 // user테이블에서 point 차감
-                                connection.query('update user222222 set happy_point = happy_point - ? where id = ?;',[req.body.req_point, req.session.user_id], function(error, rows1) {
-                                if(error){
-                                    console.log("ERROR3!!!!!!!!!");
-                                
-                                    connection.rollback(function() {
+                                connection.query('update user set happy_point = happy_point - ? where id = ?;',[req.body.req_point, req.session.user_id], function(error, rows1) {
+                                    if(error){
+                                        console.log("ERROR3!!!!!!!!!");
+                                    
+                                        connection.rollback(function() {
+                                            connection.release();
+                                            console.error("update happy_point rollback error");
+                                            throw error;
+                                        }); 
+                                        res.render('happyday/error', {data : rows[0], session : req.session});
                                         connection.release();
-                                        console.error("update happy_point rollback error");
                                         throw error;
-                                    }); 
-                                    res.render('happyday/error', {data : rows[0], session : req.session});
+                                    } //error
+                                    
+                                    console.log("RESULT : " + rows1.affectedRows);
+                                    
+                                    if(rows1.affectedRows > 0) {
+                                        connection.commit(function(err) {
+                                            if(err) {
+                                                console.error("commit error : " + err);
+                                                connection.rollback(function() {
+                                                    connection.release();
+                                                    console.error("update user rollback error");
+                                                    throw error;
+                                                });
+                                            }
+                                            
+                                            //commit success
+                                        });//commit
+                                    }else {
+                                        //fail
+                                        connection.release();
+                                        res.redirect('happyday/error');
+                                    }
+                                
                                     connection.release();
-                                    throw error;
-                                } //error
-                                
-                                console.log("RESULT : " + rows1.affectedRows);
-                                
-                                if(rows1.affectedRows > 0) {
-                                    connection.commit(function(err) {
-                                        if(err) {
-                                            console.error("commit error : " + err);
-                                            connection.rollback(function() {
-                                                connection.release();
-                                                console.error("update user rollback error");
-                                                throw error;
-                                            });
-                                        }
-                                        
-                                        //commit success
-                                    });//commit
-                                }else {
-                                    //fail
-                                    connection.release();
-                                    res.redirect('happyday/error');
-                                }
-                                
-                                connection.release();
-                                res.redirect('happyday/hdmain');
-                                
+                                    res.redirect('happyday/hdmain');
+                                    
+                                    /* 4. 해피데이 등록 메일 발송 */
+                                    req.body.user_name = req.session.user_name;
+                                    sendMail(req.body);
                                 });
                             }
                         });
@@ -114,4 +118,25 @@ module.exports = function(app, connectionPool) {
             });//connection.beginTransaction
         });//connectionPool.getConnection
     });//post
+    
+    function sendMail(maildata) {
+        const day = maildata.starthappyday;
+        var start_day = day.substring(0,4)+"/"+day.substring(4,6)+"/"+day.substring(6,8)
+        
+        var mailOptions = {};
+        mailOptions.to = "ljw82@sk.com";
+        mailOptions.subject = "[NEW HAPPYDAY] " + maildata.happyday_name;
+        mailOptions.template = "reghappyday";
+        mailOptions.context = {
+            user_name: maildata.user_name,
+            happyday_dt: start_day,
+            contents: maildata.happyday_contents,
+            req_point: maildata.req_point+"P",
+            place_name: maildata.place_name        
+        };
+        
+        /* 4. 해피데이 등록 메일 발송 */
+        const common = new (require("../common/common.js"))();
+        common.sendMail(mailOptions);
+    }
 }

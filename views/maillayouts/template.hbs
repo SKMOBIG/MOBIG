@@ -1,0 +1,29 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    
+    <style type="text/css">
+        @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+        body {
+            font-family: 'Jeju Gothic', serif !important;
+            width: 500px;
+            height: 100%;
+        }
+        
+        div.container {
+            border-style: solid;
+            border-color: #FBBD08;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {{>header}}
+        {{{body}}}
+        {{>footer}}        
+    </div>
+</body>
+</html>

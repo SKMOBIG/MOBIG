@@ -82,8 +82,6 @@ module.exports = function(app, connectionPool) {
                             res.json({success : "Updated fail", status : 500}); // express 사용 시
                         }
                         
-                        console.log("END UPDATE USER");
-                        sendMail("Update");
                         connection.release();
                     });
                 });
@@ -93,34 +91,4 @@ module.exports = function(app, connectionPool) {
         }
     });
     
-    function sendMail(data) {
-        'use strict';
-        const nodemailer = require('nodemailer');
-        
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-                user: 'dadembii@gmail.com',
-                pass: 'eclipse2!C'
-            }
-        });
-        
-        // setup email data with unicode symbols
-        let mailOptions = {
-            from: 'dadembii@naver.com', // sender address
-            to: 'ljw82@sk.com', // list of receivers
-            subject: 'Hello', // Subject line
-            text: 'Hello world', // plain text body
-            html: '<b>Hello world</b>' // html body
-        };
-        
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-        });
-    }
 }
