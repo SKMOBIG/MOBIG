@@ -19,7 +19,7 @@ module.exports = function common() {
                     
                     connection.query('update user' +
                                      '   set mileage = mileage +  convert(?, signed)' + 
-                                     ' where id = ?;',[mileage, req.user[0].id], function(error, user) {
+                                     ' where id = ?;',[mileage, req.session.user_id], function(error, user) {
                         if(error) {
                             return new Error("Error of set User Mileage : " + error);
                         }else { 

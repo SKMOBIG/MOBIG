@@ -127,15 +127,19 @@
 							<img class="ui avatar image" src="<%=data[i].user_img%>"> <span style="color:#fff; font-size:0.9em"><%=data[i].user_name%> (<%=data[i].sm_name%>)</span>
 							<div class="right floated meta" style=" font-size:0.8em">
 
-
 								<% if (data[i].dday>-1) {  %>
 									<div class="ui orange label">모집중 D-
 										<%=data[i].dday%>
 									</div>
-									<% }else { %>
-										<div class="ui gray label">신청마감</div>
-										<% } %>
-
+									<% }else { 
+									   		if(data[i].state == 'Y') { %>
+												<div class="ui gray label">신청마감</div>
+									<% 		}else if(data[i].state == 'C') { %>
+												<div class="ui black label">완료</div>
+									<% 		}else if(data[i].state == 'I') { %>
+												<div class="ui black label">미완료</div>
+									<% 		} 
+								    	} %>
 							</div>
 						</div>
 						<div onclick="javascript:goDetail('<%=data[i].happyday_id%>')" class="image"> <img src="<%=data[i].img_url%>" style="height: 200px;">
