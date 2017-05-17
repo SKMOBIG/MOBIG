@@ -10,19 +10,30 @@
 </script>
 <style type="text/css">
     /*공통*/
-            @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
-        body {
-            font-family: 'Jeju Gothic', serif !important;
-            background-color: #e2e2e2;
+    @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
+    body {
+        font-family: 'Jeju Gothic', serif !important;
+        background-color: #e2e2e2;
+    }
+    @media only screen and (min-width: 1200px){
+        .ui.container {
+            width: 900px;
+            margin-left: auto!important;
+            margin-right: auto!important;
+            margin-bottom: 2em;
         }
-@media only screen and (min-width: 1200px){
-.ui.container {
-    width: 900px;
-    margin-left: auto!important;
-    margin-right: auto!important;
-    margin-bottom: 2em;
-}
-}
+    }
+    @media (max-width: 767px) {
+        .ui.container {
+            margin-bottom: 2em;
+        }
+        .ui.grid.main {
+            margin-top: 70px;
+        }
+        .ui.vertical.menu.navbar {
+            margin-top: 0px !important;
+        }
+    }
     .ui.grid.main {
         margin-top: 70px;
     }
@@ -39,27 +50,16 @@
     .ui.message {
         padding: 40px !important;
     }
-    @media (max-width: 767px) {
-        .ui.grid.main {
-            margin-top: 70px;
-            margin-bottom: 2em;
-        }
-/*        .ui.grid {
-            margin: 0 !important;
-        }*/
-        .ui.vertical.menu.navbar {
-            margin-top: 0px !important;
-        }
-    }
+    
     .ui.vertical.menu {
         width: 100%;
         display: none;
     }
     .ui.inverted.menu {
-    font-family: 'Jeju Gothic', serif !important;
-    background: #FBBD08;
-        font-size: 1rem;
-}
+        font-family: 'Jeju Gothic', serif !important;
+        background: #FBBD08;
+            font-size: 1rem;
+    }
 </style>
 <div class="ui grid" style="margin-bottom:50px">
 	<div class="computer tablet only row">
