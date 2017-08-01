@@ -1,88 +1,52 @@
-<script src="/javascripts/common.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.right.menu.open').on("click", function(e) {
-            e.preventDefault();
-        $('.ui.labeled.icon.sidebar').sidebar('toggle');
-        });
-        // $('.ui.dropdown').dropdown();
-    });
-</script>
-<style type="text/css">
-    /*공통*/
-    @import url(https://fonts.googleapis.com/earlyaccess/jejugothic.css);
-    body {
-        font-family: 'Jeju Gothic', serif !important;
-        background-color: #e2e2e2;
-    }
-    @media only screen and (min-width: 1200px){
-        .ui.container {
-            width: 900px;
-            margin-left: auto!important;
-            margin-right: auto!important;
-            margin-bottom: 2em;
-        }
-    }
-    @media (max-width: 767px) {
-        .ui.container {
-            margin-bottom: 2em;
-        }
-        .ui.grid.main {
-            margin-top: 70px;
-        }
-        .ui.vertical.menu.navbar {
-            margin-top: 0px !important;
-        }
-    }
-    .ui.grid.main {
-        margin-top: 70px;
-    }
-    .mobile.row {
-        padding-top: 0px !important;
-        margin-top: 0px !important;
-    }
-    .mobile.row .ui.inverted.menu {
-        border-radius: 0px !important;
-    }
-    .padding-reset {
-        padding: 0px !important;
-    }
-    .ui.message {
-        padding: 40px !important;
-    }
-    
-    .ui.vertical.menu {
-        width: 100%;
-        display: none;
-    }
-    .ui.inverted.menu {
-        font-family: 'Jeju Gothic', serif !important;
-        background: #FBBD08;
-            font-size: 1rem;
-    }
-</style>
-<div class="ui grid" style="margin-bottom:50px">
-	<div class="computer tablet only row">
-		<div class="ui inverted fixed menu navbar page grid">
-			<a href="/happyday/hdmain" class="brand item" ><img class="ui small image" src="/images/gnblogo.png" style="width: 120px; height: auto;"></a>
-			<a href="/happyday/hdmain" class="active item">메인</a>
-			<a href="/mypage/user" class="item">마이페이지</a>
-			<a href="/" class="item">로그아웃</a>
-		</div>
-	</div>
-	<div class="mobile only row" style="margin-bottom:50px">
-		<div class="ui fixed inverted navbar menu">
-			<a href="/happyday/hdmain" class="brand item" ><img class="ui small image" src="/images/gnblogo.png" style="width: 120px; height: auto;"></a>
-			<div class="right menu open">
-				<a href="" class="menu item">
-				<i class="content icon"></i>
-				</a>
-			</div>
-		</div>
-		<div class="ui left demo vertical inverted sidebar labeled icon menu">
-			<a href="/happyday/hdmain" class="active item">메인</a>
-			<a href="/mypage/user" class="item">마이페이지</a>
-			<a href="/" class="item">로그아웃</a>
-		</div>
-	</div>
-</div>
+  <!--상단네비-->
+  <nav class="navbar navbar-inverse navbar-expand-md navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="/">MOBIG</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <!--로그인호출-->
+        <%if(session.user_id == null || session.user_id == ""){%>
+          <a class="btn navbar-btn btn-secondary mx-3" href="#download" data-toggle="modal" data-target="#myModal">Sign in</a>
+        <% } else { %>
+          <ul class="navbar-nav ">
+            <li class="nav-item">
+              <a class="nav-link" href="/mvno/mvnomain">MVNO data</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript:alert('준비중');">ETC data</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/myaccount">My account</a>
+            </li>
+          </ul>
+          <div align="center">
+            <%=session.user_name%>님 <a class="btn navbar-btn btn-secondary mx-3" href="/logout">Sign out</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+  
+  <!--로그인 Modal-->
+  <div class="modal fade" id="myModal" role="dialog" style="text-align:left">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal" type="button">×</button>
+          <h4 class="modal-title">Sign in</h4>
+        </div>
+        <div class="modal-body">
+
+          <form class="" name="loginForm" action="/login" method="post">
+            <div class="form-group"> <label class="">User ID</label>
+              <input type="text" name="user_name" class="form-control" placeholder="이름" value="황지희"> </div>
+            <div class="form-group"> <label>Password</label>
+              <input type="password" name="emp_num" class="form-control" placeholder="사번" value="05173"> </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </form>
+          
+        </div>
+        <div class="modal-footer">Contact to us_<a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></div>
+      </div>
+    </div>
+  </div>  

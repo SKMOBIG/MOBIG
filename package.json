@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "body-parser": "^1.16.1",
     "compression": "^1.6.2",
     "connect-timeout": "^1.8.0",
@@ -32,5 +33,17 @@
     "serve-static": "^1.11.2",
     "styl": "^0.2.9",
     "stylus": "^0.51.1"
-  }
+  },
+  "description": ",-----.,--.                  ,--. ,---.   ,--.,------.  ,------.     '  .--./|  | ,---. ,--.,--. ,-|  || o   \\  |  ||  .-.  \\ |  .---'     |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \\  :|  `--,      '  '--'\\|  |' '-' ''  ''  '\\ `-' | .'  /   |  ||  '--'  /|  `---.      `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'     -----------------------------------------------------------------",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SKMOBIG/MOBIG.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SKMOBIG/MOBIG/issues"
+  },
+  "homepage": "https://github.com/SKMOBIG/MOBIG#readme"
 }

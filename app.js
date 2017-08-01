@@ -53,49 +53,40 @@ app.use(session({
 var mysql = require('mysql');
 var connectionPool;
 
-/* TEST DB */
-/*connectionPool = mysql.createPool({
-  user : 'tester',
-  password : 'tobehappy',
-  database : 'testdb',
-  host : 'testb2bdb.csrn58xktwkr.ap-northeast-1.rds.amazonaws.com', //port빼고 end-point
-  port : '3306',
-  connectionLimit : 20,
-  waitForConnections : false
-});*/
-
-/* 운영 DB */
+// 원격DB(AWS)
 connectionPool = mysql.createPool({
     user : 'admin',
-    password : 'tobehappy',
-    database : 'mysqldb',
-    host : 'b2bdb.csrn58xktwkr.ap-northeast-1.rds.amazonaws.com', //port빼고 end-point
+    password : 'sktngm12!',
+    database : 'mobig',
+    host : 'mobig.ch71hvh7pyfc.ap-northeast-2.rds.amazonaws.com',
     port : '3306',
     connectionLimit : 20,
     waitForConnections : false
-
 });
 
-//app.get('/', routes.index);
+// local DB
+// user : process.env.C9_USER,
+// password : '',
+// database : 'c9',
+// host : process.env.IP,
+// port : '3306',
+// connectionLimit : 20,
+// waitForConnections : false
+
+
+// app.get('/', routes.index);
 var index = require('./routes/index')(app, connectionPool);
 
-// main route file 사용
-var main = require('./routes/happyday/main')(app, connectionPool); // set route file
-var user = require('./routes/mypage/user')(app, connectionPool); // set route file
-var hdmain = require('./routes/happyday/hdmain')(app, connectionPool);
-var detail = require('./routes/happyday/detail')(app, connectionPool);
-var postlist = require('./routes/happyday/postlist')(app, connectionPool);
-var mappopup = require('./routes/happyday/mappopup')(app, connectionPool);
-var hdregpopup = require('./routes/happyday/hdregpopup')(app, connectionPool);
-var hduppopup = require('./routes/happyday/hduppopup')(app, connectionPool);
+var mvnomain = require('./routes/mvno/mvnomain')(app, connectionPool);
+var mvnoresult = require('./routes/mvno/mvnoresult')(app, connectionPool);
+var mvnoprogress = require('./routes/mvno/mvnoprogress')(app, connectionPool);
+var myaccount = require('./routes/user/myaccount')(app, connectionPool);
 
 var server = http.createServer(app)
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + ' : '+app.get('port'));
-  
-  console.log('opened server on', server.address().address + " : " + server.address().port);
-  
+  console.log('https://' + process.env.C9_HOSTNAME);
 });
 
 module.exports = app;
