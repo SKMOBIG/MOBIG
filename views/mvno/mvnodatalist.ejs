@@ -1,0 +1,95 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/main.css" type="text/css">
+  
+  <!-- happyapp css -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+  
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css" />
+	
+  <!--<title>MOBIG - Big Data Market</title>-->
+  <title>mvnodatalist.ejs</title>
+
+  <style>
+    .datalist {width:45%; border:1 solid red; border-top:none; border-right:none;float:left;}
+    .datalist ul {clear: left; margin:0; padding:0; list-style-type: none;border-top:1 solid red;}
+    .datalist .datalist-title {font-weight:bold; text-align:center;}
+    .datalist ul li {width:15%; text-align:center; float:left; margin:0; padding:2px,1px; border-right:1 solid red;}
+    .no {width:5%; float:left;}
+    .no .ln {height:100%; width:2px; background-color:#4db8dc;margin-left:50%;}
+    .frame {width:50%; border:1 solid red; border-left:10%;border-top:none; border-right:none;float:left;}
+    .frame .iframe {width:100%;height:100%;}
+    .cov {height:80%; padding-bottom:50px;}
+    
+    
+  </style>
+      
+</head>
+
+<body class="text-center">
+  
+	<!-- Navigation -->
+	<% include ../partials/navigation.ejs %>
+
+  <!-- 2.select items -->
+  <div class="text-center py-5">
+    <div class="container">
+        <div class="col-md-12">
+          <h3 style="text-align:center;">Data list page</h3>
+        </div>
+    </div>
+  </div>
+  
+  <div class="cov">
+    <div class="hidden">
+        <input type="hidden" id="req_id" value=<%=req_id %>>
+    </div>
+
+        <!-- 결과테이블 -->
+    <div class="datalist">
+        <ul class="datalist-title">
+          <li>요청번호</li>
+          <li>요청날짜</li>
+          <li>카테고리</li>
+          <li>선택종류</li>
+          <li>조회 데이터 일자</li>
+          <li>완료 여부</li>
+        </ul>
+      <% for (var i=0; i < req_list.length; i++) { %>
+        <ul class="datalist-list">
+          <li> <%=req_list[i].req_id %></li>
+          <li> <%=req_list[i].req_dtm %></li>
+          <li> <%=req_list[i].column_nm1 %></li>
+          <li><%if (req_list[i].item_nm1!=null){ %> <%=req_list[i].item_nm1 %><% } else { %> null <% } %></li>
+          <li> <%=req_list[i].sta_ym %> ~ <%=req_list[i].end_ym %></li>
+          <li> 테스트 </li>
+        </ul>
+      <% } %>
+
+    </div>
+    <div class="no"><div class="ln"></div></div>
+    <div class="frame">
+      <iframe src="/" class="iframe" frameborder=0 framespacing=0 marginheight=0 marginwidth=0 scrolling=yes></iframe>
+    </div>
+  </div>
+  
+	<!-- footer -->
+	<% include ../partials/footer.ejs %>
+  
+  <script>
+  
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+  <script src="https://pingendo.com/assets/scripts/smooth-scroll.js"></script>
+</body>
+
+</html>

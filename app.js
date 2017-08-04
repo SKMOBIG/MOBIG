@@ -80,6 +80,7 @@ var index = require('./routes/index')(app, connectionPool);
 var mvnomain = require('./routes/mvno/mvnomain')(app, connectionPool);
 var mvnoresult = require('./routes/mvno/mvnoresult')(app, connectionPool);
 var mvnoprogress = require('./routes/mvno/mvnoprogress')(app, connectionPool);
+var mvnodatalist = require('./routes/mvno/mvnodatalist')(app, connectionPool);
 var myaccount = require('./routes/user/myaccount')(app, connectionPool);
 
 var server = http.createServer(app)
