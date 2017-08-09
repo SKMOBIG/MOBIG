@@ -26,9 +26,56 @@
     #reqlist {width:90%; margin:auto; text-align:center;}
     #reqlist td {
     
-    
   </style>
-      
+
+  <script>
+    var totalCount = <%=req_list.length%>; //전체 건수
+    var totalPage = Math.ceil(totalCount/10);//페이지 수
+    var PageNum;
+    var page;
+    /*function(){    
+        page = parseInt($("input").val());
+        drawPage(page);
+    };*/
+    
+    function drawPage(goTo){        
+        page = goTo;    
+        var pageGroup = Math.ceil(page/10);    //페이지 그룹 넘버링
+        var next = pageGroup*10;
+        var prev = next-9;            
+        var goNext = next+1;
+
+        if(prev-1<=0){
+            var goPrev = 1;
+        }else{
+            var goPrev = prev-1;
+        }    
+
+        if(next>totalPage){
+            var goNext = totalPage;
+            next = totalPage;
+        }else{
+            var goNext = next+1;
+        }
+
+        var prevStep = "<li class=\"page-item\"> <a class=\"page-link\" aria-label=\"Previous\" href='javascript:drawPage("+goPrev+");'>   <span aria-hidden=\"true\">«</span> <span class=\"sr-only\">Previous</span>  </a> </li>";
+        var nextStep = "<li class=\"page-item\"> <a class=\"page-link\" aria-label=\"Next\" href='javascript:drawPage("+goNext+");'>   <span aria-hidden=\"true\">»</span> <span class=\"sr-only\">Next</span>  </a> </li>";
+
+
+        $("#pageZone").empty();
+        $("#pageZone").append(prevStep);
+
+        for(var i=prev; i<=next;i++){
+            PageNum = "<li class=\"page-item\"> <a class=\"page-link\" href='javascript:alert("+i+"번 페이지);'>"+ i +"</a> </li>";
+            $("#pageZone").append(PageNum);
+        }    
+
+        $("#pageZone").append(nextStep);    
+    }    
+  
+    $(document).ready(function() { drawPage(1); });
+  </script>
+
 </head>
 
 <body class="text-center">
@@ -65,7 +112,7 @@
         <td><%=req_list[i].req_id %></td>
         <td>MVNO Data</td>
         <td>
-            <%=grpId[i]%>
+            <a href="/mvno/mvnoresult/<%=req_list[i].req_id%>"><%=grpId[i]%></a>
         </td>
         <td><%=req_list[i].user_name%></td>
         <td><%=req_list[i].req_dtm %></td>
@@ -73,6 +120,12 @@
     <% } %>
     </tbody>
   </table>
+  <div>
+    <ul id="pageZone" class="pagination">
+
+    </ul>
+  </div>
+
 
   <div class="py-5">
     <div id="ln"></div>
@@ -86,6 +139,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
   <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
   <script src="https://pingendo.com/assets/scripts/smooth-scroll.js"></script>
+  
+  
 </body>
 
 </html>

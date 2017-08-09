@@ -14,7 +14,7 @@ module.exports = function(app, connectionPool) {
             connection.query('SELECT a.*, b.user_name, (SELECT category_grp_dtl_nm FROM mvno_category_grp_lst WHERE category_grp_dtl_id=a.category_grp_dtl_id1) category_grp_dtl_nm1, \
             (SELECT category_grp_dtl_nm FROM mvno_category_grp_lst WHERE category_grp_dtl_id=a.category_grp_dtl_id2) category_grp_dtl_nm2, \
             (SELECT category_grp_dtl_nm FROM mvno_category_grp_lst WHERE category_grp_dtl_id=a.category_grp_dtl_id3) category_grp_dtl_nm3  \
-            FROM mvno_req_data a, user b WHERE a.user_id= 8 AND a.user_id = b.id;', user_id, function(error, rows) {
+            FROM mvno_req_data a, user b WHERE a.user_id= 8 AND a.user_id = b.id ORDER BY a.req_id desc;', user_id, function(error, rows) {
                 if (error) {
                     connection.release();
                     throw error;

@@ -17,54 +17,10 @@
   <title>mvnoprogress.ejs</title>
 
     <style type="text/css">
-    
-        /* progress bar */
-        #myProgress {
-          width: 100%;
-          background-color: #ddd;
-        }
-        
-        #myBar {
-          width: 10%;
-          height: 30px;
-          background-color: #4CAF50;
-          text-align: center;
-          line-height: 30px;
-          color: white;
-        }
-        
+      #databtn {width: 200px;}
+      #mainbtn {width: 200px;}
     </style>
-    
-    <script type="text/javascript">
-    
-        // progress bar
-        function move() {
-          var elem = document.getElementById("myBar");   
-          var width = 10;
-          var id = setInterval(frame, 100);
-          function frame() {
-            if (width >= 100) {
-                clearInterval(id);
-                
-                // 일단 progress완료시 결과페이지로 이동하도록 함 => ajax조회 결과가 완료일때 이동하도록 수정
-                if(confirm('데이터생성이 완료되었습니다. 지금 결과를 확인 하시겠습니까?')){
-                    location.href = '/mvno/mvnoresult/' + $("#req_id").val();
-                }
-              
-            } else {
-              width++; 
-              elem.style.width = width + '%'; 
-              elem.innerHTML = width * 1  + '%';
-            }
-          }
-        }
-        
-    </script>
-    
-    <script>
-        // toggle progress bar
-        $(document).ready(function() { move(); });
-    </script>
+
   
 </head>
 
@@ -74,42 +30,47 @@
 	<!-- Navigation -->
 	<% include ../partials/navigation.ejs %>
 
-  <div class="text-center py-5">
     <div class="container">
       <div class="row">
         
         <!-- 1.요청한 item목록 -->
-        <div class="col-md-12">
-            <h3>요청item</h3>
+        <div class="text-center py-5">
+          <div class="container">
+              <div class="col-md-12">
+                <h3 style="text-align:center;">Requested</h3>
+              </div>
+          </div>
+        </div>
 			<!-- req_id로 조회한 결과 -->
 			<% if (req_data) { %>
-    			<li><%=req_data.req_id %></li>
-    			<li><%=req_data.category_grp_dtl_id1 %></li>
-    			<li><%=req_data.table_nm1 %></li>
-    			<li><%=req_data.column_nm1 %></li>
-    			<li><%=req_data.item_nm1 %></li>
-    			<input type="hidden" id="req_id" value=<%=req_data.req_id %>>
+        <div class="datalist">
+            <ul class="datalist-title"> 요청데이터 
+              <li>요청번호</li>
+              <li>요청날짜</li>
+              <li>카테고리</li>
+              <li>선택종류</li>
+              <li>조회 데이터 일자</li>
+              <li>완료 여부</li>
+            </ul>
+            <ul class="datalist-list">
+              <li> <%=req_data.req_id %></li>
+              <li> <%=req_data.req_dtm %></li>
+              <li> <%=req_data.column_nm1 %></li>
+              <li><%if (req_data.item_nm1!=null){ %> <%=req_data.item_nm1 %><% } else { %> null <% } %></li>
+              <li> <%=req_data.sta_ym %> ~ <%=req_data.end_ym %></li>
+              <li> 테스트 </li>
+            </ul>
     		<% } %>
         </div>
-        
-        <!-- 2.hive 모니터링 페이지 -->
-        <div class="col-md-12">
-            <h3>hive 처리페이지 include</h3>
-            <iframe src="http://" width="50%" height="50%">
-                Hive monitoring page access error.
-            </iframe>
-        </div>
+
         
         <!-- 3.progress bar -->
-        <div class="col-md-12">
-            <h3>잠시 후 데이터 생성이 완료됩니다.</h3>
-            <div id="myProgress">
-              <div id="myBar">10%</div>
-            </div>
+        <div class="col-md-12 py-5">
+            <a class="btn btn-primary btn-block" id="databtn" href="../mvnodatalist"> 분석현황 </a>
+            <a class="btn btn-primary btn-block" id="mainbtn" href="../mvnomain"> 새로운 데이터 분석 </a>
         </div>
         
       </div>
-    </div>
   </div>
   
 
