@@ -18,7 +18,7 @@
 
   <style>
     #datalist {width:100%; border:1 solid red; border-top:none; border-right:none;}
-    #datalist .datalist-title {font-weight:bold; text-align:center;}
+    #datalist #datalist-title {font-weight:bold; text-align:center;}
     #datalist ul {clear: left; margin:0; padding:0; list-style-type: none;border-top:1 solid red; height:30px;}
     #datalist ul li {width:15%; text-align:center; float:left; margin:0; padding:2px,1px; border-right:1 solid red;}
     #line { padding-top:20px; padding-bottom:20px;}
@@ -46,47 +46,47 @@
     </div>
   </div>
   
-    <div class="hidden">
-        <input type="hidden" id="req_id" value=<%=req_id %>>
-    </div>
+  <div class="hidden">
+      <input type="hidden" id="req_id" value=<%=req_id %>>
+  </div>
 
-    <div id="line">
-      <div class="no"><div class="ln"></div></div>
-    </div>
-        <!-- 결과테이블 -->
-    <div id="semi-title">
-      <h4>* 요청 정보</h4>
-    </div>
-    <div class="text-center py-1" id="datalist">
-        <ul class="datalist-title">
-          <li>요청번호</li>
-          <li>요청날짜</li>
-          <li>카테고리</li>
-          <li>선택종류</li>
-          <li>조회 데이터 일자</li>
-          <li>완료 여부</li>
-        </ul>
-      <% for (var i=0; i < req_list.length; i++) { %>
-        <ul class="datalist-list">
-          <li> <%=req_list[i].req_id %></li>
-          <li> <%=req_list[i].req_dtm %></li>
-          <li> <%=req_list[i].column_nm1 %></li>
-          <li><%if (req_list[i].item_nm1!=null){ %> <%=req_list[i].item_nm1 %><% } else { %> null <% } %></li>
-          <li> <%=req_list[i].sta_ym %> ~ <%=req_list[i].end_ym %></li>
-          <li> 테스트 </li>
-        </ul>
-      <% } %>
+  <div id="line">
+    <div class="no"><div class="ln"></div></div>
+  </div>
+      <!-- 결과테이블 -->
+  <div id="semi-title">
+    <h4>* 요청 정보</h4>
+  </div>
+  <div class="text-center py-1" id="datalist">
+      <ul id="datalist-title">
+        <li>요청번호</li>
+        <li>요청날짜</li>
+        <li>카테고리</li>
+        <li>선택종류</li>
+        <li>조회 데이터 일자</li>
+        <li>완료 여부</li>
+      </ul>
+    <% for (var i=0; i < req_list.length; i++) { %>
+      <ul id="datalist-list">
+        <li> <%=req_list[i].req_id %></li>
+        <li> <%=req_list[i].req_dtm %></li>
+        <li> <%=req_list[i].column_nm1 %></li>
+        <li><%if (req_list[i].item_nm1!=null){ %> <%=req_list[i].item_nm1 %><% } else { %> null <% } %></li>
+        <li> <%=req_list[i].sta_ym %> ~ <%=req_list[i].end_ym %></li>
+        <li> 테스트 </li>
+      </ul>
+    <% } %>
 
-    </div>
-    <div id="line">
-      <div class="no"><div class="ln"></div></div>
-    </div>
-    <div id="semi-title">
-      <h4>* 작업 스케줄러</h4>
-    </div>
-    <div class="text-center py-5" id="frame">
-      <iframe src="/" class="iframe" frameborder=0 framespacing=0 marginheight=0 marginwidth=0 scrolling=yes></iframe>
-    </div>
+  </div>
+  <div id="line">
+    <div class="no"><div class="ln"></div></div>
+  </div>
+  <div id="semi-title">
+    <h4>* 작업 스케줄러</h4>
+  </div>
+  <div class="text-center py-5" id="frame">
+    <iframe src="/" class="iframe" frameborder=0 framespacing=0 marginheight=0 marginwidth=0 scrolling=yes></iframe>
+  </div>
 
 	<!-- footer -->
 	<% include ../partials/footer.ejs %>
