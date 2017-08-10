@@ -43,26 +43,40 @@
         </div>
 			<!-- req_id로 조회한 결과 -->
 			<% if (req_data) { %>
-        <div class="datalist">
-            <ul class="datalist-title"> 요청데이터 
-              <li>요청번호</li>
-              <li>요청날짜</li>
-              <li>카테고리</li>
-              <li>선택종류</li>
-              <li>조회 데이터 일자</li>
-              <li>완료 여부</li>
-            </ul>
-            <ul class="datalist-list">
-              <li> <%=req_data.req_id %></li>
-              <li> <%=req_data.req_dtm %></li>
-              <li> <%=req_data.column_nm1 %></li>
-              <li><%if (req_data.item_nm1!=null){ %> <%=req_data.item_nm1 %><% } else { %> null <% } %></li>
-              <li> <%=req_data.sta_ym %> ~ <%=req_data.end_ym %></li>
-              <li> 테스트 </li>
-            </ul>
-    		<% } %>
+        			
+  			<div class="ui two column stackable grid container">
+          <div class="column">
+            <div class="ui segment">요청번호</div>
+          </div>
+          <div class="column">
+            <div class="ui segment"> <%=req_data.req_id %></div>
+          </div>
+          <div class="column">
+            <div class="ui segment">요청일시</div>
+          </div>
+          <div class="column">
+            <div class="ui segment"> <%=req_data.req_dtm %></div>
+          </div>
+          <div class="column">
+            <div class="ui segment">카테고리</div>
+          </div>
+          <div class="column">
+            <div class="ui segment"> <%=req_data.column_nm1 %></div>
+          </div>
+          <div class="column">
+            <div class="ui segment">선택종류</div>
+          </div>
+          <div class="column">
+            <div class="ui segment"> <%if (req_data.item_nm1!=null){ %> <%=req_data.item_nm1 %><% } else { %> null <% } %></div>
+          </div>
+          <div class="column">
+            <div class="ui segment">조회일자</div>
+          </div>              
+          <div class="column">
+            <div class="ui segment"><%=req_data.sta_ym %> ~ <%=req_data.end_ym %></div>
+          </div>  
         </div>
-
+  		<% } %>
         
         <!-- 3.progress bar -->
         <div class="col-md-12 py-5">

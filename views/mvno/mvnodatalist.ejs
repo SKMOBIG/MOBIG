@@ -24,8 +24,8 @@
     #semi-title {padding-top:60px; padding-bottom:30px; margin-left:6%; text-align:left;}
     
     #reqlist {width:90%; margin:auto; text-align:center;}
-    #reqlist td {
-    
+    #pageZone {display:inline-flex;}
+
   </style>
 
   <script>
@@ -104,6 +104,7 @@
         <th>요청 데이터</th>
         <th>요청자</th>
         <th>요청날짜</th>
+        <th>완료여부</th>
       </tr>
     </thead>
     <tbody>
@@ -116,18 +117,19 @@
         </td>
         <td><%=req_list[i].user_name%></td>
         <td><%=req_list[i].req_dtm %></td>
+        <td> <% if(req_list[i].num==0) { %> <a class="ui red tag label">Not yet</a> <% }else{ %> <a class="ui teal tag label">Finished</a> <% }%> </td>
       </tr>
     <% } %>
     </tbody>
   </table>
   <div>
-    <ul id="pageZone" class="pagination">
+    <ul id="pageZone" class="pagination pt-3">
 
     </ul>
   </div>
 
 
-  <div class="py-5">
+  <div class="pt-3 pb-5">
     <div id="ln"></div>
   </div>
   
