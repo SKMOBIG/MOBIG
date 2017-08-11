@@ -24,13 +24,19 @@
     #semi-title {padding-top:60px; padding-bottom:30px; margin-left:6%; text-align:left;}
     
     #reqlist {width:90%; margin:auto; text-align:center;}
+    #reqlist #td1 {width:15%;}
+    #reqlist #td2 {width:15%;}
+    #reqlist #td3 {width:30%;}
+    #reqlist #td4 {width:15%;}
+    #reqlist #td5 {width:15%;}
     #pageZone {display:inline-flex;}
 
   </style>
 
   <script>
-    var totalCount = <%=req_list.length%>; //전체 건수
-    var totalPage = Math.ceil(totalCount/10);//페이지 수
+    var totalCount = <%=cnt[0].cnt%>; // 전체 Row 건수
+    var cntPerPage = <%=cntPerPage%>;                    // 한 페이지에 몇개씩 보여줄 지
+    var totalPage = Math.ceil(totalCount/cntPerPage); // 총 페이지 수
     var PageNum;
     var page;
     /*function(){    
@@ -40,9 +46,10 @@
     
     function drawPage(goTo){        
         page = goTo;    
-        var pageGroup = Math.ceil(page/10);    //페이지 그룹 넘버링
-        var next = pageGroup*10;
-        var prev = next-9;            
+        var groupNum = 5;    // bar에 보여줄 페이지 버튼 개수
+        var pageGroup = Math.ceil(page/groupNum);    //페이지 그룹 넘버링
+        var next = pageGroup*groupNum;
+        var prev = next-(groupNum-1);            
         var goNext = next+1;
 
         if(prev-1<=0){
@@ -61,12 +68,11 @@
         var prevStep = "<li class=\"page-item\"> <a class=\"page-link\" aria-label=\"Previous\" href='javascript:drawPage("+goPrev+");'>   <span aria-hidden=\"true\">«</span> <span class=\"sr-only\">Previous</span>  </a> </li>";
         var nextStep = "<li class=\"page-item\"> <a class=\"page-link\" aria-label=\"Next\" href='javascript:drawPage("+goNext+");'>   <span aria-hidden=\"true\">»</span> <span class=\"sr-only\">Next</span>  </a> </li>";
 
-
         $("#pageZone").empty();
         $("#pageZone").append(prevStep);
 
         for(var i=prev; i<=next;i++){
-            PageNum = "<li class=\"page-item\"> <a class=\"page-link\" href='javascript:alert("+i+"번 페이지);'>"+ i +"</a> </li>";
+            PageNum = "<li class=\"page-item\"> <a class=\"page-link\" href=\"mvnodatalist?page="+i+"\";>"+ i +"</a> </li>";
             $("#pageZone").append(PageNum);
         }    
 
@@ -79,7 +85,6 @@
 </head>
 
 <body class="text-center">
-  
 	<!-- Navigation -->
 	<% include ../partials/navigation.ejs %>
 
@@ -108,16 +113,16 @@
       </tr>
     </thead>
     <tbody>
-    <% for (var i=0; i < req_list.length; i++) { %>
+    <%  for (var i=0; i < req_list.length; i++) { %>
       <tr>
-        <td><%=req_list[i].req_id %></td>
-        <td>MVNO Data</td>
-        <td>
+        <td id="td1"><%=req_list[i].req_id %></td>
+        <td id="td2">MVNO Data</td>
+        <td id="td3">
             <a href="/mvno/mvnoresult/<%=req_list[i].req_id%>"><%=grpId[i]%></a>
         </td>
-        <td><%=req_list[i].user_name%></td>
-        <td><%=req_list[i].req_dtm %></td>
-        <td> <% if(req_list[i].num==0) { %> <a class="ui red tag label">Not yet</a> <% }else{ %> <a class="ui teal tag label">Finished</a> <% }%> </td>
+        <td id="td4"><%=req_list[i].user_name%></td>
+        <td id="td5"><%=req_list[i].req_dtm %></td>
+        <td id="td6"> <% if(req_list[i].num==0) { %> <a class="ui red tag label">Not yet</a> <% }else{ %> <a class="ui teal tag label">Finished</a> <% }%> </td>
       </tr>
     <% } %>
     </tbody>
